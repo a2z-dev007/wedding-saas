@@ -1,0 +1,151 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Users (couples)
+model User {
+  id            String       @id @default(uuid()) @db.Uuid
+  email         String       @unique
+  emailVerified DateTime?    @map("email_verified")
+  image         String?
+  passwordHash  String?      @map("password_hash")
+  name          String?
+  phone         String?
+  createdAt     DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  accounts      Account[]
+  sessions      Session[]
+  orders        Order[]
+  invitations   Invitation[]
+
+  @@map("users")
+}
+
+model Account {
+  id                 String  @id @default(uuid()) @db.Uuid
+  userId             String  @map("user_id") @db.Uuid
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(uuid()) @db.Uuid
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id") @db.Uuid
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// Orders / Payments
+model Order {
+  id                 String       @id @default(uuid()) @db.Uuid
+  userId             String       @map("user_id") @db.Uuid
+  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  templateId         String       @map("template_id")
+  amountPaise        Int          @map("amount_paise") // amount in paise (INR * 100)
+  currency           String       @default("INR")
+  razorpayOrderId    String?      @map("razorpay_order_id")
+  razorpayPaymentId  String?      @map("razorpay_payment_id")
+  status             String       @default("pending") // pending | paid | failed | refunded
+  createdAt          DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  invitations        Invitation[]
+
+  @@map("orders")
+}
+
+// Invitations
+model Invitation {
+  id                   String         @id @default(uuid()) @db.Uuid
+  userId               String         @map("user_id") @db.Uuid
+  user                 User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderId              String         @map("order_id") @db.Uuid
+  order                Order          @relation(fields: [orderId], references: [id])
+  templateId           String         @map("template_id")
+  slug                 String         @unique
+  
+  // Core details
+  brideName            String         @map("bride_name")
+  groomName            String         @map("groom_name")
+  weddingDate          DateTime       @map("wedding_date") @db.Date
+  weddingTime          String         @map("wedding_time")
+  venueName            String         @map("venue_name")
+  venueAddress         String         @map("venue_address")
+  venueLat             Decimal?       @map("venue_lat") @db.Decimal(9, 6)
+  venueLng             Decimal?       @map("venue_lng") @db.Decimal(9, 6)
+  
+  // Media
+  heroImageUrl         String?        @map("hero_image_url")
+  slideshowImages      Json           @default("[]") @map("slideshow_images") // array of image URLs
+  musicTrack           String         @default("track1") @map("music_track")
+  
+  // Multi-event schedules
+  // Array of: [{"name":"Wedding","enabled":true,"venue":"","time":"","date":""}]
+  eventsJson           Json           @default("[]") @map("events_json")
+  
+  // Optional sections (toggles and details)
+  showDressCode        Boolean        @default(false) @map("show_dress_code")
+  dressCodeText        String?        @map("dress_code_text")
+  showTransport        Boolean        @default(false) @map("show_transport")
+  transportText        String?        @map("transport_text")
+  
+  // Language settings
+  languages            Json           @default("[\"en\"]") // array of language codes
+  translations         Json           @default("{}") // custom translations object
+  
+  // Settings
+  isPublished          Boolean        @default(true) @map("is_published")
+  isArchived           Boolean        @default(false) @map("is_archived")
+  
+  createdAt            DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime       @updatedAt @map("updated_at") @db.Timestamptz
+  
+  guestMessages        GuestMessage[]
+
+  @@map("invitations")
+}
+
+// Guest Messages / RSVPs
+model GuestMessage {
+  id           String     @id @default(uuid()) @db.Uuid
+  invitationId String     @map("invitation_id") @db.Uuid
+  invitation   Invitation @relation(fields: [invitationId], references: [id], onDelete: Cascade)
+  guestName    String     @map("guest_name")
+  message      String?
+  
+  // Multi-event RSVPs: {"Wedding": {"attending": true, "guests": 2}, "Sangeet": {"attending": false, "guests": 0}}
+  rsvpJson     Json       @default("{}") @map("rsvp_json")
+  
+  createdAt    DateTime   @map("created_at") @db.Timestamptz @default(now())
+
+  @@map("guest_messages")
+}

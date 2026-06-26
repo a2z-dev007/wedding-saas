@@ -1,0 +1,287 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { motion } from "motion/react";
+import { GlassNav } from "@/components/ui/glass-nav";
+import { PremiumFooter } from "@/components/ui/premium-footer";
+import { PremiumButton } from "@/components/ui/premium-button";
+import { SectionFloral } from "@/components/ui/floral-decor";
+import {
+  getTemplateMeta,
+  INCLUDED_FEATURES,
+  DEMO_STEPS,
+  type TemplateId,
+} from "@/lib/template-meta";
+import {
+  Sparkle,
+  ArrowUpRight,
+  ArrowLeft,
+  Flower,
+  Crown,
+  Check,
+  DeviceMobile,
+} from "@phosphor-icons/react";
+import { fadeUp, viewportOnce } from "@/components/ui/motion-primitives";
+
+interface TemplateDemoPageProps {
+  templateId: string;
+}
+
+export function TemplateDemoPage({ templateId }: TemplateDemoPageProps) {
+  const meta = getTemplateMeta(templateId);
+  const interactiveUrl = `/preview/${templateId}/interactive?embed=1`;
+
+  return (
+    <div className="min-h-screen bg-[#FCFBF7] text-[#1A1A1A]">
+      <GlassNav />
+
+      {/* ── Hero split ── */}
+      <section className="relative pt-28 pb-16 md:pb-20 overflow-hidden">
+        <SectionFloral variant="minimal" />
+
+        <div className="page-container relative z-[1]">
+          <Link
+            href="/templates"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-400 hover:text-accent-gold transition-colors mb-8"
+          >
+            <ArrowLeft size={14} />
+            Back to templates
+          </Link>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            {/* Phone mockup */}
+            <motion.div
+              initial={{ opacity: 0, x: -24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
+              className="flex justify-center lg:justify-end lg:sticky lg:top-28"
+            >
+              <DemoPhoneFrame src={interactiveUrl} templateName={meta.name} />
+            </motion.div>
+
+            {/* Product info */}
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.32, 0.72, 0, 1] }}
+              className="max-w-lg"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <Sparkle size={14} weight="fill" className="text-accent-gold" />
+                <span className="text-[10px] uppercase tracking-[0.22em] font-bold text-stone-400">
+                  Try the interactive demo
+                </span>
+              </div>
+
+              {meta.tag && (
+                <span className="inline-block text-[9px] uppercase tracking-wider font-bold bg-accent-gold/10 text-accent-gold px-2.5 py-1 rounded-full mb-3">
+                  {meta.tag}
+                </span>
+              )}
+
+              <h1 className="font-serif text-4xl md:text-5xl text-[#1A1A1A] leading-[1.08] mb-4">
+                {meta.name}
+              </h1>
+
+              <p className="text-sm md:text-base text-stone-500 leading-relaxed mb-8">
+                {meta.description}
+              </p>
+
+              {/* Plan cards */}
+              <div className="space-y-4">
+                <PlanCard
+                  icon={Flower}
+                  label="Classic"
+                  subtitle="Template personalized to your style"
+                  price="₹1,199"
+                  priceNote="one-time"
+                  href={`/dashboard/invitation/new?template=${templateId}&plan=classic`}
+                  cta="Choose Classic"
+                />
+                <PlanCard
+                  icon={Crown}
+                  label="Royal"
+                  subtitle="Full cinematic motion experience"
+                  price="₹1,499"
+                  priceNote="one-time"
+                  badge="More personalized"
+                  highlighted
+                  href={`/dashboard/invitation/new?template=${templateId}&plan=royal`}
+                  cta="Choose Royal"
+                />
+              </div>
+
+              <Link
+                href={`/preview/${templateId}/interactive`}
+                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent-gold transition-colors"
+              >
+                <DeviceMobile size={16} />
+                Open full-screen interactive demo
+                <ArrowUpRight size={14} />
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Included + How it works ── */}
+      <section className="relative border-t border-black/[0.05] bg-white py-16 md:py-20">
+        <SectionFloral variant="corners" />
+        <div className="page-container relative z-[1]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+            <motion.div initial="hidden" whileInView="visible" viewport={viewportOnce} variants={fadeUp}>
+              <h2 className="font-serif text-2xl md:text-3xl text-[#1A1A1A] mb-6">
+                Everything included in your invitation
+              </h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+                {INCLUDED_FEATURES.map((feat) => (
+                  <li key={feat} className="flex items-start gap-2.5 text-sm text-stone-600">
+                    <Check size={16} weight="bold" className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span>{feat}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={viewportOnce} variants={fadeUp}>
+              <h2 className="font-serif text-2xl md:text-3xl text-[#1A1A1A] mb-6">How it works</h2>
+              <div className="space-y-6">
+                {DEMO_STEPS.map((step) => (
+                  <div key={step.num} className="flex gap-4">
+                    <span className="shrink-0 h-8 w-8 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">
+                      {step.num}
+                    </span>
+                    <div>
+                      <h3 className="font-semibold text-[#1A1A1A] text-sm">{step.title}</h3>
+                      <p className="text-sm text-stone-500 mt-0.5 leading-relaxed">{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Other templates ── */}
+      <section className="py-16 bg-[#FCFBF7] border-t border-black/[0.04]">
+        <div className="page-container text-center">
+          <p className="text-[10px] uppercase tracking-wider font-bold text-stone-400 mb-4">Explore more</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {(["emerald-noir", "royal-elegance", "modern-minimal"] as TemplateId[]).map((id) => {
+              const t = getTemplateMeta(id);
+              if (id === templateId) return null;
+              return (
+                <Link
+                  key={id}
+                  href={`/preview/${id}`}
+                  className="px-5 py-2.5 rounded-full border border-black/[0.06] bg-white text-sm font-medium text-stone-600 hover:border-accent-gold/30 hover:text-accent-gold transition-all"
+                >
+                  {t.name}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <PremiumFooter />
+    </div>
+  );
+}
+
+function DemoPhoneFrame({ src, templateName }: { src: string; templateName: string }) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <div className="relative w-[280px] sm:w-[300px] md:w-[320px]">
+      <div className="absolute -inset-6 bg-gradient-to-b from-accent-gold/10 via-transparent to-primary/5 rounded-full blur-2xl -z-10" />
+
+      <div className="rounded-[2.75rem] border-[5px] border-[#1a1a1a] bg-[#1a1a1a] shadow-[0_30px_80px_rgba(8,47,39,0.18)] p-[3px]">
+        <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[28%] h-[22px] bg-[#1a1a1a] rounded-full z-20" />
+
+        <div className="relative rounded-[2.4rem] overflow-hidden aspect-[9/19.5] bg-[#082F27]">
+          {!loaded && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#FCFBF7] z-10">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
+                className="h-8 w-8 rounded-full border-2 border-accent-gold/30 border-t-accent-gold mb-3"
+              />
+              <span className="text-[10px] uppercase tracking-wider text-stone-400 font-bold">Loading demo…</span>
+            </div>
+          )}
+
+          <iframe
+            src={src}
+            title={`${templateName} interactive demo`}
+            onLoad={() => setLoaded(true)}
+            className="absolute inset-0 w-full h-full border-0 bg-white"
+            allow="autoplay"
+          />
+        </div>
+      </div>
+
+      <p className="text-center text-[10px] uppercase tracking-wider text-stone-400 font-bold mt-5">
+        Tap inside to interact · scroll to explore
+      </p>
+    </div>
+  );
+}
+
+function PlanCard({
+  icon: Icon,
+  label,
+  subtitle,
+  price,
+  priceNote,
+  badge,
+  highlighted,
+  href,
+  cta,
+}: {
+  icon: typeof Flower;
+  label: string;
+  subtitle: string;
+  price: string;
+  priceNote: string;
+  badge?: string;
+  highlighted?: boolean;
+  href: string;
+  cta: string;
+}) {
+  return (
+    <div
+      className={`rounded-2xl border p-5 transition-shadow hover:shadow-md ${
+        highlighted
+          ? "border-accent-gold/25 bg-gradient-to-br from-accent-gold-light/40 to-white"
+          : "border-black/[0.06] bg-white"
+      }`}
+    >
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div className="flex items-start gap-3">
+          <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${highlighted ? "bg-accent-gold/15 text-accent-gold" : "bg-primary/5 text-primary"}`}>
+            <Icon size={20} weight="light" />
+          </div>
+          <div>
+            {badge && (
+              <span className="text-[8px] uppercase tracking-wider font-bold text-accent-gold block mb-0.5">{badge}</span>
+            )}
+            <h3 className="font-serif text-lg text-[#1A1A1A]">{label}</h3>
+            <p className="text-xs text-stone-500 mt-0.5">{subtitle}</p>
+          </div>
+        </div>
+        <div className="text-right shrink-0">
+          <span className="font-serif text-xl font-bold text-primary block">{price}</span>
+          <span className="text-[10px] text-stone-400 uppercase tracking-wider">{priceNote}</span>
+        </div>
+      </div>
+      <Link href={href}>
+        <PremiumButton className={`w-full justify-center text-sm ${highlighted ? "" : "bg-primary"}`}>
+          {cta}
+        </PremiumButton>
+      </Link>
+    </div>
+  );
+}
