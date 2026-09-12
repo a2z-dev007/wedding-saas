@@ -2,6 +2,8 @@
 
 import { use, useEffect, useState } from "react";
 import { notFound } from "next/navigation";
+import RoyalLotus from "@/components/templates/RoyalLotus";
+import CrimsonRoyale from "@/components/templates/CrimsonRoyale";
 import EmeraldNoir from "@/components/templates/EmeraldNoir";
 import RoyalElegance from "@/components/templates/RoyalElegance";
 import ModernMinimal from "@/components/templates/ModernMinimal";
@@ -26,54 +28,70 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
 
   useEffect(() => {
     async function fetchInvitation() {
+      let localItem: any = null;
+      if (typeof window !== "undefined") {
+        try {
+          const storedSingle = localStorage.getItem(`unfold_invitation_${slug}`);
+          if (storedSingle) {
+            localItem = JSON.parse(storedSingle);
+          } else {
+            const storedList = localStorage.getItem("unfold_active_invitations");
+            if (storedList) {
+              const list = JSON.parse(storedList);
+              localItem = list.find((item: any) => item.slug === slug || item.id === slug);
+            }
+          }
+        } catch (e) {
+          console.warn("Could not check localStorage for invitation slug:", e);
+        }
+      }
+
       try {
         const res = await fetch(`/api/invitations/public?slug=${slug}`);
         if (res.ok) {
           const data = await res.json();
           setInvitation(data);
-        } else {
-          // If invitation is not found or API fails, trigger dynamic fallback for previewing
-          console.warn("Invitation API returned non-OK. Falling back to Demo mode.");
-          triggerDemoFallback();
+          setLoading(false);
+          return;
         }
       } catch (err) {
-        console.error("Failed to fetch invitation details:", err);
-        triggerDemoFallback();
-      } finally {
-        setLoading(false);
+        console.warn("Invitation API offline. Checking local sandbox store.");
       }
-    }
 
-    function triggerDemoFallback() {
-      // Mock data for live demo slugs (e.g. unfoldwed.com/priya-arjun)
+      if (localItem) {
+        setInvitation(localItem);
+        setLoading(false);
+        return;
+      }
+
+      // Fallback template for demo
       setIsDemoFallback(true);
+      setLoading(false);
       setInvitation({
-        id: "demo-invitation-id",
-        templateId: slug === "classic-demo" ? "royal-elegance" : slug === "minimal-demo" ? "modern-minimal" : "emerald-noir",
-        brideName: "Priya",
-        groomName: "Arjun",
-        weddingDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(), // 15 days from now
-        weddingTime: "6:00 PM onwards",
-        venueName: "The Leela Palace Hotel",
-        venueAddress: "Diplomatic Enclave, Chanakyapuri, New Delhi, Delhi 110021",
-        venueLat: 28.5839,
-        venueLng: 77.1953,
-        heroImageUrl: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=600&auto=format&fit=crop",
-        slideshowImages: [
-          "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=500&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=500&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1507504038482-7621c27dec3f?q=80&w=500&auto=format&fit=crop",
+        id: "demo-id",
+        slug: slug,
+        templateId: slug.includes("crimson") ? "crimson-royale" : "crimson-royale",
+        brideName: "Ananya",
+        groomName: "Shubham",
+        weddingDate: "2026-12-22",
+        weddingTime: "05:00 PM onwards",
+        venueName: "The Ridgewood Estate",
+        venueAddress: "Fatehsagar Lake Road, Udaipur, Rajasthan 313001",
+        events: [
+          { title: "Haldi Ceremony", date: "Dec 21, 2026", time: "10:00 AM", location: "Courtyard Garden", description: "An auspicious morning filled with golden turmeric, laughter, and blessings." },
+          { title: "Mehendi & Sangeet", date: "Dec 21, 2026", time: "06:00 PM", location: "Royal Banquet Hall", description: "An enchanting evening of henna artistry, rhythmic folk melodies, and spirited dance." },
+          { title: "Wedding Ceremony (Pheras)", date: "Dec 22, 2026", time: "04:30 PM", location: "Lakeside Mandap", description: "The sacred nuptial vows as we unite in the presence of the holy fire under starry skies." },
+          { title: "Grand Reception", date: "Dec 22, 2026", time: "08:00 PM", location: "The Ridgewood Grand Ballroom", description: "Join us for a royal dinner feast, champagne toasts, and midnight celebrations." },
         ],
-        showDressCode: true,
-        dressCodeText: "Royal Traditional Indian. Pastel tones are preferred.",
-        showTransport: true,
-        transportText: "Shuttle transports are arranged from IGI Airport T3. Valet parking is available at the venue entrance.",
-        eventsJson: [
-          { name: "Sangeet Night", enabled: true, venue: "Grand Ballroom, The Leela Palace", date: "Friday, 27 November", time: "8:00 PM" },
-          { name: "Wedding Ceremony", enabled: true, venue: "Royal Lawns, The Leela Palace", date: "Saturday, 28 November", time: "6:00 PM" },
+        gallery: [
+          "/templates/crimson-royale/gallery-1.webp",
+          "/templates/crimson-royale/gallery-2.webp",
+          "/templates/crimson-royale/gallery-3.webp",
+          "/templates/crimson-royale/gallery-4.webp",
+          "/templates/crimson-royale/gallery-5.webp",
+          "/templates/crimson-royale/gallery-6.webp",
         ],
-        languages: ["en", "hi"],
-        musicTrack: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        musicUrl: "/templates/crimson-royale/music.mp3",
       });
     }
 
@@ -95,12 +113,14 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
 
   // Render template dynamically
   const templatesMap: Record<string, any> = {
+    "crimson-royale": CrimsonRoyale,
+    "royal-lotus": RoyalLotus,
     "emerald-noir": EmeraldNoir,
     "royal-elegance": RoyalElegance,
     "modern-minimal": ModernMinimal,
   };
 
-  const SelectedTemplate = templatesMap[invitation.templateId] || EmeraldNoir;
+  const SelectedTemplate = templatesMap[invitation.templateId] || CrimsonRoyale;
 
   const handleOpenDoors = () => {
     setHasOpenedDoors(true);
@@ -116,31 +136,43 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
         </div>
       )}
 
-      {/* 3D Curtain open screen overlay */}
-      <DoorAnimation
-        onOpen={handleOpenDoors}
-        brideName={invitation.brideName}
-        groomName={invitation.groomName}
-        theme={invitation.templateId === "emerald-noir" ? "emerald" : invitation.templateId === "royal-elegance" ? "royal" : "minimal"}
-      />
-
-      {/* Main template container */}
-      {hasOpenedDoors && (
+      {invitation.templateId === "royal-lotus" || invitation.templateId === "crimson-royale" ? (
+        <SelectedTemplate data={invitation} />
+      ) : (
         <>
-          <SelectedTemplate data={invitation} />
-          
-          {/* Background Audio */}
-          <MusicPlayer
-            trackUrl={invitation.musicTrack || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"}
-            autoPlay={true}
+          {/* 3D Curtain open screen overlay */}
+          <DoorAnimation
+            onOpen={handleOpenDoors}
+            brideName={invitation.brideName}
+            groomName={invitation.groomName}
+            theme={
+              invitation.templateId === "emerald-noir"
+                ? "emerald"
+                : invitation.templateId === "royal-elegance"
+                ? "royal"
+                : "minimal"
+            }
           />
-          
-          {/* Language Toggle */}
-          <LanguageToggle
-            languages={invitation.languages || ["en"]}
-            activeLanguage={activeLanguage}
-            onChangeLanguage={setActiveLanguage}
-          />
+
+          {/* Main template container */}
+          {hasOpenedDoors && (
+            <>
+              <SelectedTemplate data={invitation} />
+              
+              {/* Background Audio */}
+              <MusicPlayer
+                trackUrl={invitation.musicTrack || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"}
+                autoPlay={true}
+              />
+              
+              {/* Language Toggle */}
+              <LanguageToggle
+                languages={invitation.languages || ["en"]}
+                activeLanguage={activeLanguage}
+                onChangeLanguage={setActiveLanguage}
+              />
+            </>
+          )}
         </>
       )}
     </div>

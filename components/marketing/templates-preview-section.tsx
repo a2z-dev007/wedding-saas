@@ -15,6 +15,24 @@ const FILTERS = ["All", "Best Sellers", "New"] as const;
 
 const CATALOG: TemplateCatalogItem[] = [
   {
+    id: TEMPLATE_META["crimson-royale"].id,
+    name: TEMPLATE_META["crimson-royale"].name,
+    description: TEMPLATE_META["crimson-royale"].description,
+    tag: "Exclusive",
+    gradient: TEMPLATE_META["crimson-royale"].gradient,
+    leftScreen: "hero",
+    accentClass: "text-rose-700",
+  },
+  {
+    id: TEMPLATE_META["royal-lotus"].id,
+    name: TEMPLATE_META["royal-lotus"].name,
+    description: TEMPLATE_META["royal-lotus"].description,
+    tag: "Best Seller",
+    gradient: TEMPLATE_META["royal-lotus"].gradient,
+    leftScreen: "curtain",
+    accentClass: "text-amber-700",
+  },
+  {
     id: TEMPLATE_META["emerald-noir"].id,
     name: TEMPLATE_META["emerald-noir"].name,
     description: TEMPLATE_META["emerald-noir"].description,

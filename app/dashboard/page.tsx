@@ -24,48 +24,67 @@ export default function DashboardPage() {
   const [invitations, setInvitations] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
   const [isDemoMode, setIsDemoMode] = useState(false);
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadDashboardData() {
+      let localInvites: any[] = [];
+      if (typeof window !== "undefined") {
+        try {
+          const stored = localStorage.getItem("unfold_active_invitations");
+          if (stored) {
+            localInvites = JSON.parse(stored);
+          }
+        } catch (e) {}
+      }
+
       try {
         // Try fetching user invitations from API
         const response = await fetch("/api/invitations");
         if (response.ok) {
           const data = await response.json();
-          setInvitations(data.invitations || []);
+          const apiInvites = data.invitations || [];
+          // Merge API and local invites
+          const merged = [...localInvites, ...apiInvites.filter((ai: any) => !localInvites.some(li => li.id === ai.id || li.slug === ai.slug))];
+          setInvitations(merged.length > 0 ? merged : localInvites);
           setMessages(data.messages || []);
         } else {
-          loadMockDashboardData();
+          loadMockDashboardData(localInvites);
         }
       } catch (err) {
-        console.warn("Failed to load dashboard from API. Falling back to developer sandbox data.");
-        loadMockDashboardData();
+        console.warn("Failed to load dashboard from API. Falling back to saved sandbox data.");
+        loadMockDashboardData(localInvites);
       } finally {
         setLoading(false);
       }
     }
 
-    function loadMockDashboardData() {
+    function loadMockDashboardData(localInvites: any[] = []) {
       setIsDemoMode(true);
-      // Mock active invitation
-      const mockInvitations = [
-        {
-          id: "demo-invitation-id",
-          brideName: "Priya",
-          groomName: "Arjun",
-          slug: "priya-arjun",
-          templateId: "emerald-noir",
-          weddingDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
-          venueName: "The Leela Palace, New Delhi",
-        }
-      ];
+      if (localInvites && localInvites.length > 0) {
+        setInvitations(localInvites);
+      } else {
+        // Default initial invitation
+        const mockInvitations = [
+          {
+            id: "demo-invitation-id",
+            brideName: "Siya",
+            groomName: "Kabir",
+            slug: "siya-kabir",
+            templateId: "royal-lotus",
+            weddingDate: "2026-12-14T18:30:00.000Z",
+            venueName: "The Maharaja Palace, Udaipur",
+          }
+        ];
+        setInvitations(mockInvitations);
+      }
 
       // Mock RSVPs / messages
       const mockMessages = [
         {
           id: "m1",
           guestName: "Vikram & Neha Sharma",
-          message: "Congratulations Priya & Arjun! Wishing you a lifetime of love and happiness together. Can't wait to celebrate!",
+          message: "Congratulations Siya & Kabir! Wishing you a lifetime of love and royal happiness together. Can't wait to celebrate in Udaipur!",
           rsvpJson: {
             "Wedding Ceremony": { attending: true, guests: 2 },
             "Sangeet Night": { attending: true, guests: 2 }
@@ -93,7 +112,6 @@ export default function DashboardPage() {
         }
       ];
 
-      setInvitations(mockInvitations);
       setMessages(mockMessages);
     }
 
@@ -278,12 +296,26 @@ export default function DashboardPage() {
                       onClick={() => {
                         const url = `${window.location.origin}/${invite.slug}`;
                         navigator.clipboard.writeText(url);
-                        alert(`Copied link to clipboard: ${url}`);
+                        setCopiedSlug(invite.slug);
+                        setTimeout(() => setCopiedSlug(null), 2500);
                       }}
-                      className="flex-1 min-w-[120px] text-center border border-stone-250 hover:bg-stone-50 text-stone-700 font-semibold py-2.5 rounded-full text-xs flex items-center justify-center gap-1.5 transition-colors"
+                      className={`flex-1 min-w-[120px] text-center border font-semibold py-2.5 rounded-full text-xs flex items-center justify-center gap-1.5 transition-all ${
+                        copiedSlug === invite.slug
+                          ? "bg-emerald-600 text-white border-emerald-600 shadow-sm"
+                          : "border-stone-250 hover:bg-stone-50 text-stone-700"
+                      }`}
                     >
-                      <ShareNetwork className="h-4 w-4" />
-                      <span>Copy Share Link</span>
+                      {copiedSlug === invite.slug ? (
+                        <>
+                          <CheckCircle className="h-4 w-4" weight="fill" />
+                          <span>Link Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <ShareNetwork className="h-4 w-4" />
+                          <span>Copy Share Link</span>
+                        </>
+                      )}
                     </button>
                   </div>
                 </DoubleBezelCard>

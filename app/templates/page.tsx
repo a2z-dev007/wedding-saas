@@ -14,6 +14,8 @@ import { ArrowUpRight } from "@phosphor-icons/react";
 const FILTERS = ["All", "Best Sellers", "New"];
 
 const TEMPLATES = [
+  { id: "crimson-royale", name: "Crimson Royale", style: "Royal Court", tag: "Trending", colors: "Crimson Velvet + 24K Gold", opening: "3D Split Gate", desc: "Regal crimson velvet and 24K gold foil aesthetic with royal gate reveal, interactive scratch card, and shehnai background music.", gradient: "from-[#420f18] via-[#7c2c3b] to-[#20050a]" },
+  { id: "royal-lotus", name: "Royal Lotus", style: "Royal Heritage", tag: "Best Seller", colors: "Ivory + 24K Gold + Maroon", opening: "3D Palace Gate", desc: "Grand Rajasthani palace with ivory canvas, 24K gold filigree, crimson accents, and floating lotus petals.", gradient: "from-[#FCF9F2] via-[#F5EFE0] to-[#EBDDC3]" },
   { id: "emerald-noir", name: "Emerald Noir", style: "Luxury Dark", tag: "Best Seller", colors: "Emerald + Gold", opening: "3D Door Reveal", desc: "Ornate gold details on rich forest green. Ideal for luxury evening celebrations.", gradient: "from-[#e8f0ed] to-[#c5ddd3]" },
   { id: "royal-elegance", name: "Royal Elegance", style: "Classic Indian", tag: "Best Seller", colors: "Gold + Cream", opening: "Curtain Reveal", desc: "Traditional South Asian grandeur with golden arches and royal accents.", gradient: "from-[#faf7f0] to-[#f0e8d8]" },
   { id: "modern-minimal", name: "Modern Minimal", style: "Contemporary", tag: "New", colors: "White + Black", opening: "Fade & Slide", desc: "Ultra-clean editorial typography with massive whitespace.", gradient: "from-stone-50 to-stone-200" },

@@ -38,6 +38,13 @@ export function DoorAnimation({ onOpen, brideName, groomName, theme = "emerald" 
       doorBg: "bg-gradient-to-b from-[#020617] to-[#1e293b]",
       pattern: "radial-gradient(circle at center, rgba(251,191,36,0.08) 0%, transparent 70%)",
     },
+    lotus: {
+      bg: "bg-[#FCF9F2]",
+      border: "border-[#D4AF37]/50",
+      accent: "text-[#D4AF37]",
+      doorBg: "bg-gradient-to-b from-[#2B0A10] via-[#4A0E17] to-[#1C0508]",
+      pattern: "radial-gradient(circle at center, rgba(212,175,55,0.12) 0%, transparent 70%)",
+    },
     minimal: {
       bg: "bg-[#faf9f6]",
       border: "border-black/10",
@@ -45,7 +52,7 @@ export function DoorAnimation({ onOpen, brideName, groomName, theme = "emerald" 
       doorBg: "bg-gradient-to-b from-[#faf9f6] to-[#f5f5f4]",
       pattern: "radial-gradient(circle at center, rgba(0,0,0,0.02) 0%, transparent 70%)",
     },
-  }[theme as "emerald" | "royal" | "minimal"] || {
+  }[theme as "emerald" | "royal" | "lotus" | "minimal"] || {
     bg: "bg-[#082F27]",
     border: "border-[#d4af37]/30",
     accent: "text-[#d4af37]",

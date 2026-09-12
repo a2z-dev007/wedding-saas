@@ -1,4 +1,4 @@
-export type TemplateId = "emerald-noir" | "royal-elegance" | "modern-minimal";
+export type TemplateId = "crimson-royale" | "royal-lotus" | "emerald-noir" | "royal-elegance" | "modern-minimal";
 
 export interface TemplateMeta {
   id: TemplateId;
@@ -10,6 +10,24 @@ export interface TemplateMeta {
 }
 
 export const TEMPLATE_META: Record<TemplateId, TemplateMeta> = {
+  "crimson-royale": {
+    id: "crimson-royale",
+    name: "Crimson Royale",
+    style: "Royal Court",
+    tag: "Trending",
+    description:
+      "Regal crimson velvet and 24K gold foil aesthetic. Features an interactive royal gate opening, gold foil scratch reveal date card, 4 switchable royal background presets, and shehnai background symphony.",
+    gradient: "from-[#420f18] via-[#7c2c3b] to-[#20050a]",
+  },
+  "royal-lotus": {
+    id: "royal-lotus",
+    name: "Royal Lotus",
+    style: "Royal Heritage",
+    tag: "Auspicious",
+    description:
+      "A grand Rajasthani palace experience with ivory canvas, 24K antique gold filigree, deep crimson accents, floating lotus petals, and a 3D royal palace gate reveal.",
+    gradient: "from-[#FCF9F2] via-[#F5EFE0] to-[#EBDDC3]",
+  },
   "emerald-noir": {
     id: "emerald-noir",
     name: "Emerald Noir",
@@ -97,6 +115,7 @@ export function getMockInvitationData(brideName = "Priya", groomName = "Arjun") 
 }
 
 export const TEMPLATE_COMPONENTS = {
+  "royal-lotus": () => import("@/components/templates/RoyalLotus"),
   "emerald-noir": () => import("@/components/templates/EmeraldNoir"),
   "royal-elegance": () => import("@/components/templates/RoyalElegance"),
   "modern-minimal": () => import("@/components/templates/ModernMinimal"),

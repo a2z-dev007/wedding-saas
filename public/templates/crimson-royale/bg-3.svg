@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1800" viewBox="0 0 1200 1800">
+  <defs>
+    <radialGradient id="noirGlow" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#242226" />
+      <stop offset="50%" stop-color="#141316" />
+      <stop offset="100%" stop-color="#09080a" />
+    </radialGradient>
+    <pattern id="noirGoldDamask" width="140" height="140" patternUnits="userSpaceOnUse">
+      <path d="M70 15 C75 40 105 50 105 70 C105 90 75 100 70 125 C65 100 35 90 35 70 C35 50 65 40 70 15 Z" fill="none" stroke="#e8c988" stroke-width="0.85" opacity="0.22"/>
+      <circle cx="70" cy="70" r="10" fill="none" stroke="#d4b877" stroke-width="0.75" opacity="0.25"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#noirGlow)" />
+  <rect width="100%" height="100%" fill="url(#noirGoldDamask)" />
+</svg>

@@ -7,11 +7,15 @@ import { DoorAnimation } from "@/components/invitation/DoorAnimation";
 import { MusicPlayer } from "@/components/invitation/MusicPlayer";
 import { Sliders, ArrowLeft, CreditCard } from "@phosphor-icons/react";
 import { getMockInvitationData } from "@/lib/template-meta";
+import RoyalLotus from "@/components/templates/RoyalLotus";
+import CrimsonRoyale from "@/components/templates/CrimsonRoyale";
 import EmeraldNoir from "@/components/templates/EmeraldNoir";
 import RoyalElegance from "@/components/templates/RoyalElegance";
 import ModernMinimal from "@/components/templates/ModernMinimal";
 
-const templatesMap: Record<string, React.ComponentType<{ data: ReturnType<typeof getMockInvitationData> }>> = {
+const templatesMap: Record<string, React.ComponentType<any>> = {
+  "crimson-royale": CrimsonRoyale,
+  "royal-lotus": RoyalLotus,
   "emerald-noir": EmeraldNoir,
   "royal-elegance": RoyalElegance,
   "modern-minimal": ModernMinimal,
@@ -25,31 +29,44 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
   const searchParams = useSearchParams();
   const isEmbed = searchParams.get("embed") === "1";
 
-  const [brideName, setBrideName] = useState("Priya");
-  const [groomName, setGroomName] = useState("Arjun");
+  const [brideName, setBrideName] = useState("Ananya");
+  const [groomName, setGroomName] = useState("Shubham");
   const [isOpenPanel, setIsOpenPanel] = useState(!isEmbed);
   const [hasOpenedDoors, setHasOpenedDoors] = useState(false);
 
-  const SelectedTemplate = templatesMap[templateId] || EmeraldNoir;
+  const SelectedTemplate = templatesMap[templateId] || CrimsonRoyale;
   const mockData = getMockInvitationData(brideName, groomName);
-  const musicTrack = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+  const musicTrack = "/templates/crimson-royale/music.mp3";
 
   const theme =
-    templateId === "emerald-noir" ? "emerald" : templateId === "royal-elegance" ? "royal" : "minimal";
+    templateId === "crimson-royale"
+      ? "crimson"
+      : templateId === "royal-lotus"
+      ? "lotus"
+      : templateId === "emerald-noir"
+      ? "emerald"
+      : templateId === "royal-elegance"
+      ? "royal"
+      : "minimal";
 
   return (
-    <div className={`relative min-h-[100dvh] bg-stone-900 overflow-x-hidden ${isEmbed ? "overflow-y-auto" : ""}`}>
-      <DoorAnimation
-        onOpen={() => setHasOpenedDoors(true)}
-        brideName={brideName}
-        groomName={groomName}
-        theme={theme}
-      />
-
-      {hasOpenedDoors && (
+    <div className={`relative min-h-[100dvh] bg-[#380D17] overflow-x-hidden ${isEmbed ? "overflow-y-auto" : ""}`}>
+      {templateId === "royal-lotus" || templateId === "crimson-royale" ? (
+        <SelectedTemplate data={mockData} />
+      ) : (
         <>
-          <SelectedTemplate data={mockData} />
-          <MusicPlayer trackUrl={musicTrack} autoPlay />
+          <DoorAnimation
+            onOpen={() => setHasOpenedDoors(true)}
+            brideName={brideName}
+            groomName={groomName}
+            theme={theme}
+          />
+          {hasOpenedDoors && (
+            <>
+              <SelectedTemplate data={mockData} />
+              <MusicPlayer trackUrl={musicTrack} autoPlay />
+            </>
+          )}
         </>
       )}
 
@@ -89,15 +106,15 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:border-amber-400 text-white"
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-1">
-                  {["emerald-noir", "royal-elegance", "modern-minimal"].map((id) => (
+                <div className="grid grid-cols-2 gap-1.5">
+                  {["royal-lotus", "emerald-noir", "royal-elegance", "modern-minimal"].map((id) => (
                     <Link href={`/preview/${id}/interactive`} key={id}>
                       <button
                         className={`w-full py-1 text-[8px] uppercase font-bold rounded ${
                           templateId === id ? "bg-amber-400 text-black" : "bg-white/5 text-white/80"
                         }`}
                       >
-                        {id.split("-")[0]}
+                        {id.replace("-", " ")}
                       </button>
                     </Link>
                   ))}

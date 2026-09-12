@@ -1,0 +1,1192 @@
+/* Crimson Royale Template Styles — Design Tokens & Exact Visual System */
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+
+.tmpl-crimson-royale {
+  /* Brand Typography Tokens */
+  --font-primary: "Jost", system-ui, -apple-system, sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-script: "Alex Brush", cursive;
+  --font-body: "Jost", sans-serif;
+
+  /* Color Palette Tokens */
+  --color-text-primary: #3d232a;
+  --color-text-secondary: #6b4a4f;
+  --color-text-tertiary: #7c2c3b;
+  --color-text-inverse: #a85f68;
+  --color-surface-base: #0c0204;
+  --color-surface-raised: #fffdfb;
+  --color-surface-strong: #f7f1e4;
+  --color-border-default: #e6dec7;
+  
+  --crimson-dark: #0a0103;
+  --crimson-deep: #1c0307;
+  --crimson-rich: #360a12;
+  --crimson-accent: #541421;
+  --maroon: #7c2c3b;
+  --maroon-deep: #591f2b;
+  --rose-subtle: #c98a8f;
+  --gold: #d4af37;
+  --gold-rich: #c9a15a;
+  --gold-soft: #f1dfb8;
+  --gold-deep: #9d7838;
+  --gold-gleam: #fff2c4;
+  --ink: #3d232a;
+  --ink-soft: #6b4a4f;
+  --white-soft: #fffdfb;
+  --card-bg: rgba(255, 252, 247, 0.96);
+  --card-border: rgba(201, 161, 90, 0.5);
+  --card-shadow: 0 20px 50px rgba(10, 1, 3, 0.65), 0 2px 14px rgba(201, 161, 90, 0.2);
+
+  /* Radii Tokens */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 32px;
+  --radius-xl: 999px;
+
+  /* Shadow Tokens */
+  --shadow-1: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 14px 36px rgba(0, 0, 0, 0.55);
+  --shadow-3: 0 18px 48px rgba(66, 15, 24, 0.35);
+  --shadow-4: 0 24px 60px rgba(41, 6, 12, 0.55);
+  --glow-gold: 0 0 24px rgba(212, 175, 55, 0.45);
+
+  /* Layout & Container Tokens */
+  --container-w: min(1080px, 92vw);
+  --pad: clamp(1.2rem, 5vw, 2.75rem);
+  --gap: clamp(4rem, 8vw, 6.5rem);
+
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  background-color: var(--crimson-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Base Utility Classes */
+.tmpl-crimson-royale .script {
+  font-family: var(--font-script);
+  color: var(--gold-rich);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+}
+
+.tmpl-crimson-royale .eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.tmpl-crimson-royale .divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  color: var(--gold);
+  margin: 1.25rem 0;
+  font-size: 1.1rem;
+}
+
+.tmpl-crimson-royale .divider::before,
+.tmpl-crimson-royale .divider::after {
+  content: "";
+  height: 1px;
+  width: 50px;
+  background: linear-gradient(90deg, transparent, var(--gold-rich), transparent);
+}
+
+/* Section Shared Wrapper */
+.tmpl-crimson-royale .section {
+  width: 100%;
+  padding: 6.5rem 1.25rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.tmpl-crimson-royale .section-inner {
+  width: var(--container-w);
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+
+/* Section Background Media Layers (Odd Sections with Parallax) */
+.tmpl-crimson-royale .section__bg-wrap {
+  position: absolute;
+  inset: -15% 0;
+  width: 100%;
+  height: 130%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tmpl-crimson-royale .section__bg-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  position: absolute;
+  inset: 0;
+}
+
+.tmpl-crimson-royale .section__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(14, 2, 4, 0.55) 0%, rgba(10, 1, 3, 0.85) 85%, rgba(6, 1, 2, 0.95) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tmpl-crimson-royale .section__top-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+  background: linear-gradient(to bottom, var(--crimson-dark) 0%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.tmpl-crimson-royale .section__bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+  background: linear-gradient(to bottom, transparent 0%, var(--crimson-dark) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Royal Luxury Card Frame */
+.tmpl-crimson-royale .royal-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: clamp(2.2rem, 5.5vw, 3.8rem);
+  box-shadow: var(--card-shadow);
+  position: relative;
+  width: 100%;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.tmpl-crimson-royale .royal-card::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(201, 161, 90, 0.35);
+  border-radius: calc(var(--radius-md) - 6px);
+  pointer-events: none;
+}
+
+.tmpl-crimson-royale .royal-card::after {
+  content: "✦";
+  position: absolute;
+  top: 13px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gold-rich);
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* ========================================================================= */
+/* SECTION 1: HERO (ODD: IMAGE / VIDEO MEDIA + PARALLAX)                    */
+/* ========================================================================= */
+.tmpl-crimson-royale .hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6.5rem 1.5rem 5.5rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  background: #120205;
+}
+
+.tmpl-crimson-royale .hero__content {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: clamp(2.5rem, 6vw, 4.6rem) clamp(1.8rem, 6vw, 4.6rem);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(201, 161, 90, 0.25);
+  max-width: 680px;
+  width: 100%;
+  position: relative;
+  z-index: 3;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.tmpl-crimson-royale .hero__content::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(201, 161, 90, 0.35);
+  border-radius: calc(var(--radius-md) - 6px);
+  pointer-events: none;
+}
+
+.tmpl-crimson-royale .hero__names {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 500;
+  color: var(--crimson-deep);
+  line-height: 1.12;
+  margin: 0.8rem 0;
+  letter-spacing: 0.02em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.tmpl-crimson-royale .hero__amp {
+  font-family: var(--font-script);
+  font-size: clamp(2.8rem, 7vw, 4.6rem);
+  color: var(--gold-rich);
+  line-height: 0.85;
+  margin: 0.2rem 0;
+}
+
+.tmpl-crimson-royale .hero__date {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 3vw, 1.45rem);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.tmpl-crimson-royale .hero__sub {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin-top: 0.5rem;
+}
+
+/* ========================================================================= */
+/* SECTION 2: WELCOME (EVEN: LUXURY ROYAL VELVET COLOR GRADIENT)            */
+/* ========================================================================= */
+.tmpl-crimson-royale .section--welcome {
+  background: radial-gradient(ellipse at 50% 20%, #2e060d 0%, #160205 60%, #0e0204 100%);
+  border-top: 1px solid rgba(201, 161, 90, 0.16);
+  border-bottom: 1px solid rgba(201, 161, 90, 0.16);
+}
+
+.tmpl-crimson-royale .welcome__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--crimson-deep);
+  font-weight: 500;
+}
+
+.tmpl-crimson-royale .welcome__body {
+  font-size: clamp(0.98rem, 2.5vw, 1.16rem);
+  line-height: 1.85;
+  color: var(--ink-soft);
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ========================================================================= */
+/* SECTION 3: SAVE THE DATE (ODD: IMAGE MEDIA + PARALLAX)                   */
+/* ========================================================================= */
+.tmpl-crimson-royale .section--scratch {
+  background: #120205;
+}
+
+.tmpl-crimson-royale .scratch__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  color: var(--crimson-deep);
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+}
+
+.tmpl-crimson-royale .scratch__card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--gold-rich);
+  background: radial-gradient(circle at center, #fffbf5 0%, #f7ecd7 100%);
+}
+
+.tmpl-crimson-royale .scratch__reveal-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 1;
+}
+
+.tmpl-crimson-royale .scratch__day {
+  font-family: var(--font-script);
+  font-size: 2.2rem;
+  color: var(--maroon);
+}
+
+.tmpl-crimson-royale .scratch__date {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  color: var(--crimson-deep);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin: 0.2rem 0;
+}
+
+.tmpl-crimson-royale .scratch__time {
+  font-size: 0.88rem;
+  color: var(--gold-deep);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.tmpl-crimson-royale .scratch__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.tmpl-crimson-royale .scratch__cta {
+  font-size: 1.6rem;
+  color: var(--maroon);
+  margin-top: 1.25rem;
+}
+
+/* ========================================================================= */
+/* SECTION 4: COUNTDOWN (EVEN: MIDNIGHT PALACE COLOR GRADIENT)              */
+/* ========================================================================= */
+.tmpl-crimson-royale .section--countdown {
+  background: radial-gradient(circle at 50% 30%, #2f0710 0%, #160206 70%, #0d0103 100%);
+  border-top: 1px solid rgba(201, 161, 90, 0.16);
+  border-bottom: 1px solid rgba(201, 161, 90, 0.16);
+}
+
+.tmpl-crimson-royale .countdown__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  color: var(--crimson-deep);
+  font-weight: 500;
+  margin-bottom: 1.8rem;
+}
+
+.tmpl-crimson-royale .countdown__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.6rem, 3vw, 1.4rem);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.tmpl-crimson-royale .countdown__unit {
+  background: radial-gradient(circle at 40% 30%, #fffcf8 0%, #f4e8d2 100%);
+  border: 1.5px solid var(--gold-rich);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08), 0 0 14px rgba(212, 175, 55, 0.15);
+}
+
+.tmpl-crimson-royale .countdown__value {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  color: var(--crimson-deep);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.tmpl-crimson-royale .countdown__label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  font-weight: 600;
+  margin-top: 0.45rem;
+}
+
+/* ========================================================================= */
+/* SECTION 5: MOMENTS GALLERY (ODD: PORTRAIT HALL IMAGE MEDIA + PARALLAX)    */
+/* ========================================================================= */
+.tmpl-crimson-royale .section--gallery {
+  background: #110204;
+}
+
+.tmpl-crimson-royale .gallery__card-wrap {
+  background: rgba(18, 3, 6, 0.88);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: clamp(2.2rem, 5.5vw, 3.8rem);
+  box-shadow: var(--card-shadow);
+  position: relative;
+  width: 100%;
+  max-width: 1060px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.tmpl-crimson-royale .gallery__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  color: #fff9f5;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
+}
+
+.tmpl-crimson-royale .gallery__subtitle {
+  font-size: clamp(1.35rem, 3.5vw, 1.8rem);
+  color: var(--gold-soft);
+  margin-bottom: 2rem;
+}
+
+.tmpl-crimson-royale .gallery__salon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+  width: 100%;
+}
+
+.tmpl-crimson-royale .gallery__portrait-frame {
+  position: relative;
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  background: linear-gradient(135deg, #e4cd9c 0%, #c9a15a 30%, #8c6a28 70%, #d4af37 100%);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.7), 0 0 20px rgba(201, 161, 90, 0.35);
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.tmpl-crimson-royale .gallery__portrait-frame:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.9), 0 0 35px rgba(212, 175, 55, 0.6);
+}
+
+.tmpl-crimson-royale .gallery__portrait-inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border-radius: calc(var(--radius-sm) - 4px);
+  background: #0a0103;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.tmpl-crimson-royale .gallery__portrait-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tmpl-crimson-royale .gallery__portrait-frame:hover .gallery__portrait-inner img {
+  transform: scale(1.08);
+}
+
+.tmpl-crimson-royale .gallery__plaque {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 3, 6, 0.88);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius-xs);
+  padding: 0.35rem 0.9rem;
+  color: var(--gold-soft);
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+/* ========================================================================= */
+/* SECTION 6: EVENTS TIMELINE (EVEN: GRAND BALLROOM MAROON GRADIENT)        */
+/* ========================================================================= */
+.tmpl-crimson-royale .section--timeline {
+  background: radial-gradient(ellipse at 50% 10%, #350811 0%, #1a0307 60%, #0d0103 100%);
+  border-top: 1px solid rgba(201, 161, 90, 0.16);
+  border-bottom: 1px solid rgba(201, 161, 90, 0.16);
+}
+
+.tmpl-crimson-royale .timeline__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  color: #fff9f5;
+  font-weight: 500;
+  margin-bottom: 2.8rem;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+}
+
+.tmpl-crimson-royale .parallax-decor-orb {
+  filter: drop-shadow(0 0 16px rgba(212, 175, 55, 0.6));
+  z-index: 1;
+  transition: transform 0.1s linear;
+}
+
+.tmpl-crimson-royale .timeline__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  width: 100%;
+  max-width: 740px;
+  position: relative;
+}
+
+.tmpl-crimson-royale .timeline__list::before {
+  content: "";
+  position: absolute;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  left: 2.1rem;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(201, 161, 90, 0.1) 0%, rgba(201, 161, 90, 0.6) 20%, rgba(201, 161, 90, 0.6) 80%, rgba(201, 161, 90, 0.1) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tmpl-crimson-royale .timeline__row {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 1.8rem clamp(1.4rem, 4vw, 2.4rem);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(14px);
+}
+
+.tmpl-crimson-royale .timeline__mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.3rem;
+  z-index: 2;
+}
+
+.tmpl-crimson-royale .timeline__dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff3d6 0%, var(--gold-rich) 55%, #8c6a28 100%);
+  box-shadow: 0 0 16px var(--gold), 0 0 6px rgba(255, 240, 200, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.tmpl-crimson-royale .timeline__body {
+  flex: 1;
+}
+
+.tmpl-crimson-royale .timeline__when {
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  font-weight: 700;
+}
+
+.tmpl-crimson-royale .timeline__event {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  color: var(--crimson-deep);
+  font-weight: 600;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.tmpl-crimson-royale .timeline__detail {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin-bottom: 0.6rem;
+}
+
+.tmpl-crimson-royale .timeline__location {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--maroon-deep);
+  font-weight: 500;
+}
+
+/* ========================================================================= */
+/* SECTION 7: VENUE (ODD: LAKE PALACE TWILIGHT IMAGE MEDIA + PARALLAX)      */
+/* ========================================================================= */
+.tmpl-crimson-royale .section--venue {
+  background: #0d0103;
+}
+
+.tmpl-crimson-royale .venue__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  color: var(--crimson-deep);
+  font-weight: 500;
+}
+
+.tmpl-crimson-royale .venue__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  color: var(--maroon);
+  font-weight: 600;
+  margin: 0.4rem 0;
+}
+
+.tmpl-crimson-royale .venue__address {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  max-width: 480px;
+  margin: 0 auto 1.8rem auto;
+  line-height: 1.6;
+}
+
+.tmpl-crimson-royale .venue__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: radial-gradient(circle at center, #931e31 0%, #700f20 100%);
+  color: #fffdfb;
+  border: 1px solid var(--gold);
+  border-radius: var(--radius-xl);
+  padding: 0.85rem 2.2rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(112, 15, 32, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tmpl-crimson-royale .venue__button:hover {
+  transform: translateY(-3px);
+  background: radial-gradient(circle at center, #b0243b 0%, #851227 100%);
+  box-shadow: 0 12px 30px rgba(176, 36, 59, 0.55), 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+/* ========================================================================= */
+/* SECTION 8: RSVP (EVEN: VELVET WINE & GOLD SEAL COLOR GRADIENT)           */
+/* ========================================================================= */
+.tmpl-crimson-royale .section--contact {
+  background: radial-gradient(circle at 50% 20%, #380913 0%, #1c0307 70%, #0e0204 100%);
+  border-top: 1px solid rgba(201, 161, 90, 0.16);
+  border-bottom: 1px solid rgba(201, 161, 90, 0.16);
+}
+
+.tmpl-crimson-royale .contact__title {
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  color: var(--maroon);
+  margin-bottom: 0.3rem;
+}
+
+.tmpl-crimson-royale .contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.tmpl-crimson-royale .contact__label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--maroon-deep);
+  letter-spacing: 0.05em;
+}
+
+.tmpl-crimson-royale .contact__input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(201, 161, 90, 0.5);
+  background: #fffdfb;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tmpl-crimson-royale .contact__input:focus {
+  border-color: var(--maroon);
+  box-shadow: 0 0 0 3px rgba(124, 44, 59, 0.15);
+}
+
+.tmpl-crimson-royale .contact__submit {
+  width: 100%;
+  padding: 1rem;
+  background: radial-gradient(circle at center, #931e31 0%, #700f20 100%);
+  color: #fffdfb;
+  border: 1px solid var(--gold);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(112, 15, 32, 0.35);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 0.6rem;
+}
+
+.tmpl-crimson-royale .contact__submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(112, 15, 32, 0.5), 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+/* ========================================================================= */
+/* SECTION 9: CLOSING (EVEN: DEEP MIDNIGHT CRIMSON HEARTBEAT SCENE)         */
+/* ========================================================================= */
+.tmpl-crimson-royale .section--closing {
+  background: linear-gradient(180deg, #0e0204 0%, #1d0308 50%, #0a0102 100%);
+  padding: 7rem 1.25rem 9rem 1.25rem;
+}
+
+.tmpl-crimson-royale .closing__heart {
+  font-size: 2.2rem;
+  color: var(--gold-soft);
+  margin-bottom: 0.6rem;
+  display: inline-block;
+  animation: pulseHeart 2s ease-in-out infinite;
+}
+
+.tmpl-crimson-royale .closing__title {
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  color: #fff9f5;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
+}
+
+.tmpl-crimson-royale .closing__names {
+  color: var(--gold-soft);
+  margin-top: 0.8rem;
+  letter-spacing: 0.35em;
+}
+
+/* Floating Ambient Golden Dust Particles */
+.tmpl-crimson-royale .ambient-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.tmpl-crimson-royale .ambient-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--gold-soft) 0%, var(--gold) 60%, transparent 100%);
+  box-shadow: 0 0 8px var(--gold);
+  opacity: 0.45;
+  animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(105vh) translateX(0) scale(0.8);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(25px) scale(1.1);
+    opacity: 0;
+  }
+}
+
+/* Initial Background Picker Modal */
+.tmpl-crimson-royale .bg-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: radial-gradient(circle at center, #24050b 0%, #100204 80%, #080102 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.tmpl-crimson-royale .bg-picker-eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.35em;
+  color: var(--gold-soft);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.tmpl-crimson-royale .bg-picker-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  color: #fffaf5;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.tmpl-crimson-royale .bg-picker-desc {
+  max-width: 580px;
+  color: rgba(255, 235, 220, 0.78);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-bottom: 2.2rem;
+}
+
+.tmpl-crimson-royale .bg-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.25rem;
+  width: min(820px, 100%);
+}
+
+.tmpl-crimson-royale .bg-picker-card {
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(201, 161, 90, 0.4);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+}
+
+.tmpl-crimson-royale .bg-picker-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 16px 36px rgba(212, 175, 55, 0.25);
+}
+
+.tmpl-crimson-royale .bg-picker-card img,
+.tmpl-crimson-royale .bg-picker-card video {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: calc(var(--radius-md) - 4px);
+}
+
+.tmpl-crimson-royale .bg-picker-card-label {
+  font-size: 0.88rem;
+  color: #fff9f5;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding-bottom: 0.25rem;
+}
+
+/* Royal Gate Split Doors */
+.tmpl-crimson-royale .gate {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #0d0103;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.tmpl-crimson-royale .gate__door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: radial-gradient(circle at 50% 40%, #3d0e17 0%, #20050b 60%, #0d0204 100%);
+  transition: transform 1.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+}
+
+.tmpl-crimson-royale .gate__door--left {
+  left: 0;
+  border-right: 1.5px solid rgba(212, 175, 55, 0.5);
+}
+
+.tmpl-crimson-royale .gate__door--right {
+  right: 0;
+  border-left: 1.5px solid rgba(212, 175, 55, 0.5);
+}
+
+.tmpl-crimson-royale .gate__panel-border {
+  position: absolute;
+  inset: 24px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  pointer-events: none;
+}
+
+.tmpl-crimson-royale .gate__arch {
+  position: absolute;
+  bottom: 35px;
+  left: 24px;
+  right: 24px;
+  height: 140px;
+  border-top: 1.5px dashed rgba(212, 175, 55, 0.35);
+  border-radius: 140px 140px 0 0;
+  pointer-events: none;
+}
+
+.tmpl-crimson-royale .gate--opening .gate__door--left {
+  transform: translateX(-100%);
+}
+
+.tmpl-crimson-royale .gate--opening .gate__door--right {
+  transform: translateX(100%);
+}
+
+.tmpl-crimson-royale .gate__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.15rem;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem;
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+
+.tmpl-crimson-royale .gate--opening .gate__center {
+  opacity: 0;
+  transform: scale(0.88);
+}
+
+.tmpl-crimson-royale .gate__heart {
+  color: var(--gold-soft);
+  font-size: 2rem;
+  animation: pulseHeart 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+}
+
+@keyframes pulseHeart {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+
+.tmpl-crimson-royale .gate__invited {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
+  font-weight: 500;
+  color: #fff9f5;
+  letter-spacing: 0.08em;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
+}
+
+.tmpl-crimson-royale .gate__seal {
+  background: radial-gradient(circle at 35% 35%, #a61c31 0%, #7c0f20 60%, #42060f 100%);
+  color: #fffdfb;
+  border: 2px solid rgba(241, 223, 184, 0.85);
+  border-radius: var(--radius-xl);
+  width: 96px;
+  height: 96px;
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8), 0 0 35px rgba(212, 175, 55, 0.45);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 0.4rem;
+}
+
+.tmpl-crimson-royale .gate__seal:hover {
+  transform: scale(1.08);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.9), 0 0 50px rgba(212, 175, 55, 0.65);
+}
+
+.tmpl-crimson-royale .gate__seal-heart {
+  font-size: 1.25rem;
+  color: var(--gold-soft);
+}
+
+.tmpl-crimson-royale .gate__seal-text {
+  font-size: 0.7rem;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.tmpl-crimson-royale .gate__hint {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-style: italic;
+  color: rgba(255, 240, 220, 0.9);
+  margin-top: 0.6rem;
+  letter-spacing: 0.04em;
+}
+
+/* Floating Music Toggle Equalizer */
+.tmpl-crimson-royale .music-toggle {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 900;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-xl);
+  background: var(--maroon-deep);
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3.5px;
+  cursor: pointer;
+  box-shadow: var(--shadow-2);
+  transition: all 0.3s ease;
+}
+
+.tmpl-crimson-royale .music-toggle:hover {
+  transform: scale(1.06);
+  border-color: var(--gold-soft);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.tmpl-crimson-royale .music-toggle__bar {
+  width: 3.5px;
+  height: 14px;
+  background: var(--gold-soft);
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+
+.tmpl-crimson-royale .music-toggle--playing .music-toggle__bar:nth-child(1) {
+  animation: eqBounce1 0.7s infinite ease-in-out alternate;
+}
+.tmpl-crimson-royale .music-toggle--playing .music-toggle__bar:nth-child(2) {
+  animation: eqBounce2 0.5s infinite ease-in-out alternate;
+}
+.tmpl-crimson-royale .music-toggle--playing .music-toggle__bar:nth-child(3) {
+  animation: eqBounce3 0.8s infinite ease-in-out alternate;
+}
+
+@keyframes eqBounce1 { 0% { height: 6px; } 100% { height: 22px; } }
+@keyframes eqBounce2 { 0% { height: 18px; } 100% { height: 8px; } }
+@keyframes eqBounce3 { 0% { height: 8px; } 100% { height: 24px; } }
+
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
+  .tmpl-crimson-royale .gallery__salon-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .tmpl-crimson-royale .section {
+    padding: 4.5rem 1rem;
+  }
+
+  .tmpl-crimson-royale .hero {
+    padding: 5rem 1rem 4rem 1rem;
+  }
+
+  .tmpl-crimson-royale .hero__content {
+    padding: 2rem 1.2rem;
+    max-width: 92vw;
+  }
+  
+  .tmpl-crimson-royale .royal-card,
+  .tmpl-crimson-royale .gallery__card-wrap {
+    padding: 1.8rem 1.2rem;
+  }
+  
+  .tmpl-crimson-royale .timeline__row {
+    padding: 1.4rem 1.1rem;
+    gap: 0.9rem;
+  }
+  
+  .tmpl-crimson-royale .countdown__grid {
+    gap: 0.5rem;
+  }
+  
+  .tmpl-crimson-royale .countdown__unit {
+    padding: 0.9rem 0.3rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .tmpl-crimson-royale .hero__names {
+    font-size: 2.15rem;
+  }
+  
+  .tmpl-crimson-royale .hero__amp {
+    font-size: 2.5rem;
+  }
+
+  .tmpl-crimson-royale .hero__date {
+    font-size: 0.95rem;
+  }
+
+  .tmpl-crimson-royale .hero__sub {
+    font-size: 1.45rem;
+  }
+  
+  .tmpl-crimson-royale .bg-picker-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .tmpl-crimson-royale .gallery__salon-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .tmpl-crimson-royale * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
