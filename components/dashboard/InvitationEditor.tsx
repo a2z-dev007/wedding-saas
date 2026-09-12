@@ -176,6 +176,21 @@ export function InvitationEditor({ initialData, invitationId, initialTemplateId 
   const formBrideName = watchBrideName;
   const formGroomName = watchGroomName;
 
+  const [religionFilter, setReligionFilter] = useState<"all" | "hindu" | "muslim">("all");
+
+  const templateOptions = [
+    { id: "crimson-royale", name: "Crimson Royale", style: "Royal Court", religion: ["hindu"], religionLabel: "Hindu", color: "border-[#7c2c3b] bg-[#fff5f6]" },
+    { id: "royal-lotus", name: "Royal Lotus", style: "Royal Palace", religion: ["hindu"], religionLabel: "Hindu", color: "border-[#D4AF37] bg-[#FAF7F0]" },
+    { id: "emerald-noir", name: "Emerald Noir", style: "Luxury Dark", religion: ["muslim"], religionLabel: "Muslim", color: "border-[#082F27] bg-[#E8F0ED]" },
+    { id: "royal-elegance", name: "Royal Elegance", style: "Classic Indian", religion: ["hindu", "muslim", "universal"], religionLabel: "Universal", color: "border-[#B89730] bg-[#FAF7F0]" },
+    { id: "modern-minimal", name: "Modern Minimal", style: "Contemporary", religion: ["hindu", "muslim", "universal"], religionLabel: "Universal", color: "border-stone-400 bg-stone-100" },
+  ];
+
+  const visibleTemplates = templateOptions.filter((t) => {
+    if (religionFilter === "all") return true;
+    return t.religion.includes(religionFilter);
+  });
+
   return (
     <div className="max-w-4xl mx-auto">
       {/* Back button */}
@@ -225,19 +240,37 @@ export function InvitationEditor({ initialData, invitationId, initialTemplateId 
         {/* Tab 1: Core Details */}
         {activeTab === "details" && (
           <DoubleBezelCard className="bg-white border-stone-200/50 space-y-6">
-            <h3 className="font-serif text-xl text-stone-900 font-bold pb-2 border-b border-stone-150 lowercase">
-              choose template design
-            </h3>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-stone-150">
+              <h3 className="font-serif text-xl text-stone-900 font-bold lowercase">
+                choose template design
+              </h3>
+              
+              {/* Religion Category Filter Pills */}
+              <div className="flex items-center gap-1.5 bg-stone-100 p-1 rounded-full w-fit">
+                {[
+                  { key: "all", label: "All" },
+                  { key: "hindu", label: "🕉️ Hindu" },
+                  { key: "muslim", label: "🌙 Muslim" },
+                ].map((rf) => (
+                  <button
+                    key={rf.key}
+                    type="button"
+                    onClick={() => setReligionFilter(rf.key as any)}
+                    className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                      religionFilter === rf.key
+                        ? "bg-[#082F27] text-white shadow-xs"
+                        : "text-stone-600 hover:text-stone-900"
+                    }`}
+                  >
+                    {rf.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Template Selector */}
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-              {[
-                { id: "crimson-royale", name: "Crimson Royale", style: "Royal Court", color: "border-[#7c2c3b] bg-[#fff5f6]" },
-                { id: "royal-lotus", name: "Royal Lotus", style: "Royal Palace", color: "border-[#D4AF37] bg-[#FAF7F0]" },
-                { id: "emerald-noir", name: "Emerald Noir", style: "Luxury Dark", color: "border-[#082F27] bg-[#E8F0ED]" },
-                { id: "royal-elegance", name: "Royal Elegance", style: "Classic Indian", color: "border-[#B89730] bg-[#FAF7F0]" },
-                { id: "modern-minimal", name: "Modern Minimal", style: "Contemporary", color: "border-stone-400 bg-stone-100" },
-              ].map((t) => (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              {visibleTemplates.map((t) => (
                 <button
                   type="button"
                   key={t.id}
@@ -245,18 +278,29 @@ export function InvitationEditor({ initialData, invitationId, initialTemplateId 
                   className={`p-3.5 rounded-2xl border-2 text-left flex flex-col justify-between transition-all ${
                     watchTemplateId === t.id
                       ? `${t.color} shadow-md scale-[1.02]`
-                      : "border-stone-200 bg-white hover:border-stone-300 opacity-70"
+                      : "border-stone-200 bg-white hover:border-stone-300 opacity-80"
                   }`}
                 >
-                  <span className="text-[9px] uppercase font-bold tracking-widest text-stone-500 block mb-1">
-                    {t.style}
-                  </span>
-                  <span className="font-serif text-sm font-bold text-stone-900 block">
-                    {t.name}
-                  </span>
-                  {watchTemplateId === t.id && (
-                    <span className="inline-block mt-2 text-[8px] uppercase tracking-wider font-bold bg-[#7A1C28] text-white px-2 py-0.5 rounded-full w-fit">
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[9px] uppercase font-bold tracking-widest text-stone-500 block">
+                        {t.style}
+                      </span>
+                      <span className="text-[8px] font-bold text-stone-600 bg-black/5 px-1.5 py-0.2 rounded">
+                        {t.religionLabel === "Hindu" ? "🕉️" : t.religionLabel === "Muslim" ? "🌙" : "✦"}
+                      </span>
+                    </div>
+                    <span className="font-serif text-sm font-bold text-stone-900 block leading-tight">
+                      {t.name}
+                    </span>
+                  </div>
+                  {watchTemplateId === t.id ? (
+                    <span className="inline-block mt-3 text-[8px] uppercase tracking-wider font-bold bg-[#082F27] text-white px-2 py-0.5 rounded-full w-fit">
                       Selected
+                    </span>
+                  ) : (
+                    <span className="inline-block mt-3 text-[8px] uppercase tracking-wider font-semibold text-stone-400">
+                      Click to choose
                     </span>
                   )}
                 </button>

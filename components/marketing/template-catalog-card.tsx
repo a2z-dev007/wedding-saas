@@ -17,6 +17,8 @@ export type TemplateCatalogItem = {
   gradient: string;
   leftScreen: "hero" | "curtain";
   accentClass?: string;
+  religion?: ("hindu" | "muslim" | "universal")[];
+  religionLabel?: string;
 };
 
 const TAG_STYLES: Record<TemplateTag, string> = {
@@ -36,14 +38,21 @@ export function TemplateCatalogCard({ template }: { template: TemplateCatalogIte
       >
         {/* Visual area */}
         <div className="relative flex aspect-[4/3.2] items-end justify-center gap-2 bg-[#ebe8e2] px-4 pb-5 pt-8 sm:gap-3 sm:px-5">
-          <span
-            className={cn(
-              "absolute left-3 top-3 rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide",
-              TAG_STYLES[template.tag]
+          <div className="absolute left-3 top-3 flex items-center gap-1.5 z-10">
+            <span
+              className={cn(
+                "rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide",
+                TAG_STYLES[template.tag]
+              )}
+            >
+              {template.tag}
+            </span>
+            {template.religionLabel && (
+              <span className="rounded-full bg-white/90 backdrop-blur-sm border border-black/[0.06] px-2 py-0.5 text-[9px] font-bold text-stone-700 uppercase tracking-wider">
+                {template.religionLabel === "Hindu" ? "🕉️ Hindu" : template.religionLabel === "Muslim" ? "🌙 Muslim" : "✦ Universal"}
+              </span>
             )}
-          >
-            {template.tag}
-          </span>
+          </div>
 
           <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-black/[0.06] bg-white/90 text-stone-500 opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
             <Eye size={15} weight="light" />
@@ -66,8 +75,10 @@ export function TemplateCatalogCard({ template }: { template: TemplateCatalogIte
 
         {/* Content area */}
         <div className="flex flex-1 flex-col bg-white p-5">
-          <h3 className="font-serif text-xl text-[#1A1A1A]">{template.name}</h3>
-          <p className="mt-2 flex-1 text-sm leading-relaxed text-stone-500 line-clamp-2">
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="font-serif text-xl text-[#1A1A1A]">{template.name}</h3>
+          </div>
+          <p className="mt-1 flex-1 text-sm leading-relaxed text-stone-500 line-clamp-2">
             {template.description}
           </p>
           <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors group-hover:text-accent-gold">

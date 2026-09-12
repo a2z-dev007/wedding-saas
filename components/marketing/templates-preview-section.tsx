@@ -11,7 +11,7 @@ import { WhatsappShareDemo } from "@/components/marketing/whatsapp-share-demo";
 import { staggerContainer, fadeUp, viewportOnce } from "@/components/ui/motion-primitives";
 import { TEMPLATE_META } from "@/lib/template-meta";
 
-const FILTERS = ["All", "Best Sellers", "New"] as const;
+const FILTERS = ["All", "Hindu", "Muslim", "Best Sellers", "New"] as const;
 
 const CATALOG: TemplateCatalogItem[] = [
   {
@@ -22,6 +22,8 @@ const CATALOG: TemplateCatalogItem[] = [
     gradient: TEMPLATE_META["crimson-royale"].gradient,
     leftScreen: "hero",
     accentClass: "text-rose-700",
+    religion: TEMPLATE_META["crimson-royale"].religion,
+    religionLabel: TEMPLATE_META["crimson-royale"].religionLabel,
   },
   {
     id: TEMPLATE_META["royal-lotus"].id,
@@ -31,6 +33,8 @@ const CATALOG: TemplateCatalogItem[] = [
     gradient: TEMPLATE_META["royal-lotus"].gradient,
     leftScreen: "curtain",
     accentClass: "text-amber-700",
+    religion: TEMPLATE_META["royal-lotus"].religion,
+    religionLabel: TEMPLATE_META["royal-lotus"].religionLabel,
   },
   {
     id: TEMPLATE_META["emerald-noir"].id,
@@ -40,6 +44,8 @@ const CATALOG: TemplateCatalogItem[] = [
     gradient: TEMPLATE_META["emerald-noir"].gradient,
     leftScreen: "hero",
     accentClass: "text-accent-gold",
+    religion: TEMPLATE_META["emerald-noir"].religion,
+    religionLabel: TEMPLATE_META["emerald-noir"].religionLabel,
   },
   {
     id: TEMPLATE_META["royal-elegance"].id,
@@ -49,6 +55,8 @@ const CATALOG: TemplateCatalogItem[] = [
     gradient: TEMPLATE_META["royal-elegance"].gradient,
     leftScreen: "curtain",
     accentClass: "text-accent-gold",
+    religion: TEMPLATE_META["royal-elegance"].religion,
+    religionLabel: TEMPLATE_META["royal-elegance"].religionLabel,
   },
   {
     id: TEMPLATE_META["modern-minimal"].id,
@@ -58,6 +66,8 @@ const CATALOG: TemplateCatalogItem[] = [
     gradient: TEMPLATE_META["modern-minimal"].gradient,
     leftScreen: "hero",
     accentClass: "text-stone-600",
+    religion: TEMPLATE_META["modern-minimal"].religion,
+    religionLabel: TEMPLATE_META["modern-minimal"].religionLabel,
   },
 ];
 
@@ -66,7 +76,9 @@ export function TemplatesPreviewSection() {
 
   const filtered = CATALOG.filter((t) => {
     if (filter === "All") return true;
-    if (filter === "Best Sellers") return t.tag === "Best Seller";
+    if (filter === "Hindu") return t.religion?.includes("hindu");
+    if (filter === "Muslim") return t.religion?.includes("muslim");
+    if (filter === "Best Sellers") return t.tag === "Best Seller" || t.tag === "Exclusive";
     if (filter === "New") return t.tag === "New";
     return true;
   });
@@ -93,7 +105,7 @@ export function TemplatesPreviewSection() {
                   : "border border-black/[0.06] bg-white text-stone-500 hover:border-accent-gold/30 hover:text-stone-700"
               }`}
             >
-              {f}
+              {f === "Hindu" ? "🕉️ Hindu Weddings" : f === "Muslim" ? "🌙 Muslim Weddings" : f}
             </button>
           ))}
         </div>

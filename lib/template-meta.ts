@@ -1,5 +1,7 @@
 export type TemplateId = "crimson-royale" | "royal-lotus" | "emerald-noir" | "royal-elegance" | "modern-minimal";
 
+export type ReligionKey = "all" | "hindu" | "muslim";
+
 export interface TemplateMeta {
   id: TemplateId;
   name: string;
@@ -7,6 +9,8 @@ export interface TemplateMeta {
   description: string;
   tag?: string;
   gradient: string;
+  religion: ("hindu" | "muslim" | "universal")[];
+  religionLabel: string;
 }
 
 export const TEMPLATE_META: Record<TemplateId, TemplateMeta> = {
@@ -15,6 +19,8 @@ export const TEMPLATE_META: Record<TemplateId, TemplateMeta> = {
     name: "Crimson Royale",
     style: "Royal Court",
     tag: "Trending",
+    religion: ["hindu"],
+    religionLabel: "Hindu",
     description:
       "Regal crimson velvet and 24K gold foil aesthetic. Features an interactive royal gate opening, gold foil scratch reveal date card, 4 switchable royal background presets, and shehnai background symphony.",
     gradient: "from-[#420f18] via-[#7c2c3b] to-[#20050a]",
@@ -24,6 +30,8 @@ export const TEMPLATE_META: Record<TemplateId, TemplateMeta> = {
     name: "Royal Lotus",
     style: "Royal Heritage",
     tag: "Auspicious",
+    religion: ["hindu"],
+    religionLabel: "Hindu",
     description:
       "A grand Rajasthani palace experience with ivory canvas, 24K antique gold filigree, deep crimson accents, floating lotus petals, and a 3D royal palace gate reveal.",
     gradient: "from-[#FCF9F2] via-[#F5EFE0] to-[#EBDDC3]",
@@ -33,15 +41,19 @@ export const TEMPLATE_META: Record<TemplateId, TemplateMeta> = {
     name: "Emerald Noir",
     style: "Luxury Dark",
     tag: "Best Seller",
+    religion: ["muslim"],
+    religionLabel: "Muslim",
     description:
-      "Ornate gold details on a rich velvet forest green canvas. Dramatic 3D door reveal, ambient shehnai music, and bilingual storytelling — ideal for high-end evening celebrations.",
+      "Ornate gold details on a rich velvet forest green canvas. Dramatic 3D door reveal, ambient shehnai music, and bilingual storytelling — ideal for high-end evening celebrations and royal Nikah ceremonies.",
     gradient: "from-[#e8f0ed] to-[#c5ddd3]",
   },
   "royal-elegance": {
     id: "royal-elegance",
     name: "Royal Elegance",
-    style: "Classic Indian",
+    style: "Classic South Asian",
     tag: "Best Seller",
+    religion: ["hindu", "muslim", "universal"],
+    religionLabel: "Universal",
     description:
       "Traditional South Asian grandeur featuring soft bone backdrops, golden arches, and royal accents. A curtain reveal that feels like opening a physical invitation.",
     gradient: "from-[#faf7f0] to-[#f0e8d8]",
@@ -51,6 +63,8 @@ export const TEMPLATE_META: Record<TemplateId, TemplateMeta> = {
     name: "Modern Minimal",
     style: "Contemporary Chic",
     tag: "New",
+    religion: ["hindu", "muslim", "universal"],
+    religionLabel: "Universal",
     description:
       "Ultra-clean editorial typography, massive whitespace, and elegant framing. Perfect for destination weddings and couples who love contemporary design.",
     gradient: "from-stone-50 to-stone-200",
@@ -115,6 +129,7 @@ export function getMockInvitationData(brideName = "Priya", groomName = "Arjun") 
 }
 
 export const TEMPLATE_COMPONENTS = {
+  "crimson-royale": () => import("@/components/templates/CrimsonRoyale"),
   "royal-lotus": () => import("@/components/templates/RoyalLotus"),
   "emerald-noir": () => import("@/components/templates/EmeraldNoir"),
   "royal-elegance": () => import("@/components/templates/RoyalElegance"),
