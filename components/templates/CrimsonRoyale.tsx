@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import confetti from "canvas-confetti";
+import { Lottie } from "lottie-react";
 import { 
   CalendarBlank, 
   Clock, 
@@ -19,6 +20,13 @@ import {
   Eye
 } from "@phosphor-icons/react";
 import "./crimson-royale.css";
+
+// Theme-tailored Lottie Animations
+import crimsonRoyalSeal from "@/public/lottie-icons/crimson-royal-seal.json";
+import crimsonGoldDiya from "@/public/lottie-icons/crimson-gold-diya.json";
+import crimsonWeddingRings from "@/public/lottie-icons/crimson-wedding-rings.json";
+import crimsonRoyalFloral from "@/public/lottie-icons/crimson-royal-floral.json";
+import paperPlaneHeart from "@/public/lottie-icons/Paper Plane Heart.json";
 
 export interface EventItem {
   id?: string;
@@ -370,9 +378,14 @@ export default function CrimsonRoyale({
                 className="gate__seal"
                 onClick={handleOpenInvitation}
                 aria-label="Open the wedding invitation"
+                style={{ background: "transparent", border: "none", boxShadow: "none", padding: 0 }}
               >
-                <span className="gate__seal-heart">♥</span>
-                <span className="gate__seal-text">TAP TO OPEN</span>
+                <div style={{ width: 140, height: 140, margin: "0 auto" }}>
+                  <Lottie src={crimsonRoyalSeal} loop autoplay />
+                </div>
+                <span className="gate__seal-text" style={{ marginTop: "-8px", display: "inline-block", background: "rgba(14,2,4,0.85)", padding: "4px 14px", borderRadius: "12px", border: "1px solid var(--gold)" }}>
+                  TAP TO OPEN
+                </span>
               </button>
 
               <p className="gate__hint">{brideName} & {groomName} ·</p>
@@ -554,7 +567,10 @@ export default function CrimsonRoyale({
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
             <div className="royal-card" style={{ maxWidth: 740 }}>
-              <p className="eyebrow" style={{ marginBottom: "0.6rem" }}>A Little Note From Us</p>
+              <div style={{ width: "clamp(260px, 45vw, 360px)", height: "115px", margin: "0 auto 0.5rem auto" }}>
+                <Lottie src={crimsonRoyalFloral} loop autoplay />
+              </div>
+              <p className="eyebrow" style={{ marginBottom: "0.4rem" }}>A Little Note From Us</p>
               <h2 className="welcome__title">Welcome to Our Celebration</h2>
               <div className="divider">✦</div>
               <p className="welcome__body">
@@ -607,7 +623,10 @@ export default function CrimsonRoyale({
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
             <div className="royal-card" style={{ maxWidth: 680 }}>
-              <h2 className="scratch__title">Save The Date</h2>
+              <div style={{ width: 100, height: 100, margin: "0 auto 0.2rem auto" }}>
+                <Lottie src={crimsonGoldDiya} loop autoplay />
+              </div>
+              <h2 className="scratch__title" style={{ marginTop: "0.2rem" }}>Save The Date</h2>
               <ScratchCard 
                 dayName={!isNaN(weddingDate.getTime()) ? weddingDate.toLocaleDateString("en-US", { weekday: "long" }) : "Tuesday"}
                 fullDate={!isNaN(weddingDate.getTime()) ? weddingDate.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) : "December 22, 2026"}
@@ -628,7 +647,10 @@ export default function CrimsonRoyale({
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
             <div className="royal-card" style={{ maxWidth: 750 }}>
-              <h2 className="countdown__title">Counting Down To Forever</h2>
+              <div style={{ width: "clamp(180px, 32vw, 240px)", height: "150px", margin: "0 auto 0.3rem auto" }}>
+                <Lottie src={crimsonWeddingRings} loop autoplay />
+              </div>
+              <h2 className="countdown__title" style={{ marginTop: "0.2rem" }}>Counting Down To Forever</h2>
               <CountdownTimer targetDate={weddingDate} />
             </div>
           </motion.div>
@@ -799,7 +821,9 @@ export default function CrimsonRoyale({
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
             <div className="royal-card" style={{ maxWidth: 640 }}>
-              <Heart size={36} color="var(--gold)" weight="fill" style={{ margin: "0 auto 0.5rem auto" }} />
+              <div style={{ width: 80, height: 80, margin: "0 auto -2px auto" }}>
+                <Lottie src={paperPlaneHeart} loop autoplay />
+              </div>
               <h2 className="script contact__title">Join Our Celebration</h2>
               <p className="eyebrow" style={{ color: "var(--maroon)" }}>Please Respond by Dec 10, 2026</p>
               <div className="divider">✦</div>
