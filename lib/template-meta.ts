@@ -1,4 +1,4 @@
-export type TemplateId = "crimson-royale" | "royal-lotus" | "emerald-noir" | "royal-elegance" | "modern-minimal";
+export type TemplateId = "noor-e-nikah" | "crimson-royale" | "royal-lotus" | "emerald-noir" | "royal-elegance" | "modern-minimal";
 
 export type ReligionKey = "all" | "hindu" | "muslim";
 
@@ -14,6 +14,17 @@ export interface TemplateMeta {
 }
 
 export const TEMPLATE_META: Record<TemplateId, TemplateMeta> = {
+  "noor-e-nikah": {
+    id: "noor-e-nikah",
+    name: "Noor-e-Nikah",
+    style: "Sacred Elegance",
+    tag: "Featured",
+    religion: ["muslim"],
+    religionLabel: "Muslim",
+    description:
+      "A sacred Islamic wedding experience with a 3D embossed ivory floral envelope, slow-lighting gold wax seal, grand mosque archway portal, Bismillah blessing, and Nikah timeline.",
+    gradient: "from-[#FAF8F5] via-[#F3EDE2] to-[#E5DAC6]",
+  },
   "crimson-royale": {
     id: "crimson-royale",
     name: "Crimson Royale",
@@ -93,42 +104,46 @@ export const DEMO_STEPS = [
 ];
 
 export function getTemplateMeta(templateId: string): TemplateMeta {
-  return TEMPLATE_META[templateId as TemplateId] ?? TEMPLATE_META["emerald-noir"];
+  return TEMPLATE_META[templateId as TemplateId] ?? TEMPLATE_META["noor-e-nikah"];
 }
 
-export function getMockInvitationData(brideName = "Priya", groomName = "Arjun") {
+export function getMockInvitationData(brideName = "Diya", groomName = "Shaan") {
   return {
     id: "preview-id",
     brideName,
     groomName,
-    weddingDate: "2026-11-28",
-    weddingTime: "7:00 PM onwards",
-    venueName: "The Leela Palace Hotel",
-    venueAddress: "Diplomatic Enclave, Chanakyapuri, New Delhi, Delhi 110021",
-    venueLat: 28.5839,
-    venueLng: 77.1953,
+    weddingDate: "2027-01-24",
+    weddingTime: "4:30 PM onwards",
+    venueName: "The Grand Qasr Al-Noor",
+    venueAddress: "Al-Noor Palace Estate, Emirates Palace Road, Abu Dhabi, UAE",
+    venueLat: 24.4617,
+    venueLng: 54.3173,
     heroImageUrl:
-      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=600&auto=format&fit=crop",
+      "/templates/noor-e-nikah/hero-palace-mobile.jpg",
     slideshowImages: [
+      "/templates/noor-e-nikah/hero-palace-mobile.jpg",
+      "/templates/noor-e-nikah/hero-palace-desktop.jpg",
+      "/templates/noor-e-nikah/welcome-parchment.jpg",
       "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=500&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=500&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1507504038482-7621c27dec3f?q=80&w=500&auto=format&fit=crop",
     ],
     showDressCode: true,
     dressCodeText:
-      "Royal Traditional Indian \nWomen: Lehengas / Sarees in pastel tones \nMen: Sherwanis / Bandhgalas",
+      "Royal Traditional & Modest \nWomen: Pastel Gold Lehengas / Abayas with embroidery \nMen: Sherwanis / Traditional Suits",
     showTransport: true,
     transportText:
-      "Shuttle services will be available from Delhi Airport. Valet parking is fully operational at the hotel venue.",
+      "Shuttle services will be available from Abu Dhabi International Airport. Valet parking is fully operational at the grand entrance.",
     eventsJson: [
-      { name: "Sangeet Night", enabled: true, venue: "Grand Ballroom, The Leela Palace", date: "Friday, 27 November", time: "8:00 PM" },
-      { name: "Wedding Ceremony", enabled: true, venue: "Royal Lawns, The Leela Palace", date: "Saturday, 28 November", time: "6:00 PM" },
-      { name: "Reception Party", enabled: true, venue: "Grand Ballroom, The Leela Palace", date: "Sunday, 29 November", time: "8:00 PM" },
+      { name: "Manjha (Haldi)", enabled: true, venue: "Courtyard Garden, Al-Noor", date: "Saturday, 23 January", time: "11:00 AM" },
+      { name: "Mehendi Night", enabled: true, venue: "The Jasmine Terrace", date: "Saturday, 23 January", time: "6:30 PM" },
+      { name: "Nikah Ceremony", enabled: true, venue: "Grand Mosque Courtyard", date: "Sunday, 24 January", time: "4:30 PM" },
+      { name: "Walima Reception", enabled: true, venue: "Royal Crystal Ballroom", date: "Sunday, 24 January", time: "8:00 PM" },
     ],
   };
 }
 
 export const TEMPLATE_COMPONENTS = {
+  "noor-e-nikah": () => import("@/components/templates/NoorNikah"),
   "crimson-royale": () => import("@/components/templates/CrimsonRoyale"),
   "royal-lotus": () => import("@/components/templates/RoyalLotus"),
   "emerald-noir": () => import("@/components/templates/EmeraldNoir"),

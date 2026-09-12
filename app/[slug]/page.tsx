@@ -4,6 +4,7 @@ import { use, useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import RoyalLotus from "@/components/templates/RoyalLotus";
 import CrimsonRoyale from "@/components/templates/CrimsonRoyale";
+import NoorNikah from "@/components/templates/NoorNikah";
 import EmeraldNoir from "@/components/templates/EmeraldNoir";
 import RoyalElegance from "@/components/templates/RoyalElegance";
 import ModernMinimal from "@/components/templates/ModernMinimal";
@@ -113,6 +114,7 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
 
   // Render template dynamically
   const templatesMap: Record<string, any> = {
+    "noor-e-nikah": NoorNikah,
     "crimson-royale": CrimsonRoyale,
     "royal-lotus": RoyalLotus,
     "emerald-noir": EmeraldNoir,
@@ -120,7 +122,7 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
     "modern-minimal": ModernMinimal,
   };
 
-  const SelectedTemplate = templatesMap[invitation.templateId] || CrimsonRoyale;
+  const SelectedTemplate = templatesMap[invitation.templateId] || NoorNikah;
 
   const handleOpenDoors = () => {
     setHasOpenedDoors(true);
@@ -136,7 +138,7 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
         </div>
       )}
 
-      {invitation.templateId === "royal-lotus" || invitation.templateId === "crimson-royale" ? (
+      {invitation.templateId === "royal-lotus" || invitation.templateId === "crimson-royale" || invitation.templateId === "noor-e-nikah" ? (
         <SelectedTemplate data={invitation} />
       ) : (
         <>

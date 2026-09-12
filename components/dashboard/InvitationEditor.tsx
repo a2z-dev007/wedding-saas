@@ -179,6 +179,7 @@ export function InvitationEditor({ initialData, invitationId, initialTemplateId 
   const [religionFilter, setReligionFilter] = useState<"all" | "hindu" | "muslim">("all");
 
   const templateOptions = [
+    { id: "noor-e-nikah", name: "Noor-e-Nikah", style: "Sacred Elegance", religion: ["muslim"], religionLabel: "Muslim", color: "border-[#D4AF37] bg-[#FAF8F5]" },
     { id: "crimson-royale", name: "Crimson Royale", style: "Royal Court", religion: ["hindu"], religionLabel: "Hindu", color: "border-[#7c2c3b] bg-[#fff5f6]" },
     { id: "royal-lotus", name: "Royal Lotus", style: "Royal Palace", religion: ["hindu"], religionLabel: "Hindu", color: "border-[#D4AF37] bg-[#FAF7F0]" },
     { id: "emerald-noir", name: "Emerald Noir", style: "Luxury Dark", religion: ["muslim"], religionLabel: "Muslim", color: "border-[#082F27] bg-[#E8F0ED]" },

@@ -15,6 +15,17 @@ const FILTERS = ["All", "Hindu", "Muslim", "Best Sellers", "New"] as const;
 
 const CATALOG: TemplateCatalogItem[] = [
   {
+    id: TEMPLATE_META["noor-e-nikah"].id,
+    name: TEMPLATE_META["noor-e-nikah"].name,
+    description: TEMPLATE_META["noor-e-nikah"].description,
+    tag: "Featured",
+    gradient: TEMPLATE_META["noor-e-nikah"].gradient,
+    leftScreen: "hero",
+    accentClass: "text-amber-800",
+    religion: TEMPLATE_META["noor-e-nikah"].religion,
+    religionLabel: TEMPLATE_META["noor-e-nikah"].religionLabel,
+  },
+  {
     id: TEMPLATE_META["crimson-royale"].id,
     name: TEMPLATE_META["crimson-royale"].name,
     description: TEMPLATE_META["crimson-royale"].description,

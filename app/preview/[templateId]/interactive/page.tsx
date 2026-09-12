@@ -9,11 +9,13 @@ import { Sliders, ArrowLeft, CreditCard } from "@phosphor-icons/react";
 import { getMockInvitationData } from "@/lib/template-meta";
 import RoyalLotus from "@/components/templates/RoyalLotus";
 import CrimsonRoyale from "@/components/templates/CrimsonRoyale";
+import NoorNikah from "@/components/templates/NoorNikah";
 import EmeraldNoir from "@/components/templates/EmeraldNoir";
 import RoyalElegance from "@/components/templates/RoyalElegance";
 import ModernMinimal from "@/components/templates/ModernMinimal";
 
 const templatesMap: Record<string, React.ComponentType<any>> = {
+  "noor-e-nikah": NoorNikah,
   "crimson-royale": CrimsonRoyale,
   "royal-lotus": RoyalLotus,
   "emerald-noir": EmeraldNoir,
@@ -29,12 +31,12 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
   const searchParams = useSearchParams();
   const isEmbed = searchParams.get("embed") === "1";
 
-  const [brideName, setBrideName] = useState("Ananya");
-  const [groomName, setGroomName] = useState("Shubham");
+  const [brideName, setBrideName] = useState(templateId === "noor-e-nikah" ? "Diya" : "Ananya");
+  const [groomName, setGroomName] = useState(templateId === "noor-e-nikah" ? "Shaan" : "Shubham");
   const [isOpenPanel, setIsOpenPanel] = useState(!isEmbed);
   const [hasOpenedDoors, setHasOpenedDoors] = useState(false);
 
-  const SelectedTemplate = templatesMap[templateId] || CrimsonRoyale;
+  const SelectedTemplate = templatesMap[templateId] || NoorNikah;
   const mockData = getMockInvitationData(brideName, groomName);
   const musicTrack = "/templates/crimson-royale/music.mp3";
 
@@ -51,7 +53,7 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
 
   return (
     <div className={`relative min-h-[100dvh] bg-[#380D17] overflow-x-hidden ${isEmbed ? "overflow-y-auto" : ""}`}>
-      {templateId === "royal-lotus" || templateId === "crimson-royale" ? (
+      {templateId === "royal-lotus" || templateId === "crimson-royale" || templateId === "noor-e-nikah" ? (
         <SelectedTemplate data={mockData} />
       ) : (
         <>
@@ -107,7 +109,7 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-1.5">
-                  {["royal-lotus", "emerald-noir", "royal-elegance", "modern-minimal"].map((id) => (
+                  {["noor-e-nikah", "crimson-royale", "royal-lotus", "emerald-noir", "royal-elegance", "modern-minimal"].map((id) => (
                     <Link href={`/preview/${id}/interactive`} key={id}>
                       <button
                         className={`w-full py-1 text-[8px] uppercase font-bold rounded ${
