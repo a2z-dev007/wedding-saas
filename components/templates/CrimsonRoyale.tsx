@@ -362,33 +362,49 @@ export default function CrimsonRoyale({
           <div className={`gate ${isOpening ? "gate--opening" : ""}`}>
             <div className="gate__door gate__door--left">
               <div className="gate__panel-border" />
-              <div className="gate__arch" />
+              <div className="gate__seam-glow" />
             </div>
 
             <div className="gate__door gate__door--right">
               <div className="gate__panel-border" />
-              <div className="gate__arch" />
+              <div className="gate__seam-glow" />
             </div>
 
             <div className="gate__center">
-              <span className="gate__heart">♥</span>
-              <h2 className="gate__invited">You're Invited</h2>
+              {/* Auspicious Royal Header */}
+              <div className="gate__header">
+                <span className="gate__emblem">✦ ⚜ ✦</span>
+                <p className="gate__eyebrow">THE WEDDING CELEBRATION OF</p>
+                <h1 className="gate__names">
+                  {brideName} <span className="gate__amp">&</span> {groomName}
+                </h1>
+                <p className="gate__invitation-text">Cordially invite you to celebrate our union</p>
+              </div>
 
-              <button 
-                className="gate__seal"
-                onClick={handleOpenInvitation}
-                aria-label="Open the wedding invitation"
-                style={{ background: "transparent", border: "none", boxShadow: "none", padding: 0 }}
-              >
-                <div style={{ width: 140, height: 140, margin: "0 auto" }}>
-                  <Lottie src={crimsonRoyalSeal} loop autoplay />
-                </div>
-                <span className="gate__seal-text" style={{ marginTop: "-8px", display: "inline-block", background: "rgba(14,2,4,0.85)", padding: "4px 14px", borderRadius: "12px", border: "1px solid var(--gold)" }}>
-                  TAP TO OPEN
-                </span>
-              </button>
+              {/* Royal Wax Seal Tap Interaction */}
+              <div className="gate__seal-wrapper">
+                <button 
+                  className="gate__seal-btn"
+                  onClick={handleOpenInvitation}
+                  aria-label="Open the wedding invitation"
+                  type="button"
+                >
+                  <div className="gate__seal-lottie-container">
+                    <Lottie src={crimsonRoyalSeal} loop autoplay />
+                  </div>
+                  <div className="gate__seal-pill">
+                    <span className="gate__seal-sparkle">✦</span>
+                    <span className="gate__seal-pill-text">TAP TO OPEN</span>
+                    <span className="gate__seal-sparkle">✦</span>
+                  </div>
+                </button>
+              </div>
 
-              <p className="gate__hint">{brideName} & {groomName} ·</p>
+              {/* Date & Tap hint */}
+              <div className="gate__footer-hint">
+                <p className="gate__date-text">{formattedDate}</p>
+                <p className="gate__subhint">Touch royal seal to unfold the invitation & music</p>
+              </div>
             </div>
           </div>
         )}
