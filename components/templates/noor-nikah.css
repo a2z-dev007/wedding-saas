@@ -48,8 +48,8 @@
 /* Soft Ambient Emerald & Gold Backdrop Glow */
 .tmpl-noor-nikah .noor-env-backdrop-glow {
   position: absolute;
-  width: clamp(340px, 75vw, 560px);
-  height: clamp(340px, 75vw, 560px);
+  width: clamp(320px, 75vw, 540px);
+  height: clamp(320px, 75vw, 540px);
   border-radius: 50%;
   background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(22, 62, 45, 0.35) 50%, transparent 75%);
   filter: blur(50px);
@@ -98,46 +98,61 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 1.25rem 1rem;
+  padding: 0.75rem 1rem;
 }
 
 .tmpl-noor-nikah .noor-env-top-bar {
   text-align: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.4rem;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tmpl-noor-nikah .noor-env-container:has(.noor-envelope-scene.is-card-up) .noor-env-top-bar {
+  opacity: 0;
+  transform: translateY(-12px);
+  pointer-events: none;
 }
 
 .tmpl-noor-nikah .noor-env-bismillah {
   font-family: var(--noor-font-arabic);
-  font-size: clamp(1.9rem, 5vw, 2.5rem);
+  font-size: clamp(1.5rem, 4.2vw, 2.2rem);
   color: var(--noor-gold);
-  line-height: 1.2;
-  margin: 0 0 0.25rem 0;
+  line-height: 1.15;
+  margin: 0 0 0.15rem 0;
   filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.7));
 }
 
 .tmpl-noor-nikah .noor-env-sub {
   font-family: var(--noor-font-display);
-  font-size: clamp(0.62rem, 1.8vw, 0.75rem);
-  letter-spacing: 0.32em;
+  font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: rgba(244, 239, 230, 0.85);
   margin: 0;
 }
 
-/* 3D Envelope Master Scene */
+/* 3D Envelope Master Scene (Scaled for Mobile Headroom) */
 .tmpl-noor-nikah .noor-envelope-scene {
   position: relative;
-  width: clamp(310px, 86vw, 410px);
-  height: clamp(460px, 68vh, 560px);
+  width: clamp(285px, 84vw, 360px);
+  height: clamp(370px, 48vh, 440px);
   perspective: 1600px;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+  margin-top: clamp(0.75rem, 3vh, 1.8rem);
+}
+
+@media (min-width: 768px) {
+  .tmpl-noor-nikah .noor-envelope-scene {
+    width: 380px;
+    height: 480px;
+  }
 }
 
 .tmpl-noor-nikah .noor-envelope-scene:hover {
-  transform: translateY(-6px) scale(1.018);
+  transform: translateY(-4px) scale(1.015);
 }
 
 .tmpl-noor-nikah .noor-env-case {
@@ -156,7 +171,7 @@
 /* Interior Deep Emerald Damask Lining */
 .tmpl-noor-nikah .noor-env-interior {
   position: absolute;
-  inset: 5px;
+  inset: 4px;
   border-radius: 12px;
   background: linear-gradient(145deg, #0A2216 0%, #133D2A 50%, #071A10 100%);
   overflow: hidden;
@@ -170,81 +185,107 @@
   background-image: 
     radial-gradient(#D4AF37 1.2px, transparent 1.2px), 
     radial-gradient(#E8D5B5 0.8px, transparent 0.8px);
-  background-size: 22px 22px;
-  background-position: 0 0, 11px 11px;
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
   opacity: 0.3;
 }
 
-/* Inner Gilded Royal Invitation Card (Slides Up on Open) */
+/* Inner Gilded Royal Invitation Card (Slides Up on Open with Perfect Proportions) */
 .tmpl-noor-nikah .noor-env-card-insert {
   position: absolute;
-  top: 30px;
+  top: 8px;
   left: 4%;
   width: 92%;
-  height: 90%;
+  height: 94%;
   z-index: 4;
-  transform: translateY(0);
-  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 1.6s ease;
+  transform: translateY(16px) scale(0.96);
+  opacity: 0;
+  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease, box-shadow 1.5s ease;
   pointer-events: none;
 }
 
+.tmpl-noor-nikah .noor-envelope-scene.is-flap-open .noor-env-card-insert {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 .tmpl-noor-nikah .noor-envelope-scene.is-card-up .noor-env-card-insert {
-  transform: translateY(-56%) scale(1.04);
-  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7), 0 0 50px rgba(212, 175, 55, 0.55);
+  transform: translateY(-44%) scale(1.02);
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.8), 0 0 45px rgba(212, 175, 55, 0.55);
+  opacity: 1;
 }
 
 .tmpl-noor-nikah .noor-env-card-inner {
   width: 100%;
   height: 100%;
   border-radius: 12px;
-  background: linear-gradient(155deg, #FFFFFF 0%, #FAF7F0 45%, #F4ECE0 100%);
+  background: linear-gradient(155deg, #FFFFFF 0%, #FAF8F2 45%, #F4ECE0 100%);
   border: 1.5px solid #D4AF37;
-  outline: 1px solid rgba(212, 175, 55, 0.45);
-  outline-offset: -6px;
-  padding: 1.4rem 1.15rem;
+  outline: 1px solid rgba(212, 175, 55, 0.5);
+  outline-offset: -5px;
+  padding: clamp(0.75rem, 1.8vh, 1.1rem) 0.85rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   text-align: center;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.tmpl-noor-nikah .noor-card-content-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: clamp(0.3rem, 1vh, 0.55rem);
 }
 
 .tmpl-noor-nikah .noor-card-arch-top {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.15rem;
   width: 100%;
 }
 
 .tmpl-noor-nikah .noor-card-bismillah-mini {
   font-family: var(--noor-font-arabic);
-  font-size: 1.35rem;
+  font-size: clamp(1.1rem, 3.2vw, 1.35rem);
   color: #9E741B;
-  line-height: 1.2;
+  line-height: 1.15;
   font-weight: 700;
+  filter: drop-shadow(0 1px 2px rgba(212, 175, 55, 0.3));
 }
 
 .tmpl-noor-nikah .noor-card-divider-line {
-  width: 70px;
+  width: 50px;
   height: 1.5px;
   background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+  margin: 0.05rem 0;
 }
 
 .tmpl-noor-nikah .noor-card-tagline {
   font-family: var(--noor-font-display);
-  font-size: 0.62rem;
-  letter-spacing: 0.26em;
+  font-size: clamp(0.5rem, 1.5vw, 0.62rem);
+  letter-spacing: 0.22em;
   color: #7A5B18;
   font-weight: 600;
-  margin: 0.2rem 0 0.35rem;
   text-transform: uppercase;
+}
+
+.tmpl-noor-nikah .noor-card-center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.12rem;
+  width: 100%;
 }
 
 .tmpl-noor-nikah .noor-card-couple-names {
   font-family: var(--noor-font-serif);
-  font-size: clamp(1.5rem, 5vw, 1.85rem);
+  font-size: clamp(1.35rem, 4.2vw, 1.75rem);
   font-weight: 600;
   color: #1E120D;
   margin: 0;
@@ -254,54 +295,64 @@
 .tmpl-noor-nikah .noor-card-couple-names .noor-ampersand {
   font-family: var(--noor-font-script);
   color: #D4AF37;
-  font-size: 2.1rem;
+  font-size: clamp(1.6rem, 4.6vw, 1.95rem);
   font-weight: normal;
   vertical-align: middle;
+  margin: 0 0.15rem;
 }
 
 .tmpl-noor-nikah .noor-card-ornament {
   color: #D4AF37;
-  font-size: 0.8rem;
-  letter-spacing: 0.35em;
-  margin: 0.35rem 0;
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  margin: 0.05rem 0;
 }
 
 .tmpl-noor-nikah .noor-card-date {
   font-family: var(--noor-font-display);
-  font-size: 0.78rem;
+  font-size: clamp(0.65rem, 1.9vw, 0.76rem);
   font-weight: 700;
   color: #2D1A14;
-  margin: 0 0 0.15rem;
-  letter-spacing: 0.05em;
+  margin: 0;
+  letter-spacing: 0.04em;
 }
 
 .tmpl-noor-nikah .noor-card-venue {
   font-family: var(--noor-font-body);
-  font-size: 0.7rem;
+  font-size: clamp(0.58rem, 1.7vw, 0.68rem);
   font-weight: 500;
   color: #4D3D33;
   margin: 0;
   max-width: 90%;
-  line-height: 1.35;
+  line-height: 1.25;
+}
+
+.tmpl-noor-nikah .noor-card-verse-box {
+  margin-top: 0.15rem;
+  padding-top: 0.25rem;
+  border-top: 1px dashed rgba(212, 175, 55, 0.45);
+  width: 92%;
+  text-align: center;
 }
 
 .tmpl-noor-nikah .noor-card-quran-verse {
   font-family: var(--noor-font-serif);
   font-style: italic;
-  font-size: 0.75rem;
+  font-size: clamp(0.62rem, 1.8vw, 0.72rem);
   color: #8C6A1E;
-  margin: 0.35rem 0 0;
+  margin: 0;
+  line-height: 1.25;
 }
 
-/* Solid Opaque Front Pocket Assembly */
+/* Solid Front Pocket Assembly (Card rises from behind this pocket) */
 .tmpl-noor-nikah .noor-env-front-pocket {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   width: 100%;
-  height: 58%;
-  z-index: 6;
+  height: 65%;
+  z-index: 10;
   pointer-events: none;
 }
 
@@ -329,7 +380,7 @@
   pointer-events: none;
   mix-blend-mode: screen;
   opacity: 0;
-  z-index: 12;
+  z-index: 15;
 }
 
 .tmpl-noor-nikah .noor-envelope-scene.is-lighting .noor-env-light-sweep {
@@ -350,7 +401,7 @@
   opacity: 0;
   pointer-events: none;
   mix-blend-mode: screen;
-  z-index: 12;
+  z-index: 15;
 }
 
 .tmpl-noor-nikah .noor-envelope-scene.is-lighting .noor-env-gold-halo {
@@ -363,18 +414,18 @@
   100% { opacity: 0; transform: scale(1.65); }
 }
 
-/* Top 3D Folding Flap */
+/* Top 3D Folding Flap (Hinged at y=0, folds 180deg backward behind card) */
 .tmpl-noor-nikah .noor-env-flap-top {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
-  height: 52%;
+  height: 42%;
   transform-origin: top center;
   transform-style: preserve-3d;
-  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-  z-index: 8;
+  transition: transform 1.3s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 20;
   pointer-events: none;
 }
 
@@ -392,70 +443,59 @@
   transform: rotateX(0deg);
 }
 
-.tmpl-noor-nikah .noor-flap-top-svg {
+.tmpl-noor-nikah .noor-flap-top-back {
+  transform: rotateX(180deg);
+  filter: drop-shadow(0 -4px 10px rgba(0, 0, 0, 0.55));
+}
+
+.tmpl-noor-nikah .noor-flap-svg {
   width: 100%;
   height: 100%;
   display: block;
 }
 
-.tmpl-noor-nikah .noor-flap-top-back {
-  transform: rotateX(180deg);
-  background: linear-gradient(145deg, #0A2216 0%, #15452F 60%, #071911 100%);
-  border-radius: 12px 12px 0 0;
-  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.7);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-}
-
-.tmpl-noor-nikah .noor-flap-back-pattern {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(#D4AF37 1px, transparent 1px);
-  background-size: 15px 15px;
-  opacity: 0.35;
-}
-
 .tmpl-noor-nikah .noor-envelope-scene.is-flap-open .noor-env-flap-top {
-  transform: rotateX(178deg);
+  transform: rotateX(180deg);
   z-index: 2;
 }
 
 /* Active Opening Animation for Master Scene */
 .tmpl-noor-nikah .noor-envelope-scene.is-opening {
-  transform: scale(1.12) translateY(-30px);
+  transform: scale(1.08) translateY(-15px);
   opacity: 0;
-  filter: brightness(1.25);
+  filter: brightness(1.2);
   transition: 
-    transform 1.6s cubic-bezier(0.16, 1, 0.3, 1), 
-    opacity 0.9s ease 0.4s, 
-    filter 0.9s ease;
+    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), 
+    opacity 0.8s ease 0.3s, 
+    filter 0.8s ease;
   pointer-events: none;
 }
 
 /* Central 24K Gold Lacquer Wax Seal Anchor */
 .tmpl-noor-nikah .noor-wax-seal-anchor {
   position: absolute;
-  top: 50%;
+  top: 38%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 20;
+  z-index: 25;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tmpl-noor-nikah .noor-envelope-scene.is-flap-open .noor-wax-seal-anchor {
   opacity: 0;
-  transform: translate(-50%, -95%) scale(1.2);
-  filter: brightness(1.5);
+  transform: translate(-50%, -75%) scale(1.3);
+  filter: brightness(1.6);
   pointer-events: none;
 }
 
 .tmpl-noor-nikah .noor-wax-seal-body {
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: 86px;
+  height: 86px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -463,42 +503,38 @@
 
 .tmpl-noor-nikah .noor-seal-aura {
   position: absolute;
-  inset: -14px;
+  inset: -8px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.5) 0%, rgba(212, 175, 55, 0.22) 50%, transparent 75%);
-  animation: sealAuraPulse 2.5s ease-in-out infinite;
-  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 220, 100, 0.8) 0%, rgba(212, 175, 55, 0.35) 50%, transparent 70%);
+  animation: noorSealPulse 3s ease-in-out infinite alternate;
+  filter: blur(4px);
 }
 
-@keyframes sealAuraPulse {
-  0%, 100% { transform: scale(0.92); opacity: 0.6; }
-  50% { transform: scale(1.15); opacity: 1; }
+@keyframes noorSealPulse {
+  0% { transform: scale(0.92); opacity: 0.6; }
+  100% { transform: scale(1.12); opacity: 1; }
 }
 
 .tmpl-noor-nikah .noor-seal-lacquer {
-  width: 88px;
-  height: 88px;
+  position: relative;
+  width: 78px;
+  height: 78px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #FFF5D2 0%, #D4AF37 40%, #A67D1E 75%, #5E4306 100%);
+  background: radial-gradient(circle at 35% 30%, #FFF4CC 0%, #F5D36C 25%, #D4AF37 55%, #9E741B 85%, #5E430B 100%);
   box-shadow: 
-    0 12px 28px rgba(0, 0, 0, 0.55), 
-    0 0 24px rgba(212, 175, 55, 0.5),
-    inset 0 2px 4px rgba(255, 255, 255, 0.8),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+    0 10px 25px rgba(0, 0, 0, 0.55), 
+    0 0 20px rgba(212, 175, 55, 0.7),
+    inset 0 3px 6px rgba(255, 255, 255, 0.8),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2.5px solid #FDF3CD;
-  transition: transform 0.3s ease;
-}
-
-.tmpl-noor-nikah .noor-envelope-scene:hover .noor-seal-lacquer {
-  transform: scale(1.08);
+  border: 1.5px solid #FFECA8;
 }
 
 .tmpl-noor-nikah .noor-seal-bezel {
-  width: 70px;
-  height: 70px;
+  width: 62px;
+  height: 62px;
   border-radius: 50%;
   border: 1.5px dashed rgba(255, 255, 255, 0.75);
   display: flex;
@@ -510,14 +546,14 @@
 }
 
 .tmpl-noor-nikah .noor-seal-crown {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   line-height: 1;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
 }
 
 .tmpl-noor-nikah .noor-seal-monogram {
   font-family: var(--noor-font-script);
-  font-size: 1.55rem;
+  font-size: 1.45rem;
   color: #FFFFFF;
   line-height: 1;
   font-weight: bold;
@@ -526,7 +562,7 @@
 }
 
 .tmpl-noor-nikah .noor-seal-wreath {
-  font-size: 0.55rem;
+  font-size: 0.52rem;
   color: #FFF8DC;
   letter-spacing: 0.12em;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -538,12 +574,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
+  gap: 0.4rem;
   background: rgba(255, 253, 248, 0.96);
   border: 1.5px solid var(--noor-gold);
   border-radius: 9999px;
-  padding: 6px 18px;
-  margin-top: 0.85rem;
+  padding: 5px 16px;
+  margin-top: 0.65rem;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25), 0 0 16px rgba(212, 175, 55, 0.45);
   animation: noorTapPillGlow 2.5s ease-in-out infinite;
   backdrop-filter: blur(6px);
@@ -563,7 +599,7 @@
 
 .tmpl-noor-nikah .noor-tap-pill-text {
   font-family: var(--noor-font-display);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -573,399 +609,1179 @@
 /* Envelope Bottom Bar (Couple Names & Hint) */
 .tmpl-noor-nikah .noor-env-bottom-bar {
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   position: relative;
   z-index: 10;
 }
 
 .tmpl-noor-nikah .noor-env-names {
   font-family: var(--noor-font-serif);
-  font-size: clamp(1.4rem, 4vw, 1.7rem);
+  font-size: clamp(1.35rem, 3.8vw, 1.65rem);
   font-style: italic;
   color: #FFF8EA !important;
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.15rem 0;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85), 0 0 20px rgba(212, 175, 55, 0.5) !important;
 }
 
 .tmpl-noor-nikah .noor-env-hint {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: #E8D6B7 !important;
   letter-spacing: 0.04em;
   margin: 0;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9) !important;
 }
 
-
-
 /* ========================================================================= */
-/* 2. HERO SECTION — GRAND PALACE ARCHWAY OVERLOOKING MOSQUE                */
+/* 2. HERO SECTION — REGAL MUSLIM COUPLE IN MUGHAL PALACE ARCH             */
+/* MOBILE-FIRST ARCHITECTURE: Leaves Couple Faces 100% Unobstructed          */
 /* ========================================================================= */
 .tmpl-noor-nikah .noor-hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: flex-start;
   text-align: center;
-  padding: 4.5rem 1.5rem 3rem 1.5rem;
+  padding: clamp(0.75rem, 2.5vh, 1.5rem) 1rem clamp(1.2rem, 3vh, 2rem) 1rem;
   overflow: hidden;
-  background-color: #FAF6EE;
+  background-color: #0B1E16;
 }
 
-.tmpl-noor-nikah .noor-hero-bg {
+/* Background Wrapper with Parallax & Subtle Ken-Burns Breathing */
+.tmpl-noor-nikah .noor-hero-bg-wrapper {
   position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center top;
+  inset: -6%;
+  width: 112%;
+  height: 112%;
   z-index: 1;
+  pointer-events: none;
 }
 
+.tmpl-noor-nikah .noor-hero-picture {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tmpl-noor-nikah .noor-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 8%;
+  animation: heroImgBreathe 22s ease-in-out infinite alternate;
+}
+
+@keyframes heroImgBreathe {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+/* Atmospheric Gradient Overlays */
 .tmpl-noor-nikah .noor-hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(251, 249, 245, 0.2) 0%,
-    rgba(251, 249, 245, 0.1) 40%,
-    rgba(251, 249, 245, 0.6) 80%,
-    rgba(251, 249, 245, 0.95) 100%
+    rgba(7, 22, 16, 0.45) 0%,
+    rgba(7, 22, 16, 0.05) 30%,
+    rgba(12, 32, 24, 0.35) 68%,
+    rgba(251, 249, 245, 0.98) 100%
   );
   z-index: 2;
   pointer-events: none;
 }
 
-.tmpl-noor-nikah .noor-hero-content {
+.tmpl-noor-nikah .noor-hero-sunset-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 65%, rgba(255, 210, 120, 0.25) 0%, rgba(212, 175, 55, 0.1) 50%, transparent 75%);
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* Hanging Swaying Moroccan Lanterns */
+.tmpl-noor-nikah .noor-hero-lantern {
+  position: absolute;
+  top: 0;
+  z-index: 4;
+  pointer-events: none;
+  transform-origin: top center;
+}
+
+.tmpl-noor-nikah .lantern-left {
+  left: clamp(10px, 3.5vw, 36px);
+  animation: lanternSwayLeft 6.5s ease-in-out infinite alternate;
+}
+
+.tmpl-noor-nikah .lantern-right {
+  right: clamp(10px, 3.5vw, 36px);
+  animation: lanternSwayRight 7.5s ease-in-out infinite alternate 1.2s;
+}
+
+@keyframes lanternSwayLeft {
+  0% { transform: rotate(-5deg); }
+  100% { transform: rotate(5deg); }
+}
+
+@keyframes lanternSwayRight {
+  0% { transform: rotate(4deg); }
+  100% { transform: rotate(-6deg); }
+}
+
+.tmpl-noor-nikah .noor-lantern-cord {
+  width: 1.5px;
+  height: clamp(28px, 6vh, 60px);
+  background: linear-gradient(to bottom, #7A5B18, #D4AF37);
+  margin: 0 auto;
+}
+
+.tmpl-noor-nikah .noor-lantern-body {
+  width: clamp(22px, 4.5vw, 32px);
+  height: clamp(34px, 6.5vw, 48px);
+  background: radial-gradient(circle at 40% 40%, #FFF5D2 0%, #D4AF37 45%, #7D5D19 85%, #3D2B06 100%);
+  border-radius: 6px 6px 14px 14px;
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.6), 0 6px 14px rgba(0, 0, 0, 0.4);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 245, 210, 0.8);
+}
+
+.tmpl-noor-nikah .noor-lantern-flame {
+  width: 8px;
+  height: 12px;
+  background: radial-gradient(circle at 50% 30%, #FFFFFF 0%, #FFE680 40%, #FF9900 80%, transparent 100%);
+  border-radius: 50% 50% 35% 35%;
+  filter: drop-shadow(0 0 7px #FFD700);
+  animation: flameFlicker 2s ease-in-out infinite alternate;
+}
+
+@keyframes flameFlicker {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+
+/* Floating Jasmine & Rose Petals Parallax Layer */
+.tmpl-noor-nikah .noor-hero-petals-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.tmpl-noor-nikah .noor-hero-petal {
+  position: absolute;
+  top: -25px;
+  width: 14px;
+  height: 18px;
+  border-radius: 50% 0 50% 50%;
+  animation: petalDriftDown linear infinite;
+  opacity: 0.8;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+.tmpl-noor-nikah .petal-0 {
+  background: radial-gradient(circle at 35% 35%, #FFDFE5 0%, #F59DB1 60%, #D44D70 100%);
+}
+
+.tmpl-noor-nikah .petal-1 {
+  background: radial-gradient(circle at 35% 35%, #FFFFFF 0%, #FFF4DE 60%, #E8D5B5 100%);
+  width: 12px;
+  height: 16px;
+}
+
+.tmpl-noor-nikah .petal-2 {
+  background: radial-gradient(circle at 35% 35%, #FFE9B3 0%, #D4AF37 70%, #9E741B 100%);
+  width: 10px;
+  height: 14px;
+}
+
+.tmpl-noor-nikah .petal-3 {
+  background: radial-gradient(circle at 35% 35%, #FFE1EA 0%, #E87A9A 70%, #C43862 100%);
+  width: 15px;
+  height: 20px;
+}
+
+@keyframes petalDriftDown {
+  0% {
+    transform: translateY(0) rotate(0deg) translateX(0);
+    opacity: 0;
+  }
+  15% { opacity: 0.85; }
+  85% { opacity: 0.85; }
+  100% {
+    transform: translateY(110vh) rotate(540deg) translateX(45px);
+    opacity: 0;
+  }
+}
+
+/* TOP ARCH HEADER BADGE (Compact & Non-Obtrusive on Mobile) */
+.tmpl-noor-nikah .noor-hero-top-badge {
   position: relative;
   z-index: 5;
-  max-width: 620px;
-  margin-top: 1rem;
-  padding: 2rem 1.5rem;
-  background: rgba(255, 253, 248, 0.88);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 0 0 30px rgba(212, 175, 55, 0.2);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.4rem 1.1rem;
+  background: rgba(11, 30, 22, 0.52);
+  border: 1px solid rgba(212, 175, 55, 0.55);
+  border-radius: 9999px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3), 0 0 16px rgba(212, 175, 55, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  margin-top: clamp(0.2rem, 1vh, 0.6rem);
+  max-width: 90%;
+}
+
+.tmpl-noor-nikah .noor-hero-bismillah {
+  font-family: var(--noor-font-arabic);
+  font-size: clamp(1.45rem, 4.8vw, 2rem);
+  color: #FFF2CC;
+  line-height: 1.15;
+  margin: 0;
+  font-weight: 700;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6));
+}
+
+.tmpl-noor-nikah .noor-hero-top-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.15rem;
 }
 
 .tmpl-noor-nikah .noor-hero-eyebrow {
   font-family: var(--noor-font-display);
-  font-size: clamp(0.65rem, 2vw, 0.78rem);
+  font-size: clamp(0.55rem, 1.6vw, 0.68rem);
   font-weight: 600;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--noor-gold-dark);
-  margin-bottom: 0.5rem;
+  color: #E8D5B5;
+  margin: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
-.tmpl-noor-nikah .noor-hero-title {
-  font-family: var(--noor-font-script);
-  font-size: clamp(2.8rem, 8vw, 4.5rem);
-  color: var(--noor-espresso);
-  line-height: 1;
-  margin: 0.2rem 0 0.8rem 0;
-  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.8);
-}
-
-.tmpl-noor-nikah .noor-hero-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.8rem;
-  color: var(--noor-gold);
-  margin: 0.8rem 0;
-}
-
-.tmpl-noor-nikah .noor-hero-divider-line {
-  width: 45px;
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--noor-gold), transparent);
+/* BOTTOM FLOATING ROYAL CARD (Leaves Couple Faces 100% Unobstructed) */
+.tmpl-noor-nikah .noor-hero-bottom-card {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: clamp(1.6rem, 3.8vh, 2.2rem);
+  padding: clamp(0.9rem, 2.2vh, 1.35rem) clamp(1rem, 3.2vw, 1.6rem);
+  background: rgba(255, 253, 248, 0.9);
+  border: 1.5px solid #D4AF37;
+  outline: 1px solid rgba(212, 175, 55, 0.45);
+  outline-offset: -5px;
+  border-radius: 20px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35), 0 0 35px rgba(212, 175, 55, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-align: center;
 }
 
 .tmpl-noor-nikah .noor-hero-names {
   font-family: var(--noor-font-serif);
-  font-size: clamp(2rem, 5.5vw, 3.2rem);
-  font-style: italic;
-  font-weight: 500;
-  color: var(--noor-espresso);
-  margin: 0.4rem 0;
-  line-height: 1.2;
+  font-size: clamp(1.8rem, 5.8vw, 2.6rem);
+  font-weight: 600;
+  color: #1E120D;
+  margin: 0;
+  line-height: 1.15;
 }
 
 .tmpl-noor-nikah .noor-hero-amp {
   font-family: var(--noor-font-script);
-  font-size: 1.8rem;
-  color: var(--noor-gold);
-  padding: 0 0.4rem;
+  font-size: clamp(2rem, 6.2vw, 2.7rem);
+  color: #D4AF37;
+  padding: 0 0.25rem;
+  font-weight: normal;
+  vertical-align: middle;
 }
 
-.tmpl-noor-nikah .noor-hero-date {
+.tmpl-noor-nikah .noor-hero-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.tmpl-noor-nikah .noor-hero-date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(245, 238, 224, 0.95);
+  border: 1px solid #D4AF37;
+  border-radius: 9999px;
+  padding: 4px 14px;
   font-family: var(--noor-font-display);
-  font-size: clamp(1rem, 3vw, 1.3rem);
+  font-size: clamp(0.65rem, 1.8vw, 0.74rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #2D1A14;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.tmpl-noor-nikah .noor-hero-venue-tag {
+  font-family: var(--noor-font-body);
+  font-size: 0.72rem;
+  color: #4D3D33;
+  margin: 0;
   font-weight: 600;
-  letter-spacing: 0.18em;
-  color: var(--noor-gold-dark);
-  margin-top: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Floating Scroll Cue */
+.tmpl-noor-nikah .noor-hero-scroll-cue {
+  position: absolute;
+  bottom: clamp(0.35rem, 1vh, 0.65rem);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  pointer-events: none;
+}
+
+.tmpl-noor-nikah .noor-scroll-cue-text {
+  font-family: var(--noor-font-display);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #FFF8EA;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 0 10px rgba(212, 175, 55, 0.6);
+}
+
+.tmpl-noor-nikah .noor-scroll-cue-arrow {
+  font-size: 0.95rem;
+  color: #D4AF37;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.85));
+}
+
+/* Floating Music Control - Mobile First */
+.tmpl-noor-nikah .noor-music-toggle {
+  position: fixed;
+  bottom: clamp(1rem, 2.5vh, 2rem);
+  right: clamp(1rem, 2.5vw, 2rem);
+  z-index: 900;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #241619;
+  border: 1.5px solid var(--noor-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 12px rgba(212, 175, 55, 0.3);
+  color: var(--noor-gold);
+  transition: transform 0.3s ease, background 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tmpl-noor-nikah .noor-music-toggle:hover {
+  transform: scale(1.08);
+}
+
+/* DESKTOP ENHANCEMENTS */
+@media (min-width: 768px) {
+  .tmpl-noor-nikah .noor-hero {
+    padding: 2rem 2rem 2.5rem 2rem;
+  }
+
+  .tmpl-noor-nikah .noor-hero-img {
+    object-position: center 20%;
+  }
+
+  .tmpl-noor-nikah .noor-hero-top-badge {
+    padding: 0.6rem 2rem;
+    margin-top: 1rem;
+  }
+
+  .tmpl-noor-nikah .noor-hero-bismillah {
+    font-size: 2.2rem;
+  }
+
+  .tmpl-noor-nikah .noor-hero-eyebrow {
+    font-size: 0.72rem;
+  }
+
+  .tmpl-noor-nikah .noor-hero-bottom-card {
+    max-width: 580px;
+    padding: 1.5rem 2.2rem;
+    margin-bottom: 3rem;
+  }
+
+  .tmpl-noor-nikah .noor-hero-names {
+    font-size: 2.85rem;
+  }
+
+  .tmpl-noor-nikah .noor-hero-date-badge {
+    font-size: 0.78rem;
+    padding: 6px 18px;
+  }
+
+  .tmpl-noor-nikah .noor-hero-venue-tag {
+    font-size: 0.78rem;
+  }
+
+  .tmpl-noor-nikah .noor-music-toggle {
+    width: 52px;
+    height: 52px;
+    bottom: 2rem;
+    right: 2rem;
+  }
 }
 
 /* ========================================================================= */
-/* 3. SACRED BLESSING & WELCOME SECTION                                      */
+/* 3. SECTION HEADERS & SHARED MODERN TOKENS                                 */
 /* ========================================================================= */
 .tmpl-noor-nikah .noor-section {
   position: relative;
-  padding: 5rem 1.5rem;
+  padding: clamp(3.5rem, 8vh, 6.5rem) clamp(1rem, 4vw, 2.5rem);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+.tmpl-noor-nikah .noor-section-header {
+  margin-bottom: clamp(2rem, 4vh, 3.2rem);
+  max-width: 640px;
+}
+
+.tmpl-noor-nikah .noor-section-title {
+  font-family: var(--noor-font-serif);
+  font-size: clamp(2rem, 5.2vw, 3.2rem);
+  font-weight: 600;
+  color: var(--noor-espresso);
+  margin: 0.35rem 0 0.2rem 0;
+  line-height: 1.15;
+}
+
+.tmpl-noor-nikah .noor-section-filigree {
+  color: var(--noor-gold);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  margin-top: 0.35rem;
+}
+
+/* ========================================================================= */
+/* 4. SACRED BLESSING & MODERN BENTO COUNTDOWN                               */
+/* ========================================================================= */
+.tmpl-noor-nikah .noor-welcome-section {
+  background: radial-gradient(circle at 50% 10%, #FFFFFF 0%, #FAF6ED 60%, #F3ECE0 100%);
 }
 
 .tmpl-noor-nikah .noor-welcome-card {
-  max-width: 680px;
+  max-width: 720px;
   width: 100%;
   background: #FFFDF9;
   background-image: url('/templates/noor-e-nikah/welcome-parchment.jpg');
   background-size: cover;
   background-position: center;
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  border-radius: 16px;
-  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 5vw, 3.5rem);
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.06), 0 0 25px rgba(212, 175, 55, 0.15);
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  outline: 1px solid rgba(212, 175, 55, 0.2);
+  outline-offset: -6px;
+  border-radius: 24px;
+  padding: clamp(2.2rem, 5vw, 3.8rem) clamp(1.25rem, 4.5vw, 3.2rem);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06), 0 0 30px rgba(212, 175, 55, 0.18);
   text-align: center;
   position: relative;
 }
 
+.tmpl-noor-nikah .noor-lantern-accent {
+  width: 75px;
+  height: 90px;
+  margin: 0 auto -8px auto;
+  filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.35));
+}
+
 .tmpl-noor-nikah .noor-bismillah-lg {
   font-family: var(--noor-font-arabic);
-  font-size: clamp(2rem, 6vw, 2.8rem);
+  font-size: clamp(2.1rem, 6.2vw, 3rem);
   color: var(--noor-gold-dark);
-  margin-bottom: 1.5rem;
-  line-height: 1.4;
+  margin: 0.5rem 0 1.2rem 0;
+  line-height: 1.25;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.35));
 }
 
 .tmpl-noor-nikah .noor-quote-lines {
   font-family: var(--noor-font-serif);
   font-style: italic;
-  font-size: clamp(1.3rem, 3.8vw, 1.8rem);
+  font-size: clamp(1.3rem, 3.6vw, 1.75rem);
   color: var(--noor-espresso);
-  line-height: 1.6;
-  margin-bottom: 1.8rem;
+  line-height: 1.5;
+  margin-bottom: 1.4rem;
 }
 
 .tmpl-noor-nikah .noor-quote-written {
   font-family: var(--noor-font-script);
-  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-size: clamp(1.9rem, 5.2vw, 2.7rem);
   color: var(--noor-gold-dark);
   display: block;
-  margin-top: 0.4rem;
+  margin-top: 0.3rem;
+  font-style: normal;
 }
 
 .tmpl-noor-nikah .noor-welcome-msg {
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2.2vw, 0.95rem);
   line-height: 1.8;
-  color: #5C4938;
-  max-width: 520px;
-  margin: 0 auto 2rem auto;
+  color: #5C4A3E;
+  max-width: 540px;
+  margin: 0 auto 2.2rem auto;
 }
 
-/* ========================================================================= */
-/* 4. COUNTDOWN TIMER SECTION                                               */
-/* ========================================================================= */
-.tmpl-noor-nikah .noor-countdown-wrap {
-  margin-top: 2rem;
-  text-align: center;
-  width: 100%;
+/* Modern Bento Countdown Card */
+.tmpl-noor-nikah .noor-countdown-bento {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 18px;
+  padding: 1.4rem 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04), 0 0 20px rgba(212, 175, 55, 0.12);
+  backdrop-filter: blur(8px);
 }
 
-.tmpl-noor-nikah .noor-countdown-title {
-  font-family: var(--noor-font-script);
-  font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+.tmpl-noor-nikah .noor-countdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-bottom: 1.1rem;
+}
+
+.tmpl-noor-nikah .noor-countdown-eyebrow {
+  font-family: var(--noor-font-display);
+  font-size: clamp(0.6rem, 1.8vw, 0.7rem);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
   color: var(--noor-gold-dark);
-  margin-bottom: 1.5rem;
 }
 
 .tmpl-noor-nikah .noor-timer-grid {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: clamp(0.5rem, 3vw, 1.5rem);
+  gap: clamp(0.35rem, 2vw, 1rem);
 }
 
 .tmpl-noor-nikah .noor-timer-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: clamp(55px, 16vw, 90px);
-  padding: 0.8rem 0.5rem;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  min-width: clamp(52px, 16vw, 85px);
+  padding: 0.85rem 0.5rem;
+  background: linear-gradient(145deg, #FFFFFF 0%, #FAF7F0 100%);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.tmpl-noor-nikah .noor-timer-box:hover {
+  transform: translateY(-3px);
+  border-color: var(--noor-gold);
 }
 
 .tmpl-noor-nikah .noor-timer-val {
   font-family: var(--noor-font-display);
-  font-size: clamp(1.5rem, 4.5vw, 2.4rem);
-  font-weight: 600;
+  font-size: clamp(1.4rem, 4.4vw, 2.2rem);
+  font-weight: 700;
   color: var(--noor-espresso);
   line-height: 1;
 }
 
 .tmpl-noor-nikah .noor-timer-unit {
-  font-family: var(--noor-font-serif);
-  font-style: italic;
-  font-size: 0.8rem;
+  font-family: var(--noor-font-display);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   color: var(--noor-gold-dark);
-  margin-top: 0.35rem;
+  margin-top: 0.4rem;
 }
 
 .tmpl-noor-nikah .noor-timer-sep {
-  font-family: var(--noor-font-display);
-  font-size: 1.8rem;
   color: var(--noor-gold);
-  font-weight: 300;
+  font-size: 0.75rem;
+  opacity: 0.75;
 }
 
 /* ========================================================================= */
-/* 5. CEREMONIES & TIMELINE SECTION                                         */
+/* 5. CEREMONIES & NIKAH TIMELINE (Staggered Bento Grid)                     */
 /* ========================================================================= */
-.tmpl-noor-nikah .noor-events-grid {
+.tmpl-noor-nikah .noor-timeline-section {
+  background-color: #F8F3E9;
+  background-image: radial-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.tmpl-noor-nikah .noor-events-bento-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
-  max-width: 820px;
+  gap: 1.4rem;
+  max-width: 960px;
   width: 100%;
-  margin-top: 2rem;
 }
 
 @media (min-width: 768px) {
-  .tmpl-noor-nikah .noor-events-grid {
+  .tmpl-noor-nikah .noor-events-bento-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.8rem;
   }
 }
 
-.tmpl-noor-nikah .noor-event-card {
-  background: #FFFDF9;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 16px;
-  padding: 2rem 1.75rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+.tmpl-noor-nikah .noor-event-bento-card {
   position: relative;
+  background: #FFFDF9;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.05);
+  border: 1.5px solid rgba(212, 175, 55, 0.35);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.tmpl-noor-nikah .noor-event-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), 0 0 20px rgba(212, 175, 55, 0.2);
+.tmpl-noor-nikah .noor-event-bento-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08), 0 0 25px rgba(212, 175, 55, 0.25);
+  border-color: var(--noor-gold);
+}
+
+.tmpl-noor-nikah .noor-card-featured {
+  border: 1.5px solid #D4AF37;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.07), 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.tmpl-noor-nikah .noor-event-card-shell {
+  padding: clamp(1.4rem, 3.5vw, 2.2rem);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.tmpl-noor-nikah .noor-event-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
 }
 
 .tmpl-noor-nikah .noor-event-badge {
   font-family: var(--noor-font-display);
   font-size: 0.65rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--noor-gold-dark);
-  margin-bottom: 0.4rem;
-  display: inline-block;
+}
+
+.tmpl-noor-nikah .noor-featured-pill {
+  font-family: var(--noor-font-display);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #FFFDF9;
+  background: linear-gradient(135deg, #1B3D2F 0%, #0E291E 100%);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  border: 1px solid #D4AF37;
 }
 
 .tmpl-noor-nikah .noor-event-name {
   font-family: var(--noor-font-serif);
-  font-size: 1.75rem;
+  font-size: clamp(1.6rem, 3.5vw, 2rem);
+  font-weight: 600;
   color: var(--noor-espresso);
-  margin-bottom: 0.6rem;
+  margin: 0.2rem 0 1rem 0;
+  line-height: 1.2;
 }
 
-.tmpl-noor-nikah .noor-event-time,
-.tmpl-noor-nikah .noor-event-venue {
-  font-size: 0.85rem;
-  color: #6B5746;
-  margin-bottom: 0.35rem;
+.tmpl-noor-nikah .noor-event-details-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tmpl-noor-nikah .noor-event-meta-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: #4D3D33;
+  font-weight: 500;
 }
 
 .tmpl-noor-nikah .noor-event-desc {
   font-size: 0.85rem;
-  color: #826E5C;
   line-height: 1.6;
-  margin-top: 0.8rem;
-  border-top: 1px dashed rgba(212, 175, 55, 0.3);
-  padding-top: 0.8rem;
+  color: #6E5C4E;
+  border-top: 1px dashed rgba(212, 175, 55, 0.35);
+  padding-top: 0.85rem;
+  margin-top: 0.4rem;
+  margin-bottom: 1.2rem;
+}
+
+.tmpl-noor-nikah .noor-event-card-footer {
+  margin-top: auto;
+}
+
+.tmpl-noor-nikah .noor-event-map-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--noor-font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--noor-espresso);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.tmpl-noor-nikah .noor-event-map-btn:hover {
+  color: var(--noor-gold-dark);
+}
+
+.tmpl-noor-btn-circle-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--noor-gold-dark);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.tmpl-noor-nikah .noor-event-map-btn:hover .noor-btn-circle-icon {
+  transform: translate(2px, -2px);
+  background: var(--noor-gold);
+  color: #FFFFFF;
 }
 
 /* ========================================================================= */
-/* 6. PHOTO GALLERY & LIGHTBOX                                              */
+/* 6. PHOTO GALLERY & BENTO MOSAIC / SLIDER                                  */
 /* ========================================================================= */
-.tmpl-noor-nikah .noor-gallery-grid {
+.tmpl-noor-nikah .noor-gallery-section {
+  background-color: #FBF9F5;
+}
+
+.tmpl-noor-nikah .noor-gallery-toggle-wrap {
+  display: inline-flex;
+  align-items: center;
+  background: #EFE8DC;
+  padding: 4px;
+  border-radius: 9999px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  margin-top: 1.25rem;
+}
+
+.tmpl-noor-nikah .noor-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  font-family: var(--noor-font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6E5C4E;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tmpl-noor-nikah .noor-toggle-btn.is-active {
+  background: #FFFDF9;
+  color: var(--noor-espresso);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+}
+
+/* 6A. BENTO GRID ARCHITECTURE */
+.tmpl-noor-nikah .noor-gallery-bento-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  max-width: 900px;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+  max-width: 980px;
   width: 100%;
-  margin-top: 2rem;
 }
 
-@media (min-width: 768px) {
-  .tmpl-noor-nikah .noor-gallery-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+@media (min-width: 640px) {
+  .tmpl-noor-nikah .noor-gallery-bento-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.tmpl-noor-nikah .noor-gallery-item {
-  position: relative;
-  aspect-ratio: 3/4;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
+@media (min-width: 900px) {
+  .tmpl-noor-nikah .noor-gallery-bento-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 260px;
+  }
+
+  .tmpl-noor-nikah .bento-large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .tmpl-noor-nikah .bento-wide {
+    grid-column: span 2;
+  }
 }
 
-.tmpl-noor-nikah .noor-gallery-item img {
+.tmpl-noor-nikah .noor-bento-item {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1.5px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  min-height: 250px;
+  background: #1B3D2F;
+}
+
+.tmpl-noor-nikah .noor-bento-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tmpl-noor-nikah .noor-gallery-item:hover img {
-  transform: scale(1.08);
+.tmpl-noor-nikah .noor-bento-item:hover .noor-bento-img {
+  transform: scale(1.06);
 }
 
-/* ========================================================================= */
-/* 7. RSVP & VENUE SECTION                                                  */
-/* ========================================================================= */
-.tmpl-noor-nikah .noor-card-wrap {
-  max-width: 620px;
+.tmpl-noor-nikah .noor-bento-glass-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(14, 41, 30, 0.88) 0%, rgba(14, 41, 30, 0.15) 50%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1.25rem 1.4rem;
+  opacity: 0.95;
+  transition: opacity 0.3s ease;
+}
+
+.tmpl-noor-nikah .noor-bento-caption {
+  text-align: left;
+}
+
+.tmpl-noor-nikah .noor-bento-title {
+  font-family: var(--noor-font-serif);
+  font-size: 1.25rem;
+  color: #FFFDF9;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.tmpl-noor-nikah .noor-bento-sub {
+  font-size: 0.72rem;
+  color: #E8D5B5;
+  margin: 0.15rem 0 0 0;
+  letter-spacing: 0.04em;
+}
+
+.tmpl-noor-nikah .noor-bento-tap-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFF2CC;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* 6B. CINEMATIC SLIDER ARCHITECTURE */
+.tmpl-noor-nikah .noor-gallery-slider-wrap {
+  max-width: 820px;
   width: 100%;
+}
+
+.tmpl-noor-nikah .noor-slider-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/10;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1.5px solid #D4AF37;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.18), 0 0 35px rgba(212, 175, 55, 0.25);
+  background: #0D261B;
+}
+
+.tmpl-noor-nikah .noor-slider-active-slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.tmpl-noor-nikah .noor-slider-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tmpl-noor-nikah .noor-slider-caption-badge {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  background: rgba(14, 41, 30, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  border-radius: 12px;
+  padding: 0.7rem 1.4rem;
+  backdrop-filter: blur(12px);
+  text-align: left;
+}
+
+.tmpl-noor-nikah .noor-slider-title {
+  font-family: var(--noor-font-serif);
+  font-size: 1.35rem;
+  color: #FFFDF9;
+  margin: 0;
+  font-weight: 600;
+}
+
+.tmpl-noor-nikah .noor-slider-sub {
+  font-size: 0.72rem;
+  color: #E8D5B5;
+  margin: 0.15rem 0 0 0;
+}
+
+.tmpl-noor-nikah .noor-slider-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 253, 248, 0.92);
+  border: 1.5px solid #D4AF37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--noor-espresso);
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.tmpl-noor-nikah .noor-slider-nav-btn.prev {
+  left: 1rem;
+}
+
+.tmpl-noor-nikah .noor-slider-nav-btn.next {
+  right: 1rem;
+}
+
+.tmpl-noor-nikah .noor-slider-nav-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  background: #D4AF37;
+  color: #FFFFFF;
+}
+
+.tmpl-noor-nikah .noor-slider-dots-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.tmpl-noor-nikah .noor-slider-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.35);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tmpl-noor-nikah .noor-slider-dot.is-active {
+  background: var(--noor-gold-dark);
+  width: 24px;
+  border-radius: 9999px;
+}
+
+.tmpl-noor-nikah .noor-slider-count-label {
+  font-family: var(--noor-font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--noor-gold-dark);
+  margin-left: 0.75rem;
+}
+
+/* 6C. LIGHTBOX MODAL */
+.tmpl-noor-nikah .noor-lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(6, 20, 14, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.tmpl-noor-nikah .noor-lightbox-card {
+  position: relative;
+  max-width: 92vw;
+  max-height: 90vh;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1.5px solid #D4AF37;
+  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.7), 0 0 50px rgba(212, 175, 55, 0.35);
+}
+
+.tmpl-noor-nikah .noor-lightbox-img {
+  max-height: 85vh;
+  max-width: 90vw;
+  object-fit: contain;
+  display: block;
+}
+
+.tmpl-noor-nikah .noor-lightbox-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  color: #FFFDF9;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.tmpl-noor-nikah .noor-lightbox-close-btn:hover {
+  background: var(--noor-gold);
+  color: #1E120D;
+}
+
+/* ========================================================================= */
+/* 7. VENUE & CONCIERGE BENTO                                                */
+/* ========================================================================= */
+.tmpl-noor-nikah .noor-venue-section {
+  background-color: #F4EFE6;
+}
+
+.tmpl-noor-nikah .noor-venue-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 960px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .tmpl-noor-nikah .noor-venue-bento-grid {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+}
+
+.tmpl-noor-nikah .noor-venue-card,
+.tmpl-noor-nikah .noor-dresscode-card {
   background: #FFFDF9;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 16px;
-  padding: 2.5rem 1.75rem;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  border: 1.5px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.tmpl-noor-nikah .noor-venue-card-inner,
+.tmpl-noor-nikah .noor-dresscode-inner {
+  padding: clamp(1.6rem, 4vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tmpl-noor-nikah .noor-card-icon-pill {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.tmpl-noor-nikah .noor-venue-title,
+.tmpl-noor-nikah .noor-dresscode-title {
+  font-family: var(--noor-font-serif);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 600;
+  color: var(--noor-espresso);
+  margin: 0.25rem 0 0.6rem 0;
+  line-height: 1.2;
+}
+
+.tmpl-noor-nikah .noor-venue-address,
+.tmpl-noor-nikah .noor-dresscode-desc {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #5C4A3E;
+  margin-bottom: 1.5rem;
+}
+
+.tmpl-noor-nikah .noor-venue-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: auto;
 }
 
 .tmpl-noor-nikah .noor-btn-gold {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   background: linear-gradient(135deg, #D4AF37 0%, #B38E22 100%);
   color: #FFFDF9;
   font-family: var(--noor-font-display);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   border: none;
   border-radius: 9999px;
-  padding: 12px 28px;
+  padding: 12px 24px;
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(179, 142, 34, 0.35);
   transition: all 0.3s ease;
@@ -977,26 +1793,316 @@
   box-shadow: 0 10px 25px rgba(179, 142, 34, 0.5);
 }
 
-/* Floating Music Control */
-.tmpl-noor-nikah .noor-music-toggle {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 900;
-  width: 50px;
-  height: 50px;
+.tmpl-noor-nikah .noor-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #FFFDF9;
+  color: var(--noor-espresso);
+  font-family: var(--noor-font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1.5px solid rgba(212, 175, 55, 0.5);
+  border-radius: 9999px;
+  padding: 11px 22px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tmpl-noor-nikah .noor-btn-outline:hover {
+  border-color: var(--noor-gold);
+  background: #FAF7F0;
+}
+
+/* Color Swatch Harmony Pills */
+.tmpl-noor-nikah .noor-swatch-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.tmpl-noor-nikah .noor-swatch-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #FAF7F0;
+  padding: 5px 12px 5px 6px;
+  border-radius: 9999px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.tmpl-noor-nikah .noor-swatch-circle {
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: #241619;
-  border: 1.5px solid var(--noor-gold);
+}
+
+.tmpl-noor-nikah .noor-swatch-label {
+  font-family: var(--noor-font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #4D3D33;
+}
+
+/* ========================================================================= */
+/* 8. RSVP & SACRED DUAS PORTAL                                              */
+/* ========================================================================= */
+.tmpl-noor-nikah .noor-rsvp-section {
+  background: radial-gradient(circle at 50% 50%, #FFFFFF 0%, #F8F3E9 100%);
+}
+
+.tmpl-noor-nikah .noor-rsvp-box {
+  max-width: 660px;
+  width: 100%;
+  background: #FFFDF9;
+  border: 1.5px solid #D4AF37;
+  outline: 1px solid rgba(212, 175, 55, 0.25);
+  outline-offset: -6px;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.07), 0 0 30px rgba(212, 175, 55, 0.2);
+  overflow: hidden;
+}
+
+.tmpl-noor-nikah .noor-rsvp-box-inner {
+  padding: clamp(2rem, 5vw, 3.4rem) clamp(1.25rem, 4vw, 2.8rem);
+}
+
+.tmpl-noor-nikah .noor-rsvp-intro {
+  font-size: 0.88rem;
+  color: #6E5C4E;
+  margin-top: 0.4rem;
+  line-height: 1.6;
+}
+
+.tmpl-noor-nikah .noor-rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.tmpl-noor-nikah .noor-form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.tmpl-noor-nikah .noor-form-label {
+  font-family: var(--noor-font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #5C4A3E;
+  margin-bottom: 0.45rem;
+}
+
+.tmpl-noor-nikah .noor-form-input,
+.tmpl-noor-nikah .noor-form-select,
+.tmpl-noor-nikah .noor-form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #E5DCCE;
+  background: #FAF7F0;
+  font-family: var(--noor-font-body);
+  font-size: 0.9rem;
+  color: var(--noor-espresso);
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.tmpl-noor-nikah .noor-form-input:focus,
+.tmpl-noor-nikah .noor-form-select:focus,
+.tmpl-noor-nikah .noor-form-textarea:focus {
+  border-color: var(--noor-gold);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+}
+
+.tmpl-noor-nikah .noor-form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 540px) {
+  .tmpl-noor-nikah .noor-form-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.tmpl-noor-nikah .noor-btn-gold-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, #1B3D2F 0%, #0E291E 100%);
+  color: #FFFDF9;
+  font-family: var(--noor-font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1.5px solid #D4AF37;
+  border-radius: 9999px;
+  padding: 14px 28px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(14, 41, 30, 0.4), 0 0 20px rgba(212, 175, 55, 0.3);
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.tmpl-noor-nikah .noor-btn-gold-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(14, 41, 30, 0.5), 0 0 30px rgba(212, 175, 55, 0.5);
+  background: linear-gradient(135deg, #245240 0%, #153D2D 100%);
+}
+
+.tmpl-noor-nikah .noor-rsvp-success-card {
+  padding: 2.5rem 1rem;
+}
+
+.tmpl-noor-nikah .noor-success-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(27, 61, 47, 0.12);
+  border: 1.5px solid #1B3D2F;
+  color: #1B3D2F;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  color: var(--noor-gold);
-  transition: transform 0.3s ease;
+  margin: 0 auto 1.25rem auto;
 }
 
-.tmpl-noor-nikah .noor-music-toggle:hover {
-  transform: scale(1.1);
+.tmpl-noor-nikah .noor-success-title {
+  font-family: var(--noor-font-serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1B3D2F;
+  margin: 0 0 0.5rem 0;
+}
+
+.tmpl-noor-nikah .noor-success-sub {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: #5C4A3E;
+  max-width: 460px;
+  margin: 0 auto 1.5rem auto;
+}
+
+.tmpl-noor-nikah .noor-success-monogram {
+  font-family: var(--noor-font-script);
+  font-size: 2.2rem;
+  color: var(--noor-gold-dark);
+}
+
+/* ========================================================================= */
+/* 9. REGAL FOOTER & MONOGRAM WATERMARK                                      */
+/* ========================================================================= */
+.tmpl-noor-nikah .noor-footer {
+  background: #140C0E;
+  background-image: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
+  color: #FAF7F0;
+  padding: clamp(3.5rem, 6vh, 5rem) 1.5rem;
+  border-top: 1.5px solid rgba(212, 175, 55, 0.35);
+  position: relative;
+}
+
+.tmpl-noor-nikah .noor-footer-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.tmpl-noor-nikah .noor-scroll-top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  color: var(--noor-gold);
+  font-family: var(--noor-font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.tmpl-noor-nikah .noor-scroll-top-btn:hover {
+  background: var(--noor-gold);
+  color: #140C0E;
+  transform: translateY(-2px);
+}
+
+.tmpl-noor-nikah .noor-footer-monogram-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(212, 175, 55, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem auto;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+}
+
+.tmpl-noor-nikah .noor-footer-monogram {
+  font-family: var(--noor-font-script);
+  font-size: 1.85rem;
+  color: var(--noor-gold);
+  line-height: 1;
+}
+
+.tmpl-noor-nikah .noor-footer-names {
+  font-family: var(--noor-font-serif);
+  font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+  font-weight: 600;
+  color: #FFFDF9;
+  margin: 0 0 0.35rem 0;
+}
+
+.tmpl-noor-nikah .noor-footer-date-venue {
+  font-family: var(--noor-font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #E8D5B5;
+  margin: 0;
+}
+
+.tmpl-noor-nikah .noor-footer-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  color: var(--noor-gold);
+  font-size: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.tmpl-noor-nikah .noor-footer-signature {
+  font-family: var(--noor-font-serif);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: #CFC5B8;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.tmpl-noor-nikah .noor-footer-credits {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8C7B72;
+  margin: 0;
 }
