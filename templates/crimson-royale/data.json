@@ -1,0 +1,72 @@
+{
+  "templateId": "crimson-royale",
+  "name": "Crimson Royale",
+  "religion": "hindu",
+  "couple": {
+    "brideName": "Ananya",
+    "groomName": "Shubham",
+    "brideFullName": "Ananya Singhania",
+    "groomFullName": "Shubham Singhania",
+    "tagline": "Royal Wedding Invitation"
+  },
+  "weddingDate": "2026-12-22T17:00:00",
+  "weddingTime": "05:00 PM onwards",
+  "dateFormatted": "Tuesday, December 22, 2026",
+  "venue": {
+    "name": "The Ridgewood Estate",
+    "address": "Fatehsagar Lake Road, Udaipur, Rajasthan 313001, India",
+    "mapUrl": "https://maps.google.com/?q=Fatehsagar+Lake+Road+Udaipur+Rajasthan"
+  },
+  "musicTrack": "/templates/crimson-royale/music.mp3",
+  "dressCode": {
+    "title": "Royal Velvet & Heritage Gold",
+    "description": "We request our esteemed guests to dress in traditional Indian royal wear with tones of Crimson, Antique Gold, Deep Maroon, and Ivory Silk.",
+    "palette": [
+      { "name": "Imperial Crimson", "color": "#7C1D2D" },
+      { "name": "Antique Gold", "color": "#D4AF37" },
+      { "name": "Raw Silk Ivory", "color": "#FAF7F2" },
+      { "name": "Deep Garnet", "color": "#420F18" }
+    ]
+  },
+  "events": [
+    {
+      "id": "haldi",
+      "title": "Haldi Ceremony",
+      "date": "Dec 21, 2026",
+      "time": "10:00 AM",
+      "location": "Courtyard Garden, The Ridgewood",
+      "description": "An auspicious morning filled with golden turmeric, laughter, and blessings."
+    },
+    {
+      "id": "mehendi",
+      "title": "Mehendi & Sangeet",
+      "date": "Dec 21, 2026",
+      "time": "06:00 PM",
+      "location": "Royal Banquet Hall, The Ridgewood",
+      "description": "An enchanting evening of henna artistry, rhythmic folk melodies, and spirited dance."
+    },
+    {
+      "id": "pheras",
+      "title": "The Sacred Pheras",
+      "date": "Dec 22, 2026",
+      "time": "04:30 PM",
+      "location": "Lakeside Mandap, The Ridgewood",
+      "description": "The sacred nuptial vows as we unite in the presence of the holy fire under starry skies."
+    },
+    {
+      "id": "reception",
+      "title": "Grand Royal Reception",
+      "date": "Dec 22, 2026",
+      "time": "08:00 PM",
+      "location": "Grand Ballroom, The Ridgewood",
+      "description": "Join us for a royal banquet dinner feast, live classical symphonies, and midnight celebrations."
+    }
+  ],
+  "gallery": [
+    "/templates/crimson-royale/gallery-1.png",
+    "/templates/crimson-royale/gallery-2.png",
+    "/templates/crimson-royale/gallery-3.png",
+    "/templates/crimson-royale/gallery-4.png",
+    "/templates/crimson-royale/gallery-5.png"
+  ]
+}

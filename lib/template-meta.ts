@@ -143,10 +143,10 @@ export function getMockInvitationData(brideName = "Diya", groomName = "Shaan") {
 }
 
 export const TEMPLATE_COMPONENTS = {
-  "noor-e-nikah": () => import("@/components/templates/NoorNikah"),
-  "crimson-royale": () => import("@/components/templates/CrimsonRoyale"),
-  "royal-lotus": () => import("@/components/templates/RoyalLotus"),
-  "emerald-noir": () => import("@/components/templates/EmeraldNoir"),
-  "royal-elegance": () => import("@/components/templates/RoyalElegance"),
-  "modern-minimal": () => import("@/components/templates/ModernMinimal"),
+  "noor-e-nikah": () => import("@/templates/noor-e-nikah"),
+  "crimson-royale": () => import("@/templates/crimson-royale"),
+  "royal-lotus": () => import("@/templates/royal-lotus"),
+  "emerald-noir": () => import("@/templates/emerald-noir"),
+  "royal-elegance": () => import("@/templates/royal-elegance"),
+  "modern-minimal": () => import("@/templates/modern-minimal"),
 } as const;

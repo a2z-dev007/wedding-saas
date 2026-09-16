@@ -2,12 +2,7 @@
 
 import { use, useEffect, useState } from "react";
 import { notFound } from "next/navigation";
-import RoyalLotus from "@/components/templates/RoyalLotus";
-import CrimsonRoyale from "@/components/templates/CrimsonRoyale";
-import NoorNikah from "@/components/templates/NoorNikah";
-import EmeraldNoir from "@/components/templates/EmeraldNoir";
-import RoyalElegance from "@/components/templates/RoyalElegance";
-import ModernMinimal from "@/components/templates/ModernMinimal";
+import { TEMPLATES_MAP, NoorNikah } from "@/templates";
 import { DoorAnimation } from "@/components/invitation/DoorAnimation";
 import { MusicPlayer } from "@/components/invitation/MusicPlayer";
 import { LanguageToggle } from "@/components/invitation/LanguageToggle";
@@ -112,17 +107,7 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
     return notFound();
   }
 
-  // Render template dynamically
-  const templatesMap: Record<string, any> = {
-    "noor-e-nikah": NoorNikah,
-    "crimson-royale": CrimsonRoyale,
-    "royal-lotus": RoyalLotus,
-    "emerald-noir": EmeraldNoir,
-    "royal-elegance": RoyalElegance,
-    "modern-minimal": ModernMinimal,
-  };
-
-  const SelectedTemplate = templatesMap[invitation.templateId] || NoorNikah;
+  const SelectedTemplate = TEMPLATES_MAP[invitation.templateId] || NoorNikah;
 
   const handleOpenDoors = () => {
     setHasOpenedDoors(true);

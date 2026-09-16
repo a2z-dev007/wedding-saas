@@ -19,7 +19,8 @@ import {
   Images,
   Eye
 } from "@phosphor-icons/react";
-import "./crimson-royale.css";
+import defaultData from "./data.json";
+import "./style.css";
 
 // Theme-tailored Lottie Animations
 import crimsonRoyalSeal from "@/public/lottie-icons/crimson-royal-seal.json";
@@ -68,7 +69,7 @@ export interface CrimsonRoyaleData {
 }
 
 export interface CrimsonRoyaleProps {
-  data: CrimsonRoyaleData;
+  data?: CrimsonRoyaleData;
   siteId?: string;
   isPreview?: boolean;
   initialVariant?: "default" | "lantern" | "love" | "hinduism";

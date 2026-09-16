@@ -1,0 +1,8 @@
+/* Emerald Noir Template Styles */
+.tmpl-emerald-noir {
+  --en-bg: #061c17;
+  --en-gold: #D4AF37;
+  --en-cream: #FAF7F2;
+  background-color: var(--en-bg);
+  color: var(--en-cream);
+}

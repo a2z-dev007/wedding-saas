@@ -9,32 +9,18 @@ import { GoogleMapEmbed } from "@/components/invitation/GoogleMapEmbed";
 import { GuestMessageForm } from "@/components/invitation/GuestMessageForm";
 import { DoubleBezelCard } from "@/components/ui/double-bezel-card";
 import { formatDate } from "@/lib/utils";
-
-interface InvitationData {
-  id: string;
-  brideName: string;
-  groomName: string;
-  weddingDate: Date | string;
-  weddingTime: string;
-  venueName: string;
-  venueAddress: string;
-  venueLat?: number | null;
-  venueLng?: number | null;
-  heroImageUrl?: string | null;
-  slideshowImages: string[];
-  showDressCode: boolean;
-  dressCodeText?: string | null;
-  showTransport: boolean;
-  transportText?: string | null;
-  eventsJson: any[]; // Array of: { name, venue, time, date, enabled }
-}
+import defaultData from "./data.json";
+import "./style.css";
 
 interface EmeraldNoirProps {
-  data: InvitationData;
+  data?: any;
 }
 
 export default function EmeraldNoir({ data }: EmeraldNoirProps) {
-  const weddingDateObj = new Date(data.weddingDate);
+  const brideName = data?.brideName || defaultData.couple.brideName;
+  const groomName = data?.groomName || defaultData.couple.groomName;
+  const rawDate = data?.weddingDate || defaultData.weddingDate;
+  const weddingDateObj = new Date(rawDate);
   const dayStr = weddingDateObj.toLocaleDateString("en-IN", { weekday: "long" });
   const dateStr = weddingDateObj.toLocaleDateString("en-IN", { day: "numeric", month: "long" });
   const yearStr = weddingDateObj.getFullYear().toString();
@@ -81,9 +67,9 @@ export default function EmeraldNoir({ data }: EmeraldNoirProps) {
           </span>
 
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.05] tracking-tight mb-8">
-            {data.brideName} <br />
+            {brideName} <br />
             <span className="font-sans italic text-2xl md:text-3xl block my-2 text-[#d4af37]/80 font-light">and</span>
-            {data.groomName}
+            {groomName}
           </h1>
 
           <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-6" />
@@ -92,17 +78,17 @@ export default function EmeraldNoir({ data }: EmeraldNoirProps) {
           <p className="text-sm md:text-base font-serif italic text-[#d4af37]/90 tracking-wider">
             Kindly join us for our wedding celebration on <br />
             <span className="font-sans font-bold not-italic tracking-widest text-[#f5f5f4] uppercase text-sm block mt-2">
-              {formatDate(data.weddingDate)}
+              {formatDate(rawDate)}
             </span>
           </p>
 
           {/* Hero Banner image with concentric double-bezel border */}
-          {data.heroImageUrl && (
+          {(data?.heroImageUrl || defaultData.gallery[0]) && (
             <div className="mt-12 rounded-[2rem] bg-white/5 p-1.5 border border-white/10 shadow-2xl max-w-md w-full aspect-[4/5] overflow-hidden">
               <div className="rounded-[calc(2rem-0.375rem)] overflow-hidden w-full h-full">
                 <img
-                  src={data.heroImageUrl}
-                  alt={`${data.brideName} and ${data.groomName}`}
+                  src={data?.heroImageUrl || defaultData.gallery[0]}
+                  alt={`${brideName} and ${groomName}`}
                   className="w-full h-full object-cover object-center"
                 />
               </div>
@@ -125,7 +111,7 @@ export default function EmeraldNoir({ data }: EmeraldNoirProps) {
             <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-white mt-2 mb-6">
               Counting down the moments
             </h2>
-            <CountdownTimer targetDate={data.weddingDate} />
+            <CountdownTimer targetDate={rawDate} />
           </motion.div>
 
           <motion.div variants={itemVariants} className="w-full">
@@ -154,7 +140,7 @@ export default function EmeraldNoir({ data }: EmeraldNoirProps) {
 
         <div className="space-y-12 relative before:absolute before:left-4 md:before:left-1/2 before:top-4 before:bottom-4 before:w-[1px] before:bg-gradient-to-b before:from-[#d4af37]/0 before:via-[#d4af37]/30 before:to-[#d4af37]/0">
           {data.eventsJson && data.eventsJson.length > 0 ? (
-            data.eventsJson.map((event, idx) => {
+            data.eventsJson.map((event: any, idx: number) => {
               if (!event.enabled) return null;
               
               const isEven = idx % 2 === 0;
@@ -217,8 +203,8 @@ export default function EmeraldNoir({ data }: EmeraldNoirProps) {
               <div className="w-full md:w-1/2 pl-10 md:pl-0">
                 <DoubleBezelCard className="border-[#d4af37]/15 bg-[#082a22]">
                   <h3 className="font-serif text-xl text-white font-bold mb-2">Main Nuptials</h3>
-                  <p className="text-xs text-stone-300">{dateStr}, {yearStr} at {data.weddingTime}</p>
-                  <p className="text-xs text-stone-300 mt-2">{data.venueName}</p>
+                  <p className="text-xs text-stone-300">{dateStr}, {yearStr} at {data?.weddingTime || defaultData.weddingTime}</p>
+                  <p className="text-xs text-stone-300 mt-2">{data?.venueName || defaultData.venue.name}</p>
                 </DoubleBezelCard>
               </div>
             </div>
@@ -227,17 +213,15 @@ export default function EmeraldNoir({ data }: EmeraldNoirProps) {
       </section>
 
       {/* Photo Gallery Slideshow */}
-      {data.slideshowImages && data.slideshowImages.length > 0 && (
-        <section className="py-24 px-6 border-t border-b border-white/5 bg-black/[0.15]">
-          <div className="max-w-4xl mx-auto text-center">
-            <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#d4af37] mb-2 block">Gallery</span>
-            <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-white mb-12">
-              Captured Moments
-            </h2>
-            <PhotoSlideshow images={data.slideshowImages} />
-          </div>
-        </section>
-      )}
+      <section className="py-24 px-6 border-t border-b border-white/5 bg-black/[0.15]">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#d4af37] mb-2 block">Gallery</span>
+          <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-white mb-12">
+            Captured Moments
+          </h2>
+          <PhotoSlideshow images={data?.slideshowImages || data?.gallery || defaultData.gallery} />
+        </div>
+      </section>
 
       {/* Map Embed */}
       <section className="py-24 px-6 max-w-4xl mx-auto text-center">
@@ -246,49 +230,43 @@ export default function EmeraldNoir({ data }: EmeraldNoirProps) {
           Venue Map
         </h2>
         <GoogleMapEmbed
-          venueName={data.venueName}
-          venueAddress={data.venueAddress}
-          lat={data.venueLat}
-          lng={data.venueLng}
+          venueName={data?.venueName || defaultData.venue.name}
+          venueAddress={data?.venueAddress || defaultData.venue.address}
+          lat={data?.venueLat}
+          lng={data?.venueLng}
         />
       </section>
 
       {/* Toggles: Dress code / Transport */}
-      {(data.showDressCode || data.showTransport) && (
-        <section className="py-24 px-6 bg-black/[0.15] border-t border-b border-white/5">
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-            {data.showDressCode && (
-              <DoubleBezelCard className="border-[#d4af37]/15 bg-[#082a22]">
-                <h3 className="font-serif text-xl text-white font-bold mb-3 flex items-center gap-2">
-                  <Sparkle className="h-4 w-4 text-[#d4af37]" />
-                  <span>Dress Code</span>
-                </h3>
-                <p className="text-xs md:text-sm text-stone-300 leading-relaxed whitespace-pre-line">
-                  {data.dressCodeText || "Semi-formal, traditional Indian wear or custom colors are highly appreciated."}
-                </p>
-              </DoubleBezelCard>
-            )}
+      <section className="py-24 px-6 bg-black/[0.15] border-t border-b border-white/5">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <DoubleBezelCard className="border-[#d4af37]/15 bg-[#082a22]">
+            <h3 className="font-serif text-xl text-white font-bold mb-3 flex items-center gap-2">
+              <Sparkle className="h-4 w-4 text-[#d4af37]" />
+              <span>Dress Code</span>
+            </h3>
+            <p className="text-xs md:text-sm text-stone-300 leading-relaxed whitespace-pre-line">
+              {data?.dressCodeText || defaultData.dressCode.description}
+            </p>
+          </DoubleBezelCard>
 
-            {data.showTransport && (
-              <DoubleBezelCard className="border-[#d4af37]/15 bg-[#082a22]">
-                <h3 className="font-serif text-xl text-white font-bold mb-3 flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-[#d4af37]" />
-                  <span>Travel & Lodging</span>
-                </h3>
-                <p className="text-xs md:text-sm text-stone-300 leading-relaxed whitespace-pre-line">
-                  {data.transportText || "Accommodations can be arranged upon request. Please contact the coordinator for transport options."}
-                </p>
-              </DoubleBezelCard>
-            )}
-          </div>
-        </section>
-      )}
+          <DoubleBezelCard className="border-[#d4af37]/15 bg-[#082a22]">
+            <h3 className="font-serif text-xl text-white font-bold mb-3 flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-[#d4af37]" />
+              <span>Travel & Lodging</span>
+            </h3>
+            <p className="text-xs md:text-sm text-stone-300 leading-relaxed whitespace-pre-line">
+              {data?.transportText || "Accommodations can be arranged upon request. Please contact the coordinator for transport options."}
+            </p>
+          </DoubleBezelCard>
+        </div>
+      </section>
 
       {/* Guest Messages & RSVP Form */}
       <section className="py-24 px-6 max-w-4xl mx-auto">
         <GuestMessageForm
-          invitationId={data.id}
-          events={data.eventsJson || [{ name: "Wedding Celebration", enabled: true }]}
+          invitationId={data?.id || "demo-emerald"}
+          events={data?.eventsJson || defaultData.events}
         />
       </section>
 

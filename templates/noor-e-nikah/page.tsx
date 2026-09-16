@@ -26,7 +26,8 @@ import {
 } from "@phosphor-icons/react";
 import noorEnvelopeSeal from "@/public/lottie-icons/noor-envelope-seal.json";
 import noorCrescentLantern from "@/public/lottie-icons/noor-crescent-lantern.json";
-import "./noor-nikah.css";
+import defaultData from "./data.json";
+import "./style.css";
 
 interface EventItem {
   name?: string;
@@ -44,6 +45,9 @@ interface NoorNikahProps {
 }
 
 export default function NoorNikah({ data }: NoorNikahProps) {
+  // Merge incoming dynamic data with default static data.json
+  const resolvedData = { ...defaultData, ...data };
+
   // Envelope opening progressive states
   const [isOpen, setIsOpen] = useState(false);
   const [isLighting, setIsLighting] = useState(false);
@@ -83,10 +87,10 @@ export default function NoorNikah({ data }: NoorNikahProps) {
   const heroCardY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
   const heroCardOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0.05]);
 
-  // Template Data extraction with safe fallbacks
-  const brideName = data?.brideName || data?.couple?.brideName || data?.bride_name || "Diya";
-  const groomName = data?.groomName || data?.couple?.groomName || data?.groom_name || "Shaan";
-  const rawDate = data?.weddingDate || data?.date || "2027-01-24T17:00:00";
+  // Template Data extraction with safe fallbacks from data.json
+  const brideName = data?.brideName || data?.couple?.brideName || data?.bride_name || resolvedData.couple?.brideName || "Diya";
+  const groomName = data?.groomName || data?.couple?.groomName || data?.groom_name || resolvedData.couple?.groomName || "Shaan";
+  const rawDate = data?.weddingDate || data?.date || resolvedData.weddingDate;
   const weddingDate = new Date(rawDate);
   const formattedDate = !isNaN(weddingDate.getTime())
     ? weddingDate.toLocaleDateString("en-US", {
@@ -95,65 +99,25 @@ export default function NoorNikah({ data }: NoorNikahProps) {
         month: "long",
         day: "numeric",
       })
-    : "Sunday, January 24, 2027";
+    : resolvedData.dateFormatted;
 
-  const venueName = data?.venueName || data?.venue?.name || "The Grand Qasr Al-Noor";
-  const venueAddress = data?.venueAddress || data?.venue?.address || "Al-Noor Palace Estate, Mughal Gardens, New Delhi, India";
-  const venueMapUrl = data?.venueMapUrl || data?.venue?.mapUrl || `https://maps.google.com/?q=${encodeURIComponent(venueName + " " + venueAddress)}`;
+  const venueName = data?.venueName || data?.venue?.name || resolvedData.venue?.name;
+  const venueAddress = data?.venueAddress || data?.venue?.address || resolvedData.venue?.address;
+  const venueMapUrl = data?.venueMapUrl || data?.venue?.mapUrl || resolvedData.venue?.mapUrl;
 
-  // Events schedule
+  // Events schedule from data.json or props
   const rawEvents = data?.events || data?.eventsJson;
-  const defaultEvents: EventItem[] = [
-    {
-      name: "The Sacred Nikah",
-      date: "Sunday, January 24, 2027",
-      time: "05:00 PM onwards",
-      venue: "Grand Mughal Diwan, Qasr Al-Noor",
-      description: "Solemnization of marriage vows under the celestial dome with sacred duas and blessings.",
-    },
-    {
-      name: "Royal Walima Reception",
-      date: "Sunday, January 24, 2027",
-      time: "08:00 PM onwards",
-      venue: "Courtyard of Whispers, Qasr Al-Noor",
-      description: "An opulent banquet celebrating eternal love with gourmet Mughlai cuisine, live Sufi ensemble, and festivities.",
-    },
-    {
-      name: "Jashn-e-Mehndi",
-      date: "Saturday, January 23, 2027",
-      time: "06:30 PM",
-      venue: "Emerald Pavilion, Qasr Al-Noor",
-      description: "A vibrant evening of fragrant henna, traditional folk melodies, and sweet confectioneries.",
-    },
-    {
-      name: "Haldi & Mayun Ceremony",
-      date: "Saturday, January 23, 2027",
-      time: "11:00 AM",
-      venue: "Golden Courtyard, Qasr Al-Noor",
-      description: "A joyful golden morning of turmeric rituals, marigold petals, and sisterly songs.",
-    },
-  ];
-
   const events: EventItem[] =
     rawEvents && Array.isArray(rawEvents) && rawEvents.length > 0
       ? rawEvents.filter((e: EventItem) => e.enabled !== false)
-      : defaultEvents;
+      : resolvedData.events;
 
   // Gallery Photos
   const rawGallery = data?.gallery || data?.galleryImages || data?.slideshowImages;
-  const defaultGallery = [
-    "/templates/noor-e-nikah/hero-couple-mobile.jpg",
-    "/templates/crimson-royale/gallery-1.png",
-    "/templates/crimson-royale/gallery-2.png",
-    "/templates/crimson-royale/gallery-3.png",
-    "/templates/crimson-royale/gallery-4.png",
-    "/templates/crimson-royale/gallery-5.png",
-  ];
-
   const galleryImages: string[] =
     rawGallery && Array.isArray(rawGallery) && rawGallery.length > 0
       ? rawGallery
-      : defaultGallery;
+      : resolvedData.gallery.map((g: any) => typeof g === "string" ? g : g.url);
 
   // Gallery captions metadata for bento
   const galleryCaptions = [

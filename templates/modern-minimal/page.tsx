@@ -9,32 +9,18 @@ import { GoogleMapEmbed } from "@/components/invitation/GoogleMapEmbed";
 import { GuestMessageForm } from "@/components/invitation/GuestMessageForm";
 import { DoubleBezelCard } from "@/components/ui/double-bezel-card";
 import { formatDate } from "@/lib/utils";
-
-interface InvitationData {
-  id: string;
-  brideName: string;
-  groomName: string;
-  weddingDate: Date | string;
-  weddingTime: string;
-  venueName: string;
-  venueAddress: string;
-  venueLat?: number | null;
-  venueLng?: number | null;
-  heroImageUrl?: string | null;
-  slideshowImages: string[];
-  showDressCode: boolean;
-  dressCodeText?: string | null;
-  showTransport: boolean;
-  transportText?: string | null;
-  eventsJson: any[];
-}
+import defaultData from "./data.json";
+import "./style.css";
 
 interface ModernMinimalProps {
-  data: InvitationData;
+  data?: any;
 }
 
 export default function ModernMinimal({ data }: ModernMinimalProps) {
-  const weddingDateObj = new Date(data.weddingDate);
+  const brideName = data?.brideName || defaultData.couple.brideName;
+  const groomName = data?.groomName || defaultData.couple.groomName;
+  const rawDate = data?.weddingDate || defaultData.weddingDate;
+  const weddingDateObj = new Date(rawDate);
   const dayStr = weddingDateObj.toLocaleDateString("en-IN", { weekday: "long" });
   const dateStr = weddingDateObj.toLocaleDateString("en-IN", { day: "numeric", month: "long" });
   const yearStr = weddingDateObj.getFullYear().toString();
@@ -55,27 +41,22 @@ export default function ModernMinimal({ data }: ModernMinimalProps) {
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tighter mb-8 lowercase">
-            {data.brideName} <br />
+            {brideName} <br />
             <span className="font-light italic text-xl md:text-2xl block my-1 font-serif text-stone-500">and</span>
-            {data.groomName}
+            {groomName}
           </h1>
 
-          <div className="h-[2px] w-12 bg-black my-6" />
-
-          <p className="text-xs md:text-sm tracking-[0.1em] text-stone-500 uppercase max-w-[50ch] leading-relaxed">
-            Please join us as we celebrate our marriage on <br />
-            <span className="font-black text-black tracking-[0.15em] block mt-2 text-sm">
-              {formatDate(data.weddingDate)}
-            </span>
+          <p className="text-xs md:text-sm font-sans tracking-widest text-stone-500 uppercase mt-4 mb-8">
+            {formatDate(rawDate)} — {data?.venueName || defaultData.venue.name}
           </p>
 
-          {/* Hero Image in a crisp Minimal Frame */}
-          {data.heroImageUrl && (
-            <div className="mt-12 rounded-3xl bg-black/5 p-1 border border-black/5 shadow-xl max-w-md w-full aspect-[4/5] overflow-hidden">
-              <div className="rounded-[calc(1.5rem)] overflow-hidden w-full h-full">
+          {/* Hero Banner image */}
+          {(data?.heroImageUrl || defaultData.gallery[0]) && (
+            <div className="mt-8 rounded-2xl bg-black/5 p-1 border border-black/5 shadow-sm max-w-sm w-full aspect-[4/5] overflow-hidden">
+              <div className="rounded-xl overflow-hidden w-full h-full">
                 <img
-                  src={data.heroImageUrl}
-                  alt={`${data.brideName} and ${data.groomName}`}
+                  src={data?.heroImageUrl || defaultData.gallery[0]}
+                  alt={`${brideName} and ${groomName}`}
                   className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700"
                 />
               </div>
@@ -84,15 +65,15 @@ export default function ModernMinimal({ data }: ModernMinimalProps) {
         </motion.div>
       </section>
 
-      {/* Countdown & Scratch Reveal */}
-      <section className="py-24 px-6 border-t border-b border-black/5 bg-[#f4f4f4]">
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-12">
+      {/* Countdown & Save the Date Scratch */}
+      <section className="py-20 px-6 border-t border-b border-black/5 bg-white">
+        <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-10">
           <div>
-            <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-stone-400">Countdown</span>
+            <span className="text-[9px] uppercase tracking-[0.25em] font-bold text-stone-400">Countdown</span>
             <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-black mt-2 mb-6 lowercase">
-              counting down...
+              counting down
             </h2>
-            <CountdownTimer targetDate={data.weddingDate} />
+            <CountdownTimer targetDate={rawDate} />
           </div>
 
           <div className="w-full">
@@ -121,7 +102,7 @@ export default function ModernMinimal({ data }: ModernMinimalProps) {
 
         <div className="space-y-6">
           {data.eventsJson && data.eventsJson.length > 0 ? (
-            data.eventsJson.map((event) => {
+            data.eventsJson.map((event: any) => {
               if (!event.enabled) return null;
               
               return (
@@ -162,66 +143,58 @@ export default function ModernMinimal({ data }: ModernMinimalProps) {
       </section>
 
       {/* Photo Gallery Slideshow */}
-      {data.slideshowImages && data.slideshowImages.length > 0 && (
-        <section className="py-24 px-6 border-t border-b border-black/5 bg-[#f4f4f4]">
-          <div className="max-w-4xl mx-auto text-center">
-            <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-[#888] mb-2 block">Gallery</span>
-            <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-black mb-12 lowercase">
-              captured moments
-            </h2>
-            <PhotoSlideshow images={data.slideshowImages} />
-          </div>
-        </section>
-      )}
+      <section className="py-20 px-6 border-t border-b border-black/5 bg-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="text-[9px] uppercase tracking-[0.25em] font-bold text-stone-400 mb-2 block">Gallery</span>
+          <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-black mb-10 lowercase">
+            captured moments
+          </h2>
+          <PhotoSlideshow images={data?.slideshowImages || data?.gallery || defaultData.gallery} />
+        </div>
+      </section>
 
       {/* Map Embed */}
-      <section className="py-24 px-6 max-w-4xl mx-auto text-center">
-        <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-[#888] mb-2 block">Directions</span>
-        <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-black mb-12 lowercase">
+      <section className="py-20 px-6 max-w-4xl mx-auto text-center">
+        <span className="text-[9px] uppercase tracking-[0.25em] font-bold text-stone-400 mb-2 block">Directions</span>
+        <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-black mb-10 lowercase">
           venue location
         </h2>
         <GoogleMapEmbed
-          venueName={data.venueName}
-          venueAddress={data.venueAddress}
-          lat={data.venueLat}
-          lng={data.venueLng}
+          venueName={data?.venueName || defaultData.venue.name}
+          venueAddress={data?.venueAddress || defaultData.venue.address}
+          lat={data?.venueLat}
+          lng={data?.venueLng}
         />
       </section>
 
       {/* Dress code & Lodging */}
-      {(data.showDressCode || data.showTransport) && (
-        <section className="py-24 px-6 bg-[#f4f4f4] border-t border-b border-black/5">
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-            {data.showDressCode && (
-              <DoubleBezelCard className="border-black/5 bg-white">
-                <h3 className="text-lg font-bold text-black mb-2 lowercase">
-                  dress code
-                </h3>
-                <p className="text-xs md:text-sm text-stone-500 leading-relaxed">
-                  {data.dressCodeText || "Casual/formal dress code applies."}
-                </p>
-              </DoubleBezelCard>
-            )}
+      <section className="py-20 px-6 bg-[#fafafa] border-t border-b border-black/5">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <DoubleBezelCard className="border-black/5 bg-white">
+            <h3 className="text-base font-bold text-black mb-2 lowercase">
+              dress code
+            </h3>
+            <p className="text-xs md:text-sm text-stone-500 leading-relaxed">
+              {data?.dressCodeText || defaultData.dressCode.description}
+            </p>
+          </DoubleBezelCard>
 
-            {data.showTransport && (
-              <DoubleBezelCard className="border-black/5 bg-white">
-                <h3 className="text-lg font-bold text-black mb-2 lowercase">
-                  travel & lodging
-                </h3>
-                <p className="text-xs md:text-sm text-stone-500 leading-relaxed">
-                  {data.transportText || "Accommodations details can be shared."}
-                </p>
-              </DoubleBezelCard>
-            )}
-          </div>
-        </section>
-      )}
+          <DoubleBezelCard className="border-black/5 bg-white">
+            <h3 className="text-base font-bold text-black mb-2 lowercase">
+              travel & lodging
+            </h3>
+            <p className="text-xs md:text-sm text-stone-500 leading-relaxed">
+              {data?.transportText || "Accommodations details can be shared upon request."}
+            </p>
+          </DoubleBezelCard>
+        </div>
+      </section>
 
       {/* RSVP Form */}
-      <section className="py-24 px-6 max-w-4xl mx-auto">
+      <section className="py-20 px-6 max-w-4xl mx-auto">
         <GuestMessageForm
-          invitationId={data.id}
-          events={data.eventsJson || [{ name: "Wedding Celebration", enabled: true }]}
+          invitationId={data?.id || "demo-minimal"}
+          events={data?.eventsJson || defaultData.events}
         />
       </section>
 

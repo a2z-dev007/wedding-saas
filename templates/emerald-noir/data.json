@@ -1,0 +1,45 @@
+{
+  "templateId": "emerald-noir",
+  "name": "Emerald Noir",
+  "religion": "muslim",
+  "couple": {
+    "brideName": "Zoya",
+    "groomName": "Farhan",
+    "tagline": "The Nikah Celebration Of"
+  },
+  "weddingDate": "2027-02-18T18:00:00",
+  "weddingTime": "06:00 PM onwards",
+  "dateFormatted": "Thursday, February 18, 2027",
+  "venue": {
+    "name": "Emerald Grand Pavilion",
+    "address": "Heritage Palace Grounds, Hyderabad, India",
+    "mapUrl": "https://maps.google.com/?q=Heritage+Palace+Hyderabad"
+  },
+  "musicTrack": "/templates/crimson-royale/music.mp3",
+  "dressCode": {
+    "title": "Midnight Emerald & Antique Gold",
+    "description": "Guests are requested to wear evening formals in shades of Deep Emerald, Velvet Black, and Champagne Gold."
+  },
+  "events": [
+    {
+      "name": "Sacred Nikah Ceremony",
+      "date": "Feb 18, 2027",
+      "time": "06:00 PM",
+      "venue": "Grand Emerald Diwan",
+      "description": "Solemnization of marriage under starlight."
+    },
+    {
+      "name": "Royal Walima Banquet",
+      "date": "Feb 18, 2027",
+      "time": "08:30 PM",
+      "venue": "Crystal Ballroom",
+      "description": "An evening of celebration and grand dinner."
+    }
+  ],
+  "gallery": [
+    "/templates/crimson-royale/gallery-1.png",
+    "/templates/crimson-royale/gallery-2.png",
+    "/templates/crimson-royale/gallery-3.png",
+    "/templates/crimson-royale/gallery-4.png"
+  ]
+}

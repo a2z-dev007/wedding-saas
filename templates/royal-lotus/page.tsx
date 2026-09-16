@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import "./royal-lotus.css";
+import defaultData from "./data.json";
+import "./style.css";
 
 interface EventItem {
   id?: string;

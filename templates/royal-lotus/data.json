@@ -1,0 +1,80 @@
+{
+  "templateId": "royal-lotus",
+  "name": "Royal Lotus",
+  "religion": "hindu",
+  "couple": {
+    "brideName": "Ananya",
+    "groomName": "Shubham",
+    "brideFullName": "Ananya Sharma",
+    "groomFullName": "Shubham Verma",
+    "tagline": "The Royal Wedding Of"
+  },
+  "sacred": {
+    "invocation": "|| श्री गणेशाय नमः ||",
+    "mantra": "ॐ श्री गणेशाय नमः",
+    "tagline": "Two Hearts, One Soul, Infinite Love"
+  },
+  "weddingDate": "2026-12-22T17:00:00",
+  "weddingTime": "05:00 PM onwards",
+  "dateFormatted": "Tuesday, December 22, 2026",
+  "venue": {
+    "name": "The Royal Lotus Palace",
+    "address": "Fatehsagar Lake Road, Udaipur, Rajasthan 313001, India",
+    "mapUrl": "https://maps.google.com/?q=Fatehsagar+Lake+Road+Udaipur+Rajasthan"
+  },
+  "musicTrack": "/templates/lotus-courtyard/music.mp3",
+  "storyMessage": "Under the celestial stars of Udaipur, surrounded by the fragrance of lotus blossoms and the sacred fire, we begin our journey of a lifetime.",
+  "rsvpDeadline": "December 15, 2026",
+  "dressCodeText": "Royal Traditional & Festive Indian Attire (Ivory, Rani Pink, Royal Gold)",
+  "transportText": "Complimentary Heritage Shuttles available from City Palace Gate 2",
+  "events": [
+    {
+      "id": "ganesh-puja",
+      "name": "Shree Ganesh Sthapana",
+      "date": "Dec 21, 2026",
+      "time": "09:00 AM",
+      "venue": "Temple Courtyard",
+      "detail": "Seeking divine blessings for an auspicious start."
+    },
+    {
+      "id": "mehendi-sangeet",
+      "name": "Mehendi & Sangeet",
+      "date": "Dec 21, 2026",
+      "time": "06:00 PM",
+      "venue": "Mughal Gardens Pavilion",
+      "detail": "An evening of vibrant henna, soulful music, and celebration."
+    },
+    {
+      "id": "haldi",
+      "name": "Haldi Ceremony",
+      "date": "Dec 22, 2026",
+      "time": "10:30 AM",
+      "venue": "Lotus Pool Deck",
+      "detail": "A sunny celebration with turmeric, marigolds, and laughter."
+    },
+    {
+      "id": "wedding-pheras",
+      "name": "The Sacred Pheras",
+      "date": "Dec 22, 2026",
+      "time": "05:30 PM",
+      "venue": "Lakeview Mandap",
+      "detail": "The sacred vows around the holy fire as day turns to dusk."
+    },
+    {
+      "id": "reception",
+      "name": "Royal Reception",
+      "date": "Dec 22, 2026",
+      "time": "08:30 PM",
+      "venue": "Grand Ballroom",
+      "detail": "Feasting, toasts, and dancing under the stars."
+    }
+  ],
+  "gallery": [
+    { "url": "/templates/crimson-royale/gallery-1.png", "caption": "The Royal Palace Courtyard" },
+    { "url": "/templates/crimson-royale/gallery-2.png", "caption": "Intricate Bridal Mehendi" },
+    { "url": "/templates/crimson-royale/gallery-3.png", "caption": "A Promise of Togetherness" },
+    { "url": "/templates/crimson-royale/gallery-4.png", "caption": "Sunset at the Lake Palace" },
+    { "url": "/templates/crimson-royale/gallery-5.png", "caption": "Celebrations and Joy" },
+    { "url": "/templates/crimson-royale/gallery-6.png", "caption": "Everlasting Love" }
+  ]
+}

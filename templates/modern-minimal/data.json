@@ -1,0 +1,45 @@
+{
+  "templateId": "modern-minimal",
+  "name": "Modern Minimal",
+  "religion": "universal",
+  "couple": {
+    "brideName": "Maya",
+    "groomName": "Arjun",
+    "tagline": "The Wedding of"
+  },
+  "weddingDate": "2027-04-10T16:30:00",
+  "weddingTime": "04:30 PM onwards",
+  "dateFormatted": "Saturday, April 10, 2027",
+  "venue": {
+    "name": "The Glasshouse Estate",
+    "address": "Goa Beachfront, Candolim, Goa, India",
+    "mapUrl": "https://maps.google.com/?q=Candolim+Goa"
+  },
+  "musicTrack": "/templates/crimson-royale/music.mp3",
+  "dressCode": {
+    "title": "Minimalist Chic",
+    "description": "Contemporary beach formal in monochrome or earth tones."
+  },
+  "events": [
+    {
+      "name": "Sunset Welcome Cocktails",
+      "date": "April 09, 2027",
+      "time": "05:30 PM",
+      "venue": "Beachfront Lawn",
+      "description": "Casual welcome drinks as the sun sets."
+    },
+    {
+      "name": "The Wedding Vows",
+      "date": "April 10, 2027",
+      "time": "04:30 PM",
+      "venue": "Glass Pavilion",
+      "description": "Ceremony followed by dinner and dancing."
+    }
+  ],
+  "gallery": [
+    "/templates/crimson-royale/gallery-1.png",
+    "/templates/crimson-royale/gallery-2.png",
+    "/templates/crimson-royale/gallery-3.png",
+    "/templates/crimson-royale/gallery-4.png"
+  ]
+}

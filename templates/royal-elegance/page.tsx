@@ -9,32 +9,18 @@ import { GoogleMapEmbed } from "@/components/invitation/GoogleMapEmbed";
 import { GuestMessageForm } from "@/components/invitation/GuestMessageForm";
 import { DoubleBezelCard } from "@/components/ui/double-bezel-card";
 import { formatDate } from "@/lib/utils";
-
-interface InvitationData {
-  id: string;
-  brideName: string;
-  groomName: string;
-  weddingDate: Date | string;
-  weddingTime: string;
-  venueName: string;
-  venueAddress: string;
-  venueLat?: number | null;
-  venueLng?: number | null;
-  heroImageUrl?: string | null;
-  slideshowImages: string[];
-  showDressCode: boolean;
-  dressCodeText?: string | null;
-  showTransport: boolean;
-  transportText?: string | null;
-  eventsJson: any[];
-}
+import defaultData from "./data.json";
+import "./style.css";
 
 interface RoyalEleganceProps {
-  data: InvitationData;
+  data?: any;
 }
 
 export default function RoyalElegance({ data }: RoyalEleganceProps) {
-  const weddingDateObj = new Date(data.weddingDate);
+  const brideName = data?.brideName || defaultData.couple.brideName;
+  const groomName = data?.groomName || defaultData.couple.groomName;
+  const rawDate = data?.weddingDate || defaultData.weddingDate;
+  const weddingDateObj = new Date(rawDate);
   const dayStr = weddingDateObj.toLocaleDateString("en-IN", { weekday: "long" });
   const dateStr = weddingDateObj.toLocaleDateString("en-IN", { day: "numeric", month: "long" });
   const yearStr = weddingDateObj.getFullYear().toString();
@@ -64,9 +50,9 @@ export default function RoyalElegance({ data }: RoyalEleganceProps) {
           </span>
 
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.05] tracking-tight mb-8 text-[#1b1a18]">
-            {data.brideName} <br />
+            {brideName} <br />
             <span className="font-sans italic text-2xl md:text-3xl block my-2 text-[#b89730] font-light">and</span>
-            {data.groomName}
+            {groomName}
           </h1>
 
           <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-[#b89730] to-transparent my-6" />
@@ -74,17 +60,17 @@ export default function RoyalElegance({ data }: RoyalEleganceProps) {
           <p className="text-sm md:text-base font-serif italic text-stone-600 tracking-wider">
             With joyful hearts, we request your presence at our wedding ceremony <br />
             <span className="font-sans font-bold not-italic tracking-widest text-[#1b1a18] uppercase text-sm block mt-2">
-              {formatDate(data.weddingDate)}
+              {formatDate(rawDate)}
             </span>
           </p>
 
           {/* Hero Banner image with concentric double-bezel border */}
-          {data.heroImageUrl && (
+          {(data?.heroImageUrl || defaultData.gallery[0]) && (
             <div className="mt-12 rounded-[2rem] bg-black/5 p-1.5 border border-black/5 shadow-xl max-w-md w-full aspect-[4/5] overflow-hidden">
               <div className="rounded-[calc(2rem-0.375rem)] overflow-hidden w-full h-full">
                 <img
-                  src={data.heroImageUrl}
-                  alt={`${data.brideName} and ${data.groomName}`}
+                  src={data?.heroImageUrl || defaultData.gallery[0]}
+                  alt={`${brideName} and ${groomName}`}
                   className="w-full h-full object-cover object-center"
                 />
               </div>
@@ -101,7 +87,7 @@ export default function RoyalElegance({ data }: RoyalEleganceProps) {
             <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-[#1b1a18] mt-2 mb-6">
               Moments to the Celebration
             </h2>
-            <CountdownTimer targetDate={data.weddingDate} />
+            <CountdownTimer targetDate={rawDate} />
           </div>
 
           <div className="w-full">
@@ -130,7 +116,7 @@ export default function RoyalElegance({ data }: RoyalEleganceProps) {
 
         <div className="space-y-12 relative before:absolute before:left-4 md:before:left-1/2 before:top-4 before:bottom-4 before:w-[1px] before:bg-gradient-to-b before:from-[#b89730]/0 before:via-[#b89730]/30 before:to-[#b89730]/0">
           {data.eventsJson && data.eventsJson.length > 0 ? (
-            data.eventsJson.map((event, idx) => {
+            data.eventsJson.map((event: any, idx: number) => {
               if (!event.enabled) return null;
               const isEven = idx % 2 === 0;
 
@@ -199,17 +185,15 @@ export default function RoyalElegance({ data }: RoyalEleganceProps) {
       </section>
 
       {/* Photo Gallery Slideshow */}
-      {data.slideshowImages && data.slideshowImages.length > 0 && (
-        <section className="py-24 px-6 border-t border-b border-black/5 bg-[#faf6ed]">
-          <div className="max-w-4xl mx-auto text-center">
-            <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#b89730] mb-2 block">Our Gallery</span>
-            <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-[#1b1a18] mb-12">
-              Our Journey in Photos
-            </h2>
-            <PhotoSlideshow images={data.slideshowImages} />
-          </div>
-        </section>
-      )}
+      <section className="py-24 px-6 border-t border-b border-black/5 bg-[#faf6ed]">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#b89730] mb-2 block">Our Gallery</span>
+          <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-[#1b1a18] mb-12">
+            Our Journey in Photos
+          </h2>
+          <PhotoSlideshow images={data?.slideshowImages || data?.gallery || defaultData.gallery} />
+        </div>
+      </section>
 
       {/* Map Embed */}
       <section className="py-24 px-6 max-w-4xl mx-auto text-center">
@@ -218,49 +202,43 @@ export default function RoyalElegance({ data }: RoyalEleganceProps) {
           Venue Coordinates
         </h2>
         <GoogleMapEmbed
-          venueName={data.venueName}
-          venueAddress={data.venueAddress}
-          lat={data.venueLat}
-          lng={data.venueLng}
+          venueName={data?.venueName || defaultData.venue.name}
+          venueAddress={data?.venueAddress || defaultData.venue.address}
+          lat={data?.venueLat}
+          lng={data?.venueLng}
         />
       </section>
 
       {/* Dress code & Lodging toggles */}
-      {(data.showDressCode || data.showTransport) && (
-        <section className="py-24 px-6 bg-[#faf6ed] border-t border-b border-black/5">
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-            {data.showDressCode && (
-              <DoubleBezelCard className="border-[#b89730]/20 bg-white">
-                <h3 className="font-serif text-xl text-[#1b1a18] font-bold mb-3 flex items-center gap-2">
-                  <Sparkle className="h-4 w-4 text-[#b89730]" />
-                  <span>Dress Code</span>
-                </h3>
-                <p className="text-xs md:text-sm text-stone-600 leading-relaxed whitespace-pre-line">
-                  {data.dressCodeText || "Semi-formal, traditional Indian wear is preferred."}
-                </p>
-              </DoubleBezelCard>
-            )}
+      <section className="py-24 px-6 bg-[#faf6ed] border-t border-b border-black/5">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <DoubleBezelCard className="border-[#b89730]/20 bg-white">
+            <h3 className="font-serif text-xl text-[#1b1a18] font-bold mb-3 flex items-center gap-2">
+              <Sparkle className="h-4 w-4 text-[#b89730]" />
+              <span>Dress Code</span>
+            </h3>
+            <p className="text-xs md:text-sm text-stone-600 leading-relaxed whitespace-pre-line">
+              {data?.dressCodeText || defaultData.dressCode.description}
+            </p>
+          </DoubleBezelCard>
 
-            {data.showTransport && (
-              <DoubleBezelCard className="border-[#b89730]/20 bg-white">
-                <h3 className="font-serif text-xl text-[#1b1a18] font-bold mb-3 flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-[#b89730]" />
-                  <span>Travel Details</span>
-                </h3>
-                <p className="text-xs md:text-sm text-stone-600 leading-relaxed whitespace-pre-line">
-                  {data.transportText || "Accommodations can be arranged upon request. Please contact the coordinator."}
-                </p>
-              </DoubleBezelCard>
-            )}
-          </div>
-        </section>
-      )}
+          <DoubleBezelCard className="border-[#b89730]/20 bg-white">
+            <h3 className="font-serif text-xl text-[#1b1a18] font-bold mb-3 flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-[#b89730]" />
+              <span>Travel Details</span>
+            </h3>
+            <p className="text-xs md:text-sm text-stone-600 leading-relaxed whitespace-pre-line">
+              {data?.transportText || "Accommodations can be arranged upon request. Please contact the coordinator."}
+            </p>
+          </DoubleBezelCard>
+        </div>
+      </section>
 
       {/* RSVP Form */}
       <section className="py-24 px-6 max-w-4xl mx-auto">
         <GuestMessageForm
-          invitationId={data.id}
-          events={data.eventsJson || [{ name: "Wedding Celebration", enabled: true }]}
+          invitationId={data?.id || "demo-elegance"}
+          events={data?.eventsJson || defaultData.events}
         />
       </section>
 

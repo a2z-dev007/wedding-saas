@@ -7,21 +7,7 @@ import { DoorAnimation } from "@/components/invitation/DoorAnimation";
 import { MusicPlayer } from "@/components/invitation/MusicPlayer";
 import { Sliders, ArrowLeft, CreditCard } from "@phosphor-icons/react";
 import { getMockInvitationData } from "@/lib/template-meta";
-import RoyalLotus from "@/components/templates/RoyalLotus";
-import CrimsonRoyale from "@/components/templates/CrimsonRoyale";
-import NoorNikah from "@/components/templates/NoorNikah";
-import EmeraldNoir from "@/components/templates/EmeraldNoir";
-import RoyalElegance from "@/components/templates/RoyalElegance";
-import ModernMinimal from "@/components/templates/ModernMinimal";
-
-const templatesMap: Record<string, React.ComponentType<any>> = {
-  "noor-e-nikah": NoorNikah,
-  "crimson-royale": CrimsonRoyale,
-  "royal-lotus": RoyalLotus,
-  "emerald-noir": EmeraldNoir,
-  "royal-elegance": RoyalElegance,
-  "modern-minimal": ModernMinimal,
-};
+import { TEMPLATES_MAP, getTemplateComponent, getTemplateDefaultData, NoorNikah } from "@/templates";
 
 interface InteractivePreviewProps {
   templateId: string;
@@ -36,7 +22,7 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
   const [isOpenPanel, setIsOpenPanel] = useState(!isEmbed);
   const [hasOpenedDoors, setHasOpenedDoors] = useState(false);
 
-  const SelectedTemplate = templatesMap[templateId] || NoorNikah;
+  const SelectedTemplate = TEMPLATES_MAP[templateId] || NoorNikah;
   const mockData = getMockInvitationData(brideName, groomName);
   const musicTrack = "/templates/crimson-royale/music.mp3";
 
