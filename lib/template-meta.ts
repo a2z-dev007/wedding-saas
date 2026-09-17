@@ -1,4 +1,14 @@
-export type TemplateId = "noor-e-nikah" | "crimson-royale" | "royal-lotus" | "emerald-noir" | "royal-elegance" | "modern-minimal";
+export type TemplateId =
+  | "noor-e-nikah"
+  | "crimson-royale"
+  | "royal-lotus"
+  | "emerald-noir"
+  | "royal-elegance"
+  | "modern-minimal"
+  | "emerald-qasr"
+  | "gul-e-noor"
+  | "azure-nikah"
+  | "kitab-e-nikah";
 
 export type ReligionKey = "all" | "hindu" | "muslim";
 
@@ -24,6 +34,50 @@ export const TEMPLATE_META: Record<TemplateId, TemplateMeta> = {
     description:
       "A sacred Islamic wedding experience with a 3D embossed ivory floral envelope, slow-lighting gold wax seal, grand mosque archway portal, Bismillah blessing, and Nikah timeline.",
     gradient: "from-[#FAF8F5] via-[#F3EDE2] to-[#E5DAC6]",
+  },
+  "emerald-qasr": {
+    id: "emerald-qasr",
+    name: "Emerald Qasr",
+    style: "Ottoman Royale",
+    tag: "Cinematic Video",
+    religion: ["muslim"],
+    religionLabel: "Muslim",
+    description:
+      "An opulent Ottoman palace experience with a live animated cinematic envelope opening video, 24K gold filigree, Ayat Ar-Rum blessings, interactive scratch reveal, and multi-event Nikah itinerary.",
+    gradient: "from-[#081F1A] via-[#0F382E] to-[#04120F]",
+  },
+  "gul-e-noor": {
+    id: "gul-e-noor",
+    name: "Gul-e-Noor",
+    style: "Blush Velvet & Rose",
+    tag: "Romantic Video",
+    religion: ["muslim"],
+    religionLabel: "Muslim",
+    description:
+      "A dreamy blush pink & rose velvet celebration with a floating floral envelope animation video, glowing pearl accents, Quranic blessings, live countdown, and interactive RSVP.",
+    gradient: "from-[#FFF5F7] via-[#FCE8ED] to-[#F5D0DB]",
+  },
+  "azure-nikah": {
+    id: "azure-nikah",
+    name: "Azure Nikah",
+    style: "Royal Sapphire & Celestial Gold",
+    tag: "Royal Video",
+    religion: ["muslim"],
+    religionLabel: "Muslim",
+    description:
+      "A majestic midnight sapphire and 24K celestial gold invitation featuring a high-definition envelope opening video, crescent star motifs, dual photo slider, and wedding timeline.",
+    gradient: "from-[#0A1628] via-[#0F2342] to-[#060D18]",
+  },
+  "kitab-e-nikah": {
+    id: "kitab-e-nikah",
+    name: "Kitab-e-Nikah",
+    style: "Sacred Velvet & Arabesque Gold",
+    tag: "Luxury Video",
+    religion: ["muslim"],
+    religionLabel: "Muslim",
+    description:
+      "A sacred velvet tome unfolding invitation featuring a cinematic opening book video, ivory parchment texture, gold arabesque motifs, and an interactive Nikah ceremony guide.",
+    gradient: "from-[#1F080F] via-[#2F0D17] to-[#120409]",
   },
   "crimson-royale": {
     id: "crimson-royale",
@@ -149,4 +203,8 @@ export const TEMPLATE_COMPONENTS = {
   "emerald-noir": () => import("@/templates/emerald-noir"),
   "royal-elegance": () => import("@/templates/royal-elegance"),
   "modern-minimal": () => import("@/templates/modern-minimal"),
+  "emerald-qasr": () => import("@/templates/emerald-qasr"),
+  "gul-e-noor": () => import("@/templates/gul-e-noor"),
+  "azure-nikah": () => import("@/templates/azure-nikah"),
+  "kitab-e-nikah": () => import("@/templates/kitab-e-nikah"),
 } as const;

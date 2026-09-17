@@ -123,7 +123,7 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
         </div>
       )}
 
-      {invitation.templateId === "royal-lotus" || invitation.templateId === "crimson-royale" || invitation.templateId === "noor-e-nikah" ? (
+      {["royal-lotus", "crimson-royale", "noor-e-nikah", "emerald-qasr", "gul-e-noor", "azure-nikah", "kitab-e-nikah", "modern-minimal"].includes(invitation.templateId) ? (
         <SelectedTemplate data={invitation} />
       ) : (
         <>

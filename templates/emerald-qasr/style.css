@@ -1,0 +1,1203 @@
+/* ==========================================================================
+   EMERALD QASR — LUXURY OTTOMAN ISLAMIC WEDDING TEMPLATE CSS
+   Seamless Ink-on-Paper Video Envelope Typography & Authentic Wax Seal
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600&family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --eq-bg-deep: #061814;
+  --eq-bg-surface: #0b2922;
+  --eq-bg-card: rgba(14, 48, 40, 0.75);
+  --eq-gold-primary: #D4AF37;
+  --eq-gold-bright: #F5E5A3;
+  --eq-gold-dark: #8F7220;
+  --eq-gold-metallic: linear-gradient(135deg, #FBF2D5 0%, #D4AF37 50%, #AA820A 100%);
+  --eq-gold-border: rgba(212, 175, 55, 0.4);
+  --eq-text-light: #F2EADB;
+  --eq-text-muted: #B8CCC5;
+
+  /* Ink Colors on the Ivory Paper of Video */
+  --eq-ink-bismillah: #785A18;
+  --eq-ink-honor: #5C4315;
+  --eq-ink-names: #082820;
+  --eq-ink-subtext: #204036;
+  --eq-ink-meta: #0A2F25;
+}
+
+.emerald-qasr-root {
+  min-height: 100vh;
+  background-color: var(--eq-bg-deep);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(20, 80, 65, 0.45) 0%, transparent 70%),
+    radial-gradient(circle at 100% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 0% 80%, rgba(14, 48, 40, 0.6) 0%, transparent 60%);
+  color: var(--eq-text-light);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+  position: relative;
+  padding-bottom: 60px;
+}
+
+/* ── Viewport Shell ── */
+.eq-viewport-shell {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .eq-viewport-shell {
+    max-width: 480px;
+    padding: 32px 20px;
+  }
+}
+
+/* ── Top Header Arch ── */
+.eq-header-arch {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+
+.eq-arch-bismillah {
+  font-family: 'Amiri', serif;
+  font-size: 26px;
+  color: var(--eq-gold-primary);
+  text-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+  margin-bottom: 4px;
+}
+
+.eq-arch-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: var(--eq-gold-bright);
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* ── Centerpiece Interactive Video Card ── */
+.eq-video-hero-wrapper {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.eq-video-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 680px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1.5px solid var(--eq-gold-border);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.6),
+    0 0 24px rgba(212, 175, 55, 0.15);
+  background-color: #030a08;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.eq-video-card.eq-card-revealed {
+  cursor: default;
+}
+
+.eq-main-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Authentic Ottoman Wax Seal on Closed Flap ── */
+.eq-seal-monogram-anchor {
+  position: absolute;
+  top: 45.2%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 12;
+  pointer-events: none;
+  transition: transform 1.6s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 1.3s ease-in;
+}
+
+.eq-seal-monogram-anchor.eq-seal-lifting {
+  transform: translate(-50%, calc(-50% - 110px)) scale(0.85);
+  opacity: 0;
+}
+
+.eq-wax-initials-ring {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+}
+
+.eq-wax-initials {
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  font-size: 13.5px;
+  color: #F7E7B4;
+  letter-spacing: 0.06em;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 0 5px rgba(212, 175, 55, 0.7);
+}
+
+.eq-tap-prompt-ribbon {
+  position: absolute;
+  top: 59.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(4, 18, 14, 0.92);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--eq-gold-bright);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  animation: eq-prompt-pulse 2s infinite ease-in-out;
+}
+
+@keyframes eq-prompt-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 0 rgba(212, 175, 55, 0);
+  }
+
+  50% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 12px rgba(212, 175, 55, 0.4);
+  }
+}
+
+/* ── Royal Unlock Golden Flash Overlay ── */
+.eq-unlock-flash-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 235, 170, 0.88) 0%, rgba(212, 175, 55, 0.45) 45%, transparent 80%);
+  animation: eq-flash-burst 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes eq-flash-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  25% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: brightness(1.4);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+    filter: brightness(1);
+  }
+}
+
+/* ── Seamless Ink-on-Paper Overlay on the Ivory Card (Strictly Inside Inner Gold Borders) ── */
+.eq-blank-card-overlay {
+  position: absolute;
+  top: 13%;
+  height: 61%;
+  left: 14%;
+  right: 14%;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+.eq-paper-print-content {
+  width: 100%;
+  max-width: 228px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 4px 0;
+}
+
+/* Header Group */
+.eq-print-header-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.eq-print-bismillah {
+  font-family: 'Amiri', serif;
+  font-size: 20px;
+  color: var(--eq-ink-bismillah);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+  text-shadow: 0 0.5px 0.5px rgba(0, 0, 0, 0.08);
+}
+
+.eq-print-honor {
+  font-family: 'Cinzel', serif;
+  font-size: 7.5px;
+  letter-spacing: 0.18em;
+  color: var(--eq-ink-honor);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Couple Group (Clean, Perfectly Fitted within Gold Border) */
+.eq-print-couple-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  margin: 1px 0;
+}
+
+.eq-print-couple-names {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--eq-ink-names);
+  line-height: 1.15;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-width: 220px;
+  text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.1);
+}
+
+.eq-couple-bride,
+.eq-couple-groom {
+  white-space: nowrap;
+}
+
+.eq-print-amp {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  color: #8C6D23;
+  font-weight: 600;
+}
+
+.eq-print-subtext {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 9.5px;
+  color: var(--eq-ink-subtext);
+  line-height: 1.25;
+  margin: 0;
+  font-weight: 500;
+  max-width: 215px;
+}
+
+/* Details Group (Sleek, Compact Badges that fit above bottom border) */
+.eq-print-details-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.eq-print-date-badge,
+.eq-print-venue-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(138, 102, 28, 0.35);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--eq-ink-meta);
+  width: 100%;
+  max-width: 215px;
+  box-sizing: border-box;
+}
+
+.eq-print-venue-badge {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2.5px 8px;
+}
+
+.eq-print-time-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #5C4315;
+  letter-spacing: 0.05em;
+  margin-top: 1px;
+}
+
+/* ── Envelope Bottom Action Controls ── */
+.eq-envelope-actions-bar {
+  position: absolute;
+  bottom: 3.5%;
+  left: 0;
+  right: 0;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.eq-print-btn-primary {
+  flex: 1.3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #0d382d 0%, #061c16 100%);
+  color: #F5E5A3;
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  min-height: 36px;
+  transition: all 0.25s ease;
+}
+
+.eq-print-btn-secondary {
+  flex: 1.1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #082820;
+  border: 1px solid rgba(138, 102, 28, 0.45);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  min-height: 36px;
+  transition: all 0.25s ease;
+}
+
+.eq-print-btn-replay {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(138, 102, 28, 0.45);
+  color: #082820;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+/* ── Scroll Cue ── */
+.eq-scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--eq-gold-bright);
+  text-transform: uppercase;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.eq-scroll-chevron {
+  animation: eq-bounce 1.6s infinite ease-in-out;
+  font-size: 14px;
+  color: var(--eq-gold-primary);
+}
+
+@keyframes eq-bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+/* ── General Section Architecture ── */
+.eq-section {
+  background: var(--eq-bg-card);
+  border: 1px solid var(--eq-gold-border);
+  border-radius: 20px;
+  padding: 22px 18px;
+  margin-bottom: 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.eq-section-subtitle {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: 0.24em;
+  color: var(--eq-gold-primary);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.eq-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFDF8;
+  text-align: center;
+  margin: 0 0 18px 0;
+}
+
+/* ── Quranic Verse Card ── */
+.eq-quran-card {
+  text-align: center;
+  border-color: rgba(212, 175, 55, 0.5);
+  background: radial-gradient(circle at 50% 50%, rgba(20, 70, 58, 0.8) 0%, rgba(10, 35, 29, 0.95) 100%);
+  position: relative;
+}
+
+.eq-quran-glow-backdrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+  animation: eq-ambient-pulse 4s infinite ease-in-out;
+}
+
+@keyframes eq-ambient-pulse {
+
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+.eq-arabic-verse {
+  font-family: 'Amiri', serif;
+  font-size: 19px;
+  color: var(--eq-gold-bright);
+  line-height: 1.8;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+}
+
+.eq-verse-translation {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 12.5px;
+  color: var(--eq-text-light);
+  line-height: 1.6;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.eq-verse-ref {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--eq-gold-primary);
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Live Countdown Box ── */
+.eq-countdown-box {
+  text-align: center;
+}
+
+.eq-countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.eq-countdown-cell {
+  background: rgba(4, 18, 15, 0.6);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.eq-countdown-cell:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 12px rgba(212, 175, 55, 0.2);
+}
+
+.eq-time-val {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--eq-gold-bright);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+.eq-time-lbl {
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--eq-text-muted);
+  margin-top: 2px;
+}
+
+.eq-islamic-date-text {
+  font-size: 10px;
+  color: var(--eq-gold-primary);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+}
+
+/* ── Event Timeline List ── */
+.eq-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.eq-event-card {
+  background: rgba(4, 18, 15, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 14px;
+  padding: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.eq-event-card:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5), 0 0 14px rgba(212, 175, 55, 0.15);
+}
+
+.eq-event-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.eq-event-num {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a1202;
+  background: var(--eq-gold-metallic);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eq-event-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFDF8;
+  margin: 0;
+}
+
+.eq-event-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.eq-event-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--eq-text-light);
+}
+
+.eq-dress-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px dashed rgba(212, 175, 55, 0.4);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 9.5px;
+  color: var(--eq-gold-bright);
+  margin-bottom: 8px;
+}
+
+.eq-event-desc {
+  font-size: 10.5px;
+  color: var(--eq-text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ── Venue Card ── */
+.eq-venue-box {
+  text-align: center;
+}
+
+.eq-venue-addr {
+  font-size: 11.5px;
+  color: var(--eq-text-muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.eq-map-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid var(--eq-gold-primary);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--eq-gold-bright);
+  text-decoration: none;
+  min-height: 44px;
+  transition: all 0.2s ease;
+}
+
+.eq-map-cta-btn:active {
+  background: var(--eq-gold-primary);
+  color: #1a1202;
+}
+
+/* ── RSVP Banner ── */
+.eq-rsvp-banner {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(14, 48, 40, 0.85) 0%, rgba(6, 25, 20, 0.9) 100%);
+  border-color: rgba(212, 175, 55, 0.6);
+}
+
+.eq-rsvp-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eq-rsvp-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: #FFFDF8;
+  margin: 0 0 6px 0;
+}
+
+.eq-rsvp-sub {
+  font-size: 11px;
+  color: var(--eq-text-muted);
+  max-width: 280px;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.eq-rsvp-open-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--eq-gold-metallic);
+  color: #1a1202;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 26px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+/* ── Footer ── */
+.eq-footer {
+  text-align: center;
+  padding: 24px 0 10px 0;
+}
+
+.eq-footer-monogram {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--eq-gold-primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--eq-gold-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.eq-footer-names {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #FFFDF8;
+  margin: 0 0 6px 0;
+}
+
+.eq-footer-quote {
+  font-size: 10px;
+  color: var(--eq-gold-bright);
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+/* ── Floating Music Button ── */
+.eq-music-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  z-index: 99;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(6, 24, 20, 0.88);
+  border: 1.5px solid var(--eq-gold-primary);
+  color: var(--eq-gold-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+/* ── RSVP Modal ── */
+.eq-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.eq-modal-container {
+  width: 100%;
+  max-width: 380px;
+  background: #08211b;
+  border: 1.5px solid var(--eq-gold-primary);
+  border-radius: 20px;
+  padding: 24px 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.eq-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: var(--eq-text-muted);
+  cursor: pointer;
+  padding: 6px;
+}
+
+.eq-modal-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.eq-modal-bismillah {
+  font-family: 'Amiri', serif;
+  font-size: 18px;
+  color: var(--eq-gold-bright);
+}
+
+.eq-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #FFFDF8;
+  margin: 4px 0 2px 0;
+}
+
+.eq-modal-sub {
+  font-size: 10px;
+  color: var(--eq-gold-primary);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+}
+
+.eq-form-group {
+  margin-bottom: 12px;
+}
+
+.eq-label {
+  display: block;
+  font-size: 10px;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+  color: var(--eq-gold-bright);
+  margin-bottom: 4px;
+}
+
+.eq-input,
+.eq-select,
+.eq-textarea {
+  width: 100%;
+  background: rgba(4, 15, 12, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 10px;
+  padding: 9px 12px;
+  color: #FFFDF8;
+  font-size: 12px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.eq-input:focus,
+.eq-select:focus,
+.eq-textarea:focus {
+  outline: none;
+  border-color: var(--eq-gold-primary);
+}
+
+.eq-radio-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.eq-radio-btn {
+  background: rgba(4, 15, 12, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 10.5px;
+  color: var(--eq-text-muted);
+  cursor: pointer;
+}
+
+.eq-radio-btn.active {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--eq-gold-primary);
+  color: var(--eq-gold-bright);
+  font-weight: 600;
+}
+
+.eq-submit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--eq-gold-metallic);
+  color: #1a1202;
+  border: none;
+  border-radius: 10px;
+  padding: 11px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  margin-top: 14px;
+  min-height: 44px;
+}
+
+.eq-success-msg {
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ==========================================================================
+   LUXURY FLOATING, GLOW & MOTION SYSTEM
+   ========================================================================== */
+
+/* ── Ambient Floating Particles ── */
+.eq-floating-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.eq-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 229, 163, 0.85) 0%, rgba(212, 175, 55, 0) 70%);
+  filter: blur(1px);
+  animation: eq-particle-drift infinite ease-in-out;
+}
+
+.eq-particle.p1 {
+  width: 4px;
+  height: 4px;
+  top: 15%;
+  left: 10%;
+  animation-duration: 9s;
+  animation-delay: 0s;
+}
+
+.eq-particle.p2 {
+  width: 6px;
+  height: 6px;
+  top: 35%;
+  left: 88%;
+  animation-duration: 12s;
+  animation-delay: 2s;
+}
+
+.eq-particle.p3 {
+  width: 3px;
+  height: 3px;
+  top: 55%;
+  left: 18%;
+  animation-duration: 8s;
+  animation-delay: 1s;
+}
+
+.eq-particle.p4 {
+  width: 5px;
+  height: 5px;
+  top: 72%;
+  left: 82%;
+  animation-duration: 11s;
+  animation-delay: 3s;
+}
+
+.eq-particle.p5 {
+  width: 4px;
+  height: 4px;
+  top: 88%;
+  left: 25%;
+  animation-duration: 10s;
+  animation-delay: 1.5s;
+}
+
+.eq-particle.p6 {
+  width: 5px;
+  height: 5px;
+  top: 25%;
+  left: 75%;
+  animation-duration: 13s;
+  animation-delay: 4s;
+}
+
+@keyframes eq-particle-drift {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0.15;
+  }
+
+  50% {
+    transform: translateY(-40px) scale(1.3);
+    opacity: 0.75;
+  }
+
+  100% {
+    transform: translateY(-80px) scale(0.8);
+    opacity: 0.15;
+  }
+}
+
+/* ── Floating Equalizer Soundwave ── */
+.eq-soundwave-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 14px;
+  margin-left: 2px;
+}
+
+.eq-bar {
+  width: 2.5px;
+  background: var(--eq-gold-bright);
+  border-radius: 2px;
+  animation: eq-soundwave 1.2s ease-in-out infinite alternate;
+}
+
+.eq-bar.bar-1 {
+  height: 5px;
+  animation-delay: 0.1s;
+}
+
+.eq-bar.bar-2 {
+  height: 13px;
+  animation-delay: 0.35s;
+}
+
+.eq-bar.bar-3 {
+  height: 8px;
+  animation-delay: 0.2s;
+}
+
+@keyframes eq-soundwave {
+  0% {
+    height: 3px;
+    opacity: 0.5;
+  }
+
+  100% {
+    height: 13px;
+    opacity: 1;
+  }
+}
+
+/* ── Ambient Glowing Backdrop Pulse ── */
+.eq-quran-glow-backdrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, rgba(14, 48, 40, 0.08) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+  animation: eq-pulse-glow 5s ease-in-out infinite alternate;
+}
+
+@keyframes eq-pulse-glow {
+  0% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0.85;
+  }
+}
+
+/* ── Wax Seal Breathe Animation ── */
+.eq-wax-initials-ring {
+  animation: eq-seal-breathe 3.5s ease-in-out infinite;
+}
+
+@keyframes eq-seal-breathe {
+
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+  }
+
+  50% {
+    box-shadow: 0 0 22px rgba(212, 175, 55, 0.6);
+  }
+}
+
+/* ── Scroll Cue Bounce ── */
+.eq-scroll-chevron {
+  animation: eq-bounce-arrow 1.8s ease-in-out infinite;
+}
+
+@keyframes eq-bounce-arrow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+/* ── Gentle Floating Utilities ── */
+.eq-floating-element {
+  animation: eq-float 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes eq-float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  100% {
+    transform: translateY(-5px);
+  }
+}

@@ -5,6 +5,10 @@ import CrimsonRoyale, { defaultData as crimsonRoyaleData } from "./crimson-royal
 import EmeraldNoir, { defaultData as emeraldNoirData } from "./emerald-noir";
 import RoyalElegance, { defaultData as royalEleganceData } from "./royal-elegance";
 import ModernMinimal, { defaultData as modernMinimalData } from "./modern-minimal";
+import EmeraldQasr, { defaultData as emeraldQasrData } from "./emerald-qasr";
+import GulENoor, { defaultData as gulENoorData } from "./gul-e-noor";
+import AzureNikah, { defaultData as azureNikahData } from "./azure-nikah";
+import KitabENikah, { defaultData as kitabENikahData } from "./kitab-e-nikah";
 
 export {
   NoorNikah,
@@ -13,12 +17,20 @@ export {
   EmeraldNoir,
   RoyalElegance,
   ModernMinimal,
+  EmeraldQasr,
+  GulENoor,
+  AzureNikah,
+  KitabENikah,
   noorNikahData,
   royalLotusData,
   crimsonRoyaleData,
   emeraldNoirData,
   royalEleganceData,
   modernMinimalData,
+  emeraldQasrData,
+  gulENoorData,
+  azureNikahData,
+  kitabENikahData,
 };
 
 export const TEMPLATES_MAP: Record<string, React.ComponentType<{ data?: any }>> = {
@@ -28,6 +40,10 @@ export const TEMPLATES_MAP: Record<string, React.ComponentType<{ data?: any }>> 
   "emerald-noir": EmeraldNoir,
   "royal-elegance": RoyalElegance,
   "modern-minimal": ModernMinimal,
+  "emerald-qasr": EmeraldQasr,
+  "gul-e-noor": GulENoor,
+  "azure-nikah": AzureNikah,
+  "kitab-e-nikah": KitabENikah,
 };
 
 export const TEMPLATE_DEFAULT_DATA: Record<string, any> = {
@@ -37,6 +53,10 @@ export const TEMPLATE_DEFAULT_DATA: Record<string, any> = {
   "emerald-noir": emeraldNoirData,
   "royal-elegance": royalEleganceData,
   "modern-minimal": modernMinimalData,
+  "emerald-qasr": emeraldQasrData,
+  "gul-e-noor": gulENoorData,
+  "azure-nikah": azureNikahData,
+  "kitab-e-nikah": kitabENikahData,
 };
 
 export function getTemplateComponent(templateId: string): React.ComponentType<{ data?: any }> {

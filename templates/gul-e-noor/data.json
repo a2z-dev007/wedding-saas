@@ -1,0 +1,78 @@
+{
+  "id": "gul-e-noor",
+  "title": "Gul-e-Noor",
+  "style": "Pastel Rose & Blush Velvet Nikah",
+  "colorScheme": "rose-gold",
+  "couple": {
+    "brideName": "Areesha",
+    "groomName": "Hamza",
+    "brideParents": "Mr. & Mrs. Shakeel Ahmed",
+    "groomParents": "Mr. & Mrs. Rafiq Memon"
+  },
+  "weddingDate": "2027-03-21T18:00:00.000Z",
+  "dateFormatted": "Sunday, 21 March 2027",
+  "islamicDate": "12 Ramadan 1448 AH",
+  "venue": {
+    "name": "The Rosewood Palace Estate",
+    "city": "Dubai, UAE",
+    "address": "Al Barari, Jasmine Avenue, Dubai",
+    "mapUrl": "https://maps.google.com/?q=Al+Barari+Dubai"
+  },
+  "videoOpening": {
+    "videoUrl": "/templates/gul-e-noor/opening.mp4",
+    "posterUrl": "/templates/gul-e-noor/poster.png",
+    "sealMonogram": "A&H"
+  },
+  "audioTrack": "/audio/wedding-ambience.mp3",
+  "events": [
+    {
+      "name": "Dholki & Henna Night",
+      "date": "Friday, 19 March 2027",
+      "time": "06:00 PM",
+      "venue": "Blush Rose Conservatory",
+      "location": "The Rosewood Palace Estate",
+      "dressCode": "Pastel Floral Lehengas & Kurtas",
+      "description": "An intimate evening filled with joyful music, laughter, and fragrant rose henna.",
+      "enabled": true
+    },
+    {
+      "name": "Nikah & Ring Exchange",
+      "date": "Saturday, 20 March 2027",
+      "time": "04:00 PM",
+      "venue": "The Golden Floral Gazebo",
+      "location": "The Rosewood Palace Estate",
+      "dressCode": "Dusty Rose & Ivory Traditional",
+      "description": "The sacred covenant of marriage sealed with prayers and lifelong promises.",
+      "enabled": true
+    },
+    {
+      "name": "Walima Dinner & Reception",
+      "date": "Sunday, 21 March 2027",
+      "time": "07:30 PM",
+      "venue": "The Grand Rose Ballroom",
+      "location": "The Rosewood Palace Estate",
+      "dressCode": "Evening Formal / Black Tie",
+      "description": "Celebrating the beginning of a lifetime of togetherness under the starlight.",
+      "enabled": true
+    }
+  ],
+  "gallery": [
+    "/templates/gul-e-noor/poster.png",
+    "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop"
+  ],
+  "galleryCaptions": [
+    { "title": "A Garden of Roses", "subtitle": "Our Fairytale Unfolds" },
+    { "title": "Sacred Ring Ceremony", "subtitle": "With Faith & Grace" },
+    { "title": "Soft Rose Petals", "subtitle": "Blessings of Love" },
+    { "title": "The Golden Hour", "subtitle": "A Lifetime Together" },
+    { "title": "The Grand Celebration", "subtitle": "Surrounded by Loved Ones" }
+  ],
+  "verse": {
+    "arabic": "وَخَلَقْنَاكُمْ أَزْوَاجًا",
+    "translation": "And We created you in pairs.",
+    "reference": "Surah An-Naba · 78:8"
+  }
+}

@@ -39,7 +39,7 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
 
   return (
     <div className={`relative min-h-[100dvh] bg-[#380D17] overflow-x-hidden ${isEmbed ? "overflow-y-auto" : ""}`}>
-      {templateId === "royal-lotus" || templateId === "crimson-royale" || templateId === "noor-e-nikah" ? (
+      {["royal-lotus", "crimson-royale", "noor-e-nikah", "emerald-qasr", "gul-e-noor", "azure-nikah", "kitab-e-nikah", "modern-minimal"].includes(templateId) ? (
         <SelectedTemplate data={mockData} />
       ) : (
         <>
@@ -94,15 +94,26 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:border-amber-400 text-white"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-1.5">
-                  {["noor-e-nikah", "crimson-royale", "royal-lotus", "emerald-noir", "royal-elegance", "modern-minimal"].map((id) => (
+                <div className="grid grid-cols-2 gap-1.5 max-h-40 overflow-y-auto pr-1">
+                  {[
+                    "noor-e-nikah",
+                    "emerald-qasr",
+                    "gul-e-noor",
+                    "azure-nikah",
+                    "kitab-e-nikah",
+                    "crimson-royale",
+                    "royal-lotus",
+                    "emerald-noir",
+                    "royal-elegance",
+                    "modern-minimal",
+                  ].map((id) => (
                     <Link href={`/preview/${id}/interactive`} key={id}>
                       <button
                         className={`w-full py-1 text-[8px] uppercase font-bold rounded ${
                           templateId === id ? "bg-amber-400 text-black" : "bg-white/5 text-white/80"
                         }`}
                       >
-                        {id.replace("-", " ")}
+                        {id.replace(/-/g, " ")}
                       </button>
                     </Link>
                   ))}

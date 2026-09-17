@@ -180,6 +180,10 @@ export function InvitationEditor({ initialData, invitationId, initialTemplateId 
 
   const templateOptions = [
     { id: "noor-e-nikah", name: "Noor-e-Nikah", style: "Sacred Elegance", religion: ["muslim"], religionLabel: "Muslim", color: "border-[#D4AF37] bg-[#FAF8F5]" },
+    { id: "emerald-qasr", name: "Emerald Qasr", style: "Ottoman Royale", religion: ["muslim"], religionLabel: "Muslim", color: "border-[#0F382E] bg-[#EAF2EF]" },
+    { id: "gul-e-noor", name: "Gul-e-Noor", style: "Blush Velvet & Rose", religion: ["muslim"], religionLabel: "Muslim", color: "border-[#D4849A] bg-[#FFF5F7]" },
+    { id: "azure-nikah", name: "Azure Nikah", style: "Royal Sapphire", religion: ["muslim"], religionLabel: "Muslim", color: "border-[#0F2342] bg-[#E8EEF5]" },
+    { id: "kitab-e-nikah", name: "Kitab-e-Nikah", style: "Sacred Velvet & Gold", religion: ["muslim"], religionLabel: "Muslim", color: "border-[#5E1A29] bg-[#FDF6F8]" },
     { id: "crimson-royale", name: "Crimson Royale", style: "Royal Court", religion: ["hindu"], religionLabel: "Hindu", color: "border-[#7c2c3b] bg-[#fff5f6]" },
     { id: "royal-lotus", name: "Royal Lotus", style: "Royal Palace", religion: ["hindu"], religionLabel: "Hindu", color: "border-[#D4AF37] bg-[#FAF7F0]" },
     { id: "emerald-noir", name: "Emerald Noir", style: "Luxury Dark", religion: ["muslim"], religionLabel: "Muslim", color: "border-[#082F27] bg-[#E8F0ED]" },

@@ -1,0 +1,1043 @@
+/* ==========================================================================
+   AZURE NIKAH — ROYAL SAPPHIRE & CELESTIAL GOLD NIKAH TEMPLATE CSS
+   Seamless Ink-on-Paper Video Envelope Typography & Authentic Wax Seal
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --an-bg-deep: #050B14;
+  --an-bg-surface: #0A172A;
+  --an-bg-card: rgba(12, 28, 52, 0.78);
+  --an-blue-primary: #38BDF8;
+  --an-gold-primary: #DFB76C;
+  --an-celestial-gold: linear-gradient(135deg, #FDF0D5 0%, #DFB76C 50%, #9E7420 100%);
+  --an-gold-border: rgba(223, 183, 108, 0.4);
+  --an-text-light: #F0F6FF;
+  --an-text-muted: #94A3B8;
+
+  /* Ink Colors on the Ivory/Gold Paper */
+  --an-ink-bismillah: #8C6618;
+  --an-ink-honor: #61460E;
+  --an-ink-names: #07172E;
+  --an-ink-subtext: #193252;
+  --an-ink-meta: #0A1C36;
+}
+
+.azure-nikah-root {
+  min-height: 100vh;
+  background-color: var(--an-bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(14, 116, 144, 0.4) 0%, transparent 70%),
+    radial-gradient(circle at 100% 50%, rgba(223, 183, 108, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 0% 80%, rgba(15, 23, 42, 0.8) 0%, transparent 60%);
+  color: var(--an-text-light);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+  position: relative;
+  padding-bottom: 60px;
+}
+
+.an-viewport-shell {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .an-viewport-shell {
+    max-width: 480px;
+    padding: 32px 20px;
+  }
+}
+
+.an-header-arch {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+
+.an-arch-bismillah {
+  font-family: 'Amiri', serif;
+  font-size: 26px;
+  color: #BAE6FD;
+  text-shadow: 0 0 16px rgba(56, 189, 248, 0.5);
+  margin-bottom: 4px;
+}
+
+.an-arch-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: var(--an-gold-primary);
+  text-transform: uppercase;
+}
+
+.an-video-hero-wrapper {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.an-video-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 680px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1.5px solid var(--an-gold-border);
+  box-shadow: 
+    0 16px 40px rgba(0, 0, 0, 0.7),
+    0 0 24px rgba(56, 189, 248, 0.2);
+  background-color: #030811;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+.an-video-card.an-card-revealed {
+  cursor: default;
+}
+
+.an-main-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Realistic Sapphire & Gold Wax Seal ── */
+.an-seal-monogram-anchor {
+  position: absolute;
+  top: 45.2%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 12;
+  pointer-events: none;
+  transition: transform 1.6s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 1.3s ease-in;
+}
+
+.an-seal-monogram-anchor.an-seal-lifting {
+  transform: translate(-50%, calc(-50% - 110px)) scale(0.85);
+  opacity: 0;
+}
+
+.an-wax-initials-ring {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+}
+
+.an-wax-initials {
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  font-size: 13.5px;
+  color: #E0F2FE;
+  letter-spacing: 0.06em;
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 0 5px rgba(56, 189, 248, 0.7);
+}
+
+.an-tap-prompt-ribbon {
+  position: absolute;
+  top: 59.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(3, 10, 24, 0.92);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #BAE6FD;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  animation: an-prompt-pulse 2s infinite ease-in-out;
+}
+
+@keyframes an-prompt-pulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 0 rgba(56, 189, 248, 0); }
+  50% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 12px rgba(56, 189, 248, 0.5); }
+}
+
+/* ── Royal Unlock Celestial Sapphire Flash Overlay ── */
+.an-unlock-flash-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background: radial-gradient(circle at 50% 40%, rgba(224, 242, 254, 0.88) 0%, rgba(56, 189, 248, 0.45) 45%, transparent 80%);
+  animation: an-flash-burst 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes an-flash-burst {
+  0% { opacity: 0; transform: scale(0.9); }
+  25% { opacity: 1; transform: scale(1.05); filter: brightness(1.4); }
+  100% { opacity: 0; transform: scale(1.2); filter: brightness(1); }
+}
+
+/* ── Seamless Ink-on-Paper Overlay on the Ivory/Sapphire Card (Strictly Inside Inner Gold Borders) ── */
+.an-blank-card-overlay {
+  position: absolute;
+  top: 13%;
+  height: 61%;
+  left: 14%;
+  right: 14%;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+.an-paper-print-content {
+  width: 100%;
+  max-width: 228px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 4px 0;
+}
+
+/* Header Group */
+.an-print-header-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.an-print-bismillah {
+  font-family: 'Amiri', serif;
+  font-size: 20px;
+  color: var(--an-ink-bismillah);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+  text-shadow: 0 0.5px 0.5px rgba(0, 0, 0, 0.08);
+}
+
+.an-print-honor {
+  font-family: 'Cinzel', serif;
+  font-size: 7.5px;
+  letter-spacing: 0.18em;
+  color: var(--an-ink-honor);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Couple Group (Clean, Perfectly Fitted within Gold Border) */
+.an-print-couple-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  margin: 1px 0;
+}
+
+.an-print-couple-names {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--an-ink-names);
+  line-height: 1.15;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-width: 220px;
+  text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.1);
+}
+
+.an-couple-bride,
+.an-couple-groom {
+  white-space: nowrap;
+}
+
+.an-print-amp {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  color: #8C6618;
+  font-weight: 600;
+}
+
+.an-print-subtext {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 9.5px;
+  color: var(--an-ink-subtext);
+  line-height: 1.25;
+  margin: 0;
+  font-weight: 500;
+  max-width: 215px;
+}
+
+/* Details Group */
+.an-print-details-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.an-print-date-badge,
+.an-print-venue-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(140, 102, 24, 0.35);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--an-ink-meta);
+  width: 100%;
+  max-width: 215px;
+  box-sizing: border-box;
+}
+
+.an-print-venue-badge {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2.5px 8px;
+}
+
+.an-print-time-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #0369A1;
+  letter-spacing: 0.05em;
+  margin-top: 1px;
+}
+
+/* ── Envelope Bottom Action Controls ── */
+.an-envelope-actions-bar {
+  position: absolute;
+  bottom: 3.5%;
+  left: 0;
+  right: 0;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.an-print-btn-primary {
+  flex: 1.3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #0a254a 0%, #041021 100%);
+  color: #BAE6FD;
+  border: 1px solid rgba(56, 189, 248, 0.6);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  min-height: 36px;
+  transition: all 0.25s ease;
+}
+
+.an-print-btn-secondary {
+  flex: 1.1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #07172E;
+  border: 1px solid rgba(140, 102, 24, 0.4);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  min-height: 36px;
+  transition: all 0.25s ease;
+}
+
+.an-print-btn-replay {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(140, 102, 24, 0.4);
+  color: #07172E;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.an-scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: #BAE6FD;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.an-scroll-chevron {
+  animation: an-bounce 1.6s infinite ease-in-out;
+  font-size: 14px;
+  color: var(--an-blue-primary);
+}
+
+@keyframes an-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+.an-section {
+  background: var(--an-bg-card);
+  border: 1px solid var(--an-gold-border);
+  border-radius: 20px;
+  padding: 22px 18px;
+  margin-bottom: 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.an-section-subtitle {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: 0.24em;
+  color: var(--an-gold-primary);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.an-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFDF8;
+  text-align: center;
+  margin: 0 0 18px 0;
+}
+
+.an-quran-card {
+  text-align: center;
+  border-color: rgba(56, 189, 248, 0.45);
+  background: radial-gradient(circle at 50% 50%, rgba(14, 45, 80, 0.8) 0%, rgba(6, 18, 35, 0.95) 100%);
+  position: relative;
+}
+
+.an-quran-glow-backdrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+  animation: an-ambient-pulse 4s infinite ease-in-out;
+}
+
+@keyframes an-ambient-pulse {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+}
+
+.an-arabic-verse {
+  font-family: 'Amiri', serif;
+  font-size: 20px;
+  color: #BAE6FD;
+  line-height: 1.8;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.an-verse-translation {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 12.5px;
+  color: var(--an-text-light);
+  line-height: 1.6;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.an-verse-ref {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--an-gold-primary);
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+
+.an-countdown-box {
+  text-align: center;
+}
+
+.an-countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.an-countdown-cell {
+  background: rgba(4, 14, 28, 0.6);
+  border: 1px solid rgba(223, 183, 108, 0.3);
+  border-radius: 12px;
+  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.an-countdown-cell:hover {
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 12px rgba(56, 189, 248, 0.2);
+}
+
+.an-time-val {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #BAE6FD;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+.an-time-lbl {
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--an-text-muted);
+  margin-top: 2px;
+}
+
+.an-islamic-date-text {
+  font-size: 10px;
+  color: var(--an-gold-primary);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+}
+
+.an-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.an-event-card {
+  background: rgba(4, 14, 28, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 14px;
+  padding: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.an-event-card:hover {
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5), 0 0 14px rgba(56, 189, 248, 0.2);
+}
+
+.an-event-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(223, 183, 108, 0.15);
+}
+
+.an-event-num {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #171002;
+  background: var(--an-celestial-gold);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.an-event-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFDF8;
+  margin: 0;
+}
+
+.an-event-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.an-event-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--an-text-light);
+}
+
+.an-dress-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px dashed rgba(56, 189, 248, 0.4);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 9.5px;
+  color: #BAE6FD;
+  margin-bottom: 8px;
+}
+
+.an-event-desc {
+  font-size: 10.5px;
+  color: var(--an-text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.an-venue-box {
+  text-align: center;
+}
+
+.an-venue-addr {
+  font-size: 11.5px;
+  color: var(--an-text-muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.an-map-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid var(--an-blue-primary);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #BAE6FD;
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.an-rsvp-banner {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(14, 40, 72, 0.85) 0%, rgba(6, 18, 35, 0.9) 100%);
+  border-color: rgba(223, 183, 108, 0.6);
+}
+
+.an-rsvp-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.an-rsvp-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: #FFFDF8;
+  margin: 0 0 6px 0;
+}
+
+.an-rsvp-sub {
+  font-size: 11px;
+  color: var(--an-text-muted);
+  max-width: 280px;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.an-rsvp-open-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--an-celestial-gold);
+  color: #171002;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 26px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.an-footer {
+  text-align: center;
+  padding: 24px 0 10px 0;
+}
+
+.an-footer-monogram {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--an-gold-primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--an-gold-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.an-footer-names {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #FFFDF8;
+  margin: 0 0 6px 0;
+}
+
+.an-footer-quote {
+  font-size: 10px;
+  color: #BAE6FD;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+.an-music-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  z-index: 99;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(6, 18, 35, 0.88);
+  border: 1.5px solid var(--an-blue-primary);
+  color: #BAE6FD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.an-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.an-modal-container {
+  width: 100%;
+  max-width: 380px;
+  background: #091a30;
+  border: 1.5px solid var(--an-gold-primary);
+  border-radius: 20px;
+  padding: 24px 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.an-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: var(--an-text-muted);
+  cursor: pointer;
+  padding: 6px;
+}
+
+.an-modal-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.an-modal-bismillah {
+  font-family: 'Amiri', serif;
+  font-size: 18px;
+  color: #BAE6FD;
+}
+
+.an-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #FFFDF8;
+  margin: 4px 0 2px 0;
+}
+
+.an-modal-sub {
+  font-size: 10px;
+  color: var(--an-gold-primary);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+}
+
+.an-form-group {
+  margin-bottom: 12px;
+}
+
+.an-label {
+  display: block;
+  font-size: 10px;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+  color: #BAE6FD;
+  margin-bottom: 4px;
+}
+
+.an-input,
+.an-select,
+.an-textarea {
+  width: 100%;
+  background: rgba(4, 12, 24, 0.8);
+  border: 1px solid rgba(223, 183, 108, 0.3);
+  border-radius: 10px;
+  padding: 9px 12px;
+  color: #FFFDF8;
+  font-size: 12px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.an-input:focus,
+.an-select:focus,
+.an-textarea:focus {
+  outline: none;
+  border-color: var(--an-blue-primary);
+}
+
+.an-radio-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.an-radio-btn {
+  background: rgba(4, 12, 24, 0.8);
+  border: 1px solid rgba(223, 183, 108, 0.25);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 10.5px;
+  color: var(--an-text-muted);
+  cursor: pointer;
+}
+
+.an-radio-btn.active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: var(--an-blue-primary);
+  color: #BAE6FD;
+  font-weight: 600;
+}
+
+.an-submit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--an-celestial-gold);
+  color: #171002;
+  border: none;
+  border-radius: 10px;
+  padding: 11px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  margin-top: 14px;
+  min-height: 44px;
+}
+
+.an-success-msg {
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ==========================================================================
+   LUXURY FLOATING, GLOW & MOTION SYSTEM
+   ========================================================================== */
+
+/* ── Ambient Floating Particles ── */
+.an-floating-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.an-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(186, 230, 253, 0.85) 0%, rgba(56, 189, 248, 0) 70%);
+  filter: blur(1px);
+  animation: an-particle-drift infinite ease-in-out;
+}
+
+.an-particle.p1 { width: 5px; height: 5px; top: 16%; left: 12%; animation-duration: 10s; animation-delay: 0s; }
+.an-particle.p2 { width: 7px; height: 7px; top: 38%; left: 86%; animation-duration: 13s; animation-delay: 2s; }
+.an-particle.p3 { width: 3px; height: 3px; top: 52%; left: 16%; animation-duration: 8.5s; animation-delay: 1.2s; }
+.an-particle.p4 { width: 6px; height: 6px; top: 74%; left: 80%; animation-duration: 11s; animation-delay: 2.8s; }
+.an-particle.p5 { width: 4px; height: 4px; top: 86%; left: 24%; animation-duration: 10s; animation-delay: 0.5s; }
+.an-particle.p6 { width: 5px; height: 5px; top: 24%; left: 74%; animation-duration: 12.5s; animation-delay: 3.5s; }
+
+@keyframes an-particle-drift {
+  0% { transform: translateY(0) scale(0.8); opacity: 0.15; }
+  50% { transform: translateY(-42px) scale(1.35); opacity: 0.8; }
+  100% { transform: translateY(-85px) scale(0.8); opacity: 0.15; }
+}
+
+/* ── Floating Equalizer Soundwave ── */
+.an-soundwave-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 14px;
+  margin-left: 2px;
+}
+
+.an-bar {
+  width: 2.5px;
+  background: #BAE6FD;
+  border-radius: 2px;
+  animation: an-soundwave 1.2s ease-in-out infinite alternate;
+}
+.an-bar.bar-1 { height: 5px; animation-delay: 0.1s; }
+.an-bar.bar-2 { height: 13px; animation-delay: 0.35s; }
+.an-bar.bar-3 { height: 8px; animation-delay: 0.2s; }
+
+@keyframes an-soundwave {
+  0% { height: 3px; opacity: 0.5; }
+  100% { height: 13px; opacity: 1; }
+}
+
+/* ── Ambient Glowing Backdrop Pulse ── */
+.an-quran-glow-backdrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, rgba(10, 30, 60, 0.08) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+  animation: an-pulse-glow 5s ease-in-out infinite alternate;
+}
+
+@keyframes an-pulse-glow {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.4; }
+  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.85; }
+}
+
+/* ── Wax Seal Breathe Animation ── */
+.an-wax-initials-ring {
+  animation: an-seal-breathe 3.5s ease-in-out infinite;
+}
+
+@keyframes an-seal-breathe {
+  0%, 100% { box-shadow: 0 0 10px rgba(56, 189, 248, 0.25); }
+  50% { box-shadow: 0 0 22px rgba(56, 189, 248, 0.65); }
+}
+
+/* ── Scroll Cue Bounce ── */
+.an-scroll-chevron {
+  animation: an-bounce-arrow 1.8s ease-in-out infinite;
+}
+
+@keyframes an-bounce-arrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ── Gentle Floating Utilities ── */
+.an-floating-element {
+  animation: an-float 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes an-float {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-5px); }
+}

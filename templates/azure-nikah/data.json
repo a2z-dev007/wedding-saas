@@ -1,0 +1,78 @@
+{
+  "id": "azure-nikah",
+  "title": "Azure Nikah",
+  "style": "Royal Sapphire & Celestial Gold Nikah",
+  "colorScheme": "sapphire-gold",
+  "couple": {
+    "brideName": "Samira",
+    "groomName": "Zayd",
+    "brideParents": "Mr. & Mrs. Farooq Siddiqui",
+    "groomParents": "Mr. & Mrs. Danish Al-Mansoor"
+  },
+  "weddingDate": "2027-04-18T17:30:00.000Z",
+  "dateFormatted": "Sunday, 18 April 2027",
+  "islamicDate": "11 Shawwal 1448 AH",
+  "venue": {
+    "name": "The Sapphire Palace Marina",
+    "city": "Doha, Qatar",
+    "address": "The Pearl Boulevard, Porto Arabia, Doha",
+    "mapUrl": "https://maps.google.com/?q=The+Pearl+Qatar"
+  },
+  "videoOpening": {
+    "videoUrl": "/templates/azure-nikah/opening.mp4",
+    "posterUrl": "/templates/azure-nikah/poster.png",
+    "sealMonogram": "S&Z"
+  },
+  "audioTrack": "/audio/wedding-ambience.mp3",
+  "events": [
+    {
+      "name": "Celestial Sangeet & Qawwali",
+      "date": "Friday, 16 April 2027",
+      "time": "07:00 PM",
+      "venue": "Sapphire Waterside Amphitheatre",
+      "location": "The Sapphire Palace Marina",
+      "dressCode": "Midnight Blue & Shimmering Gold",
+      "description": "An ethereal evening under the starlit sky with soul-stirring Sufi qawwali and festive celebration.",
+      "enabled": true
+    },
+    {
+      "name": "The Royal Nikah Ceremony",
+      "date": "Saturday, 17 April 2027",
+      "time": "04:30 PM",
+      "venue": "Lapis Lazuli Grand Pavilion",
+      "location": "The Sapphire Palace Marina",
+      "dressCode": "Royal Sapphire / Traditional Formal",
+      "description": "The sacred marriage covenant solemnized amidst the presence of respected elders and cherished family.",
+      "enabled": true
+    },
+    {
+      "name": "Grand Walima Gala",
+      "date": "Sunday, 18 April 2027",
+      "time": "08:00 PM",
+      "venue": "Starlight Royal Grand Ballroom",
+      "location": "The Sapphire Palace Marina",
+      "dressCode": "Black Tie / Royal Couture",
+      "description": "A magnificent feast celebrating love, honor, and the union of two noble families.",
+      "enabled": true
+    }
+  ],
+  "gallery": [
+    "/templates/azure-nikah/poster.png",
+    "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop"
+  ],
+  "galleryCaptions": [
+    { "title": "Celestial Starlight", "subtitle": "Written in the Heavens" },
+    { "title": "Sapphire Archway", "subtitle": "A Royal Promenade" },
+    { "title": "Sacred Promises", "subtitle": "United with Grace" },
+    { "title": "Golden Hour on the Bay", "subtitle": "Forever Starts Today" },
+    { "title": "The Starlight Gala", "subtitle": "A Night to Remember" }
+  ],
+  "verse": {
+    "arabic": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
+    "translation": "Our Lord, grant us from among our spouses and offspring comfort to our eyes and make us an example for the righteous.",
+    "reference": "Surah Al-Furqan · 25:74"
+  }
+}

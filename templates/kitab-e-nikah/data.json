@@ -1,0 +1,78 @@
+{
+  "id": "kitab-e-nikah",
+  "title": "Kitab-e-Nikah",
+  "style": "Sacred Velvet Book & Arabesque Gold",
+  "colorScheme": "parchment-gold",
+  "couple": {
+    "brideName": "Maryam",
+    "groomName": "Ibrahim",
+    "brideParents": "Mr. & Mrs. Dr. Rashid Malik",
+    "groomParents": "Mr. & Mrs. Engr. Tahir Farooqi"
+  },
+  "weddingDate": "2027-05-09T16:30:00.000Z",
+  "dateFormatted": "Sunday, 09 May 2027",
+  "islamicDate": "03 Dhu al-Qi'dah 1448 AH",
+  "venue": {
+    "name": "The Grand Ottoman Heritage Palace",
+    "city": "Istanbul, Turkey",
+    "address": "Ciragan Caddesi, Besiktas, Istanbul",
+    "mapUrl": "https://maps.google.com/?q=Ciragan+Palace+Istanbul"
+  },
+  "videoOpening": {
+    "videoUrl": "/templates/kitab-e-nikah/opening.mp4",
+    "posterUrl": "/templates/kitab-e-nikah/poster.png",
+    "sealMonogram": "M&I"
+  },
+  "audioTrack": "/audio/wedding-ambience.mp3",
+  "events": [
+    {
+      "name": "Majlis-e-Dua & Henna",
+      "date": "Friday, 07 May 2027",
+      "time": "06:00 PM",
+      "venue": "Bosphorus Garden Terrace",
+      "location": "The Grand Ottoman Heritage Palace",
+      "dressCode": "Ottoman Silk & Pastel Embroidery",
+      "description": "An intimate gathering of prayers, heartfelt blessings, and traditional Turkish henna ceremonies.",
+      "enabled": true
+    },
+    {
+      "name": "Nikahnama Signing & Solemnization",
+      "date": "Saturday, 08 May 2027",
+      "time": "04:30 PM",
+      "venue": "The Royal Velvet Sultan Hall",
+      "location": "The Grand Ottoman Heritage Palace",
+      "dressCode": "Traditional Grand Formal / Sherwanis & Gowns",
+      "description": "Signing of the sacred Nikahnama contract and recitation of Surah Ar-Rum before family and elders.",
+      "enabled": true
+    },
+    {
+      "name": "Grand Walima Banquet",
+      "date": "Sunday, 09 May 2027",
+      "time": "07:30 PM",
+      "venue": "Imperial Palace Grand Ballroom",
+      "location": "The Grand Ottoman Heritage Palace",
+      "dressCode": "Black Tie / Royal Ottoman Velvet",
+      "description": "A magnificent celebratory feast on the Bosphorus shores with live Ney flute symphony and fine dining.",
+      "enabled": true
+    }
+  ],
+  "gallery": [
+    "/templates/kitab-e-nikah/poster.png",
+    "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop"
+  ],
+  "galleryCaptions": [
+    { "title": "The Sacred Nikahnama", "subtitle": "Written by Destiny" },
+    { "title": "Ottoman Palace Arch", "subtitle": "A Timeless Heritage" },
+    { "title": "Golden Calligraphy", "subtitle": "Duas from the Heart" },
+    { "title": "Bosphorus Starlight", "subtitle": "A Journey of Forever" },
+    { "title": "The Royal Sultan Hall", "subtitle": "Surrounded by Loved Ones" }
+  ],
+  "verse": {
+    "arabic": "هُوَ الَّذِي خَلَقَكُم مِّن نَّفْسٍ وَاحِدَةٍ وَجَعَلَ مِنْهَا زَوْجَهَا لِيَسْكُنَ إِلَيْهَا",
+    "translation": "It is He who created you from one soul and created from it its mate that he might dwell in security with her.",
+    "reference": "Surah Al-A'raf · 7:189"
+  }
+}

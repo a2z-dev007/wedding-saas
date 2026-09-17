@@ -1,0 +1,78 @@
+{
+  "id": "emerald-qasr",
+  "title": "Emerald Qasr",
+  "style": "Imperial Ottoman & Mughal Nikah",
+  "colorScheme": "emerald-gold",
+  "couple": {
+    "brideName": "Zoya",
+    "groomName": "Farhan",
+    "brideParents": "Mr. & Mrs. Tariq Khan",
+    "groomParents": "Mr. & Mrs. Imran Qureshi"
+  },
+  "weddingDate": "2027-02-14T17:00:00.000Z",
+  "dateFormatted": "Sunday, 14 February 2027",
+  "islamicDate": "07 Sha'ban 1448 AH",
+  "venue": {
+    "name": "The Grand Qasr Al-Firdous",
+    "city": "Abu Dhabi, UAE",
+    "address": "Corniche Road West, Al Ras Al Akhdar, Abu Dhabi",
+    "mapUrl": "https://maps.google.com/?q=Emirates+Palace+Abu+Dhabi"
+  },
+  "videoOpening": {
+    "videoUrl": "/templates/emerald-qasr/opening.mp4",
+    "posterUrl": "/templates/emerald-qasr/poster.png",
+    "sealMonogram": "Z&F"
+  },
+  "audioTrack": "/audio/wedding-ambience.mp3",
+  "events": [
+    {
+      "name": "Rasm-e-Hina (Mehendi)",
+      "date": "Friday, 12 February 2027",
+      "time": "06:30 PM",
+      "venue": "Emerald Courtyard Garden",
+      "location": "The Grand Qasr Al-Firdous",
+      "dressCode": "Shades of Emerald & Mustard Gold",
+      "description": "An enchanting evening of intricate henna artistry, traditional folk melodies, and fragrant jasmine blooms.",
+      "enabled": true
+    },
+    {
+      "name": "Sacred Nikah Ceremony",
+      "date": "Saturday, 13 February 2027",
+      "time": "04:30 PM",
+      "venue": "Royal Marble Pavilion",
+      "location": "The Grand Qasr Al-Firdous",
+      "dressCode": "Regal Modest Formal / Sherwanis & Embroidered Lehengas",
+      "description": "Solemnization of marriage under the sacred Quranic vows and blessings of family and elders.",
+      "enabled": true
+    },
+    {
+      "name": "Grand Dawat-e-Walima",
+      "date": "Sunday, 14 February 2027",
+      "time": "07:30 PM",
+      "venue": "Imperial Crystal Grand Ballroom",
+      "location": "The Grand Qasr Al-Firdous",
+      "dressCode": "Black Tie / Royal Velvet & Zari",
+      "description": "A grand celebration of love with royal Mughal delicacies, live classical symphony, and timeless elegance.",
+      "enabled": true
+    }
+  ],
+  "gallery": [
+    "/templates/emerald-qasr/poster.png",
+    "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop"
+  ],
+  "galleryCaptions": [
+    { "title": "The Imperial Qasr Entrance", "subtitle": "A Royal Fairytale Begins" },
+    { "title": "Golden Filigree & Jewels", "subtitle": "Crafted with Heritage Elegance" },
+    { "title": "Sacred Quranic Vows", "subtitle": "Bound by Faith & Love" },
+    { "title": "Sunset on the Palace Terrace", "subtitle": "Whispers of Forever" },
+    { "title": "The Royal Banquet", "subtitle": "Celebration of Two Families" }
+  ],
+  "verse": {
+    "arabic": "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا",
+    "translation": "And of His signs is that He created for you from yourselves mates that you may find tranquility in them.",
+    "reference": "Surah Ar-Rum · 30:21"
+  }
+}
