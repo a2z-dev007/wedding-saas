@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, type Variants } from "motion/react";
 import confetti from "canvas-confetti";
+import { ScratchCard } from "@/components/invitation/ScratchCard";
 import {
   SpeakerHigh,
   SpeakerSlash,
@@ -97,6 +98,16 @@ export default function EmeraldQasr({ data }: EmeraldQasrProps) {
         timeZone: "UTC",
       })
     : resolvedData.dateFormatted;
+
+  const revealMonthDay = !isNaN(weddingDate.getTime())
+    ? weddingDate.toLocaleDateString("en-US", { month: "long", day: "numeric", timeZone: "UTC" })
+    : "September 18";
+  const revealDayName = !isNaN(weddingDate.getTime())
+    ? weddingDate.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" })
+    : "Friday";
+  const revealYearStr = !isNaN(weddingDate.getTime())
+    ? weddingDate.getFullYear().toString()
+    : "2026";
 
   const venueName = data?.venueName || data?.venue?.name || resolvedData.venue?.name;
   const venueAddress = data?.venueAddress || data?.venue?.address || resolvedData.venue?.address;
@@ -513,6 +524,34 @@ export default function EmeraldQasr({ data }: EmeraldQasrProps) {
                   ))}
                 </div>
                 <p className="eq-islamic-date-text">Islamic Hijri Date: {islamicDate}</p>
+
+                {/* ── Interactive Scratch to Reveal Date ── */}
+                <div className="eq-scratch-section">
+                  <div className="eq-scratch-header">
+                    <span className="eq-scratch-subtitle">INTERACTIVE INVITATION</span>
+                    <h3 className="eq-scratch-title">Scratch Emerald Gold Foil to Reveal Date</h3>
+                    <p className="eq-scratch-desc">Swipe across the foil to uncover our sacred Nikah date</p>
+                  </div>
+                  <div className="eq-scratch-card-wrapper">
+                    <ScratchCard
+                      revealDate={revealMonthDay}
+                      revealDay={revealDayName}
+                      revealYear={revealYearStr}
+                      islamicDate={islamicDate}
+                      theme="emerald"
+                      onRevealComplete={() => {
+                        try {
+                          confetti({
+                            particleCount: 70,
+                            spread: 75,
+                            origin: { y: 0.7 },
+                            colors: ["#D4AF37", "#10B981", "#059669", "#FFFDF8"],
+                          });
+                        } catch (_) {}
+                      }}
+                    />
+                  </div>
+                </div>
               </motion.section>
 
               {/* ── Wedding Ceremonies Timeline ── */}

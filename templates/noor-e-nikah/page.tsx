@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { Lottie } from "lottie-react";
 import confetti from "canvas-confetti";
+import { ScratchCard } from "@/components/invitation/ScratchCard";
 import { 
   SpeakerHigh, 
   SpeakerSlash, 
@@ -107,6 +108,18 @@ export default function NoorNikah({ data }: NoorNikahProps) {
         timeZone: "UTC",
       })
     : resolvedData.dateFormatted;
+
+  const revealMonthDay = !isNaN(weddingDate.getTime())
+    ? weddingDate.toLocaleDateString("en-US", { month: "long", day: "numeric", timeZone: "UTC" })
+    : "October 24";
+  const revealDayName = !isNaN(weddingDate.getTime())
+    ? weddingDate.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" })
+    : "Friday";
+  const revealYearStr = !isNaN(weddingDate.getTime())
+    ? weddingDate.getFullYear().toString()
+    : "2026";
+
+  const islamicDate = data?.islamicDate || resolvedData.islamicDate || "13 Rabi' al-Thani 1448 AH";
 
   const venueName = data?.venueName || data?.venue?.name || resolvedData.venue?.name;
   const venueAddress = data?.venueAddress || data?.venue?.address || resolvedData.venue?.address;
@@ -750,6 +763,34 @@ export default function NoorNikah({ data }: NoorNikahProps) {
               <div className="noor-timer-box">
                 <span className="noor-timer-val">{timeLeft.seconds}</span>
                 <span className="noor-timer-unit">SECS</span>
+              </div>
+            </div>
+
+            {/* Interactive Scratch-to-Reveal Date Foil */}
+            <div className="noor-scratch-section">
+              <div className="noor-scratch-header">
+                <span className="noor-scratch-subtitle">INTERACTIVE INVITATION</span>
+                <h3 className="noor-scratch-title">Scratch Gold Foil to Reveal Date</h3>
+                <p className="noor-scratch-desc">Swipe across the 24K gold surface to unveil our sacred Nikah date</p>
+              </div>
+              <div className="noor-scratch-card-wrapper">
+                <ScratchCard
+                  revealDate={revealMonthDay}
+                  revealDay={revealDayName}
+                  revealYear={revealYearStr}
+                  islamicDate={islamicDate}
+                  theme="gold"
+                  onRevealComplete={() => {
+                    try {
+                      confetti({
+                        particleCount: 75,
+                        spread: 80,
+                        origin: { y: 0.65 },
+                        colors: ["#D4AF37", "#FEF0C7", "#1E3A2F", "#FFFFFF"],
+                      });
+                    } catch (_) {}
+                  }}
+                />
               </div>
             </div>
           </div>

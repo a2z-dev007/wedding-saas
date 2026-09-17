@@ -631,6 +631,51 @@
   letter-spacing: 0.1em;
 }
 
+/* ── Interactive Scratch-to-Reveal Date ── */
+.kn-scratch-section {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px dashed rgba(229, 184, 105, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kn-scratch-header {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.kn-scratch-subtitle {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  color: var(--kn-gold-primary);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.kn-scratch-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #FFFDF8;
+  margin: 0 0 4px 0;
+}
+
+.kn-scratch-desc {
+  font-size: 10.5px;
+  color: var(--kn-text-muted);
+  margin: 0;
+}
+
+.kn-scratch-card-wrapper {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
 .kn-events-list {
   display: flex;
   flex-direction: column;

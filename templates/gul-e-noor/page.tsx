@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, type Variants } from "motion/react";
 import confetti from "canvas-confetti";
+import { ScratchCard } from "@/components/invitation/ScratchCard";
 import {
   SpeakerHigh,
   SpeakerSlash,
@@ -97,6 +98,16 @@ export default function GulENoor({ data }: GulENoorProps) {
         timeZone: "UTC",
       })
     : resolvedData.dateFormatted;
+
+  const revealMonthDay = !isNaN(weddingDate.getTime())
+    ? weddingDate.toLocaleDateString("en-US", { month: "long", day: "numeric", timeZone: "UTC" })
+    : "March 15";
+  const revealDayName = !isNaN(weddingDate.getTime())
+    ? weddingDate.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" })
+    : "Saturday";
+  const revealYearStr = !isNaN(weddingDate.getTime())
+    ? weddingDate.getFullYear().toString()
+    : "2026";
 
   const venueName = data?.venueName || data?.venue?.name || resolvedData.venue?.name;
   const venueAddress = data?.venueAddress || data?.venue?.address || resolvedData.venue?.address;
@@ -506,6 +517,34 @@ export default function GulENoor({ data }: GulENoorProps) {
                   ))}
                 </div>
                 <p className="gn-hijri-date">Islamic Date: {islamicDate}</p>
+
+                {/* ── Interactive Scratch to Reveal Date ── */}
+                <div className="gn-scratch-section">
+                  <div className="gn-scratch-header">
+                    <span className="gn-scratch-subtitle">INTERACTIVE INVITATION</span>
+                    <h3 className="gn-scratch-title">Scratch Rose Gold Foil to Reveal Date</h3>
+                    <p className="gn-scratch-desc">Swipe across the foil to uncover our sacred wedding date</p>
+                  </div>
+                  <div className="gn-scratch-card-wrapper">
+                    <ScratchCard
+                      revealDate={revealMonthDay}
+                      revealDay={revealDayName}
+                      revealYear={revealYearStr}
+                      islamicDate={islamicDate}
+                      theme="rose"
+                      onRevealComplete={() => {
+                        try {
+                          confetti({
+                            particleCount: 70,
+                            spread: 75,
+                            origin: { y: 0.7 },
+                            colors: ["#D4849A", "#FADEB8", "#E5A9B8", "#FFFDF8"],
+                          });
+                        } catch (_) {}
+                      }}
+                    />
+                  </div>
+                </div>
               </motion.section>
 
               {/* ── Event Timeline ── */}

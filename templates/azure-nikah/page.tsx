@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, type Variants } from "motion/react";
 import confetti from "canvas-confetti";
+import { ScratchCard } from "@/components/invitation/ScratchCard";
 import {
   SpeakerHigh,
   SpeakerSlash,
@@ -97,6 +98,16 @@ export default function AzureNikah({ data }: AzureNikahProps) {
         timeZone: "UTC",
       })
     : resolvedData.dateFormatted;
+
+  const revealMonthDay = !isNaN(weddingDate.getTime())
+    ? weddingDate.toLocaleDateString("en-US", { month: "long", day: "numeric", timeZone: "UTC" })
+    : "November 20";
+  const revealDayName = !isNaN(weddingDate.getTime())
+    ? weddingDate.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" })
+    : "Friday";
+  const revealYearStr = !isNaN(weddingDate.getTime())
+    ? weddingDate.getFullYear().toString()
+    : "2026";
 
   const venueName = data?.venueName || data?.venue?.name || resolvedData.venue?.name;
   const venueAddress = data?.venueAddress || data?.venue?.address || resolvedData.venue?.address;
@@ -506,6 +517,34 @@ export default function AzureNikah({ data }: AzureNikahProps) {
                   ))}
                 </div>
                 <p className="an-hijri-date">Islamic Date: {islamicDate}</p>
+
+                {/* ── Interactive Scratch to Reveal Date ── */}
+                <div className="an-scratch-section">
+                  <div className="an-scratch-header">
+                    <span className="an-scratch-subtitle">INTERACTIVE INVITATION</span>
+                    <h3 className="an-scratch-title">Scratch Sapphire Gold Foil to Reveal Date</h3>
+                    <p className="an-scratch-desc">Swipe across the foil to uncover our sacred Nikah date</p>
+                  </div>
+                  <div className="an-scratch-card-wrapper">
+                    <ScratchCard
+                      revealDate={revealMonthDay}
+                      revealDay={revealDayName}
+                      revealYear={revealYearStr}
+                      islamicDate={islamicDate}
+                      theme="sapphire"
+                      onRevealComplete={() => {
+                        try {
+                          confetti({
+                            particleCount: 70,
+                            spread: 75,
+                            origin: { y: 0.7 },
+                            colors: ["#38BDF8", "#0284C7", "#FDE047", "#FFFDF8"],
+                          });
+                        } catch (_) {}
+                      }}
+                    />
+                  </div>
+                </div>
               </motion.section>
 
               {/* ── Events Timeline ── */}
