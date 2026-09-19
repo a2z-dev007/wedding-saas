@@ -402,16 +402,25 @@ export default function RoyalLotus({ data }: RoyalLotusProps) {
         { url: "https://images.unsplash.com/photo-1600685890506-593fdf55949b?auto=format&fit=crop&w=900&q=80", caption: "Forever starts here" },
       ];
 
-  // Floating petals generation
-  const petals = Array.from({ length: 16 }, (_, i) => ({
-    id: i,
-    left: `${(i / 16) * 92 + Math.random() * 6}%`,
-    size: 10 + Math.random() * 12,
-    duration: 10 + Math.random() * 8,
-    delay: Math.random() * 8,
-    drift: (Math.random() - 0.5) * 60,
-    rotate: 180 + Math.random() * 260,
-  }));
+  // Deterministic floating petals to guarantee 100% hydration match between SSR and client
+  const petals = [
+    { id: 0, left: "4.5%", size: 14, duration: 12.5, delay: 0.2, drift: 12, rotate: 210 },
+    { id: 1, left: "11.2%", size: 18, duration: 15.0, delay: 3.4, drift: -18, rotate: 280 },
+    { id: 2, left: "18.0%", size: 12, duration: 11.2, delay: 1.8, drift: 24, rotate: 195 },
+    { id: 3, left: "24.5%", size: 16, duration: 14.2, delay: 5.1, drift: -12, rotate: 320 },
+    { id: 4, left: "31.0%", size: 20, duration: 16.5, delay: 2.2, drift: 15, rotate: 240 },
+    { id: 5, left: "37.5%", size: 13, duration: 10.8, delay: 6.0, drift: -22, rotate: 360 },
+    { id: 6, left: "44.0%", size: 17, duration: 13.6, delay: 0.9, drift: 18, rotate: 205 },
+    { id: 7, left: "50.5%", size: 15, duration: 12.0, delay: 4.5, drift: -14, rotate: 310 },
+    { id: 8, left: "57.0%", size: 19, duration: 15.8, delay: 2.7, drift: 20, rotate: 225 },
+    { id: 9, left: "63.5%", size: 11, duration: 11.5, delay: 6.8, drift: -16, rotate: 340 },
+    { id: 10, left: "70.0%", size: 16, duration: 14.0, delay: 1.4, drift: 25, rotate: 190 },
+    { id: 11, left: "76.5%", size: 14, duration: 13.2, delay: 4.0, drift: -20, rotate: 275 },
+    { id: 12, left: "83.0%", size: 18, duration: 16.0, delay: 2.9, drift: 14, rotate: 215 },
+    { id: 13, left: "89.5%", size: 12, duration: 10.5, delay: 5.5, drift: -10, rotate: 330 },
+    { id: 14, left: "94.0%", size: 15, duration: 12.8, delay: 3.1, drift: 22, rotate: 250 },
+    { id: 15, left: "97.5%", size: 17, duration: 14.6, delay: 0.5, drift: -15, rotate: 300 },
+  ];
 
   const getEventIcon = (name: string) => {
     const lower = name.toLowerCase();

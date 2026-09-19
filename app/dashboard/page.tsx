@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 import { GlassNav } from "@/components/ui/glass-nav";
 import { DoubleBezelCard } from "@/components/ui/double-bezel-card";
 import { PremiumButton } from "@/components/ui/premium-button";
@@ -15,11 +16,14 @@ import {
   DownloadSimple, 
   Clock, 
   CheckCircle,
-  Plus
+  Plus,
+  SignOut,
+  User as UserIcon,
 } from "@phosphor-icons/react";
 import { formatDate } from "@/lib/utils";
 
 export default function DashboardPage() {
+  const { data: session, status: sessionStatus } = useSession();
   const [loading, setLoading] = useState(true);
   const [invitations, setInvitations] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
@@ -30,10 +34,15 @@ export default function DashboardPage() {
   useEffect(() => {
     async function loadDashboardData() {
       let localInvites: any[] = [];
-      let email: string | null = null;
+      let email: string | null = session?.user?.email || null;
+
       if (typeof window !== "undefined") {
         try {
-          email = localStorage.getItem("unfold_user_email");
+          if (!email) {
+            email = localStorage.getItem("unfold_user_email");
+          } else {
+            localStorage.setItem("unfold_user_email", email);
+          }
           setConnectedEmail(email);
           const stored = localStorage.getItem("unfold_active_invitations");
           if (stored) {
@@ -200,14 +209,31 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <Link href="/dashboard/invitation/new">
-            <PremiumButton className="w-full sm:w-auto">
-              <div className="flex items-center gap-1.5 font-bold">
-                <Plus className="h-4 w-4" weight="bold" />
-                <span>Create New Invite</span>
-              </div>
-            </PremiumButton>
-          </Link>
+          <div className="flex items-center gap-3">
+            {connectedEmail && (
+              <button
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    localStorage.removeItem("unfold_user_email");
+                  }
+                  signOut({ callbackUrl: "/login" });
+                }}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-stone-250 bg-white hover:bg-stone-50 text-stone-700 text-xs font-semibold transition-all shadow-sm"
+              >
+                <SignOut className="h-4 w-4" />
+                <span>Log Out</span>
+              </button>
+            )}
+
+            <Link href="/dashboard/invitation/new">
+              <PremiumButton className="w-full sm:w-auto">
+                <div className="flex items-center gap-1.5 font-bold">
+                  <Plus className="h-4 w-4" weight="bold" />
+                  <span>Create New Invite</span>
+                </div>
+              </PremiumButton>
+            </Link>
+          </div>
         </div>
 
         {/* Stats Row */}
