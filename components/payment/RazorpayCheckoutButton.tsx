@@ -232,23 +232,12 @@ export function RazorpayCheckoutButton({
                 slug: slug || verifyData.invitation?.slug,
               });
 
-              // Save to client localStorage for instant dashboard sync
+              // Save to client storage and clear pending draft
               if (typeof window !== "undefined") {
                 try {
                   if (userEmail) localStorage.setItem("unfold_user_email", userEmail);
-                  const storedInvites = localStorage.getItem("unfold_active_invitations");
-                  const currentList = storedInvites ? JSON.parse(storedInvites) : [];
-                  const newInvite = {
-                    id: invitationId,
-                    slug: slug || verifyData.invitation?.slug,
-                    brideName,
-                    groomName,
-                    templateId,
-                    isPublished: true,
-                    weddingDate: new Date().toISOString(),
-                  };
-                  const filtered = currentList.filter((it: any) => it.id !== invitationId && it.slug !== slug);
-                  localStorage.setItem("unfold_active_invitations", JSON.stringify([newInvite, ...filtered]));
+                  localStorage.removeItem("unfold_pending_draft");
+                  sessionStorage.removeItem("unfold_pending_draft");
                 } catch (_) {}
               }
 

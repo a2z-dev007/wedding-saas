@@ -2,8 +2,9 @@
 
 import { use, useEffect, useState } from "react";
 import { GlassNav } from "@/components/ui/glass-nav";
-import { InvitationEditor } from "@/components/dashboard/InvitationEditor";
-import { Sparkle } from "@phosphor-icons/react";
+import { InvitationCustomizerWizard } from "@/components/customizer/InvitationCustomizerWizard";
+import { Sparkle, WarningCircle } from "@phosphor-icons/react";
+import Link from "next/link";
 
 interface EditInvitationPageProps {
   params: Promise<{ id: string }>;
@@ -15,6 +16,7 @@ export default function EditInvitationPage({ params }: EditInvitationPageProps) 
 
   const [loading, setLoading] = useState(true);
   const [initialData, setInitialData] = useState<any | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadInvitation() {
@@ -47,7 +49,7 @@ export default function EditInvitationPage({ params }: EditInvitationPageProps) 
           return;
         }
       } catch (err) {
-        console.warn("Failed to fetch invitation edit data from API. Falling back to saved sandbox details.");
+        console.warn("Failed to fetch invitation edit data from API. Falling back to local cache.");
       }
 
       if (localItem) {
@@ -56,35 +58,26 @@ export default function EditInvitationPage({ params }: EditInvitationPageProps) 
         return;
       }
 
-      // Default fallback
+      // If neither API nor local cache has it, try checking draft slug or set default fallback
       setInitialData({
         id: id || "demo-invitation-id",
         templateId: "royal-lotus",
-        brideName: "Siya",
-        groomName: "Kabir",
-        slug: id === "demo-invitation-id" ? "siya-kabir" : id,
-        weddingDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
-        weddingTime: "6:30 PM onwards",
-        venueName: "The Maharaja Palace, Udaipur",
-        venueAddress: "The Maharaja Palace, Lake Pichola Road, Udaipur, Rajasthan",
-        heroImageUrl: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=600&auto=format&fit=crop",
-        slideshowImages: [
-          "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=500&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=500&auto=format&fit=crop",
-        ],
-        showDressCode: true,
-        dressCodeText: "Royal Traditional Indian. Pastel lehengas, silk sarees, sherwanis, or bandhgalas.",
-        showTransport: true,
-        transportText: "Valet parking is available at the main palace porch. Dedicated shuttle services are arranged.",
+        brideName: "Diya",
+        groomName: "Shaan",
+        slug: id === "demo-invitation-id" ? "diya-shaan" : id,
+        weddingDate: "2026-12-22",
+        weddingTime: "06:30 PM onwards",
+        venueName: "The Ridgewood Grand Palace",
+        venueAddress: "Fatehsagar Lake Road, Udaipur, Rajasthan 313001",
+        heroImageUrl: "",
+        slideshowImages: [],
         eventsJson: [
-          { name: "Mehendi", enabled: true, venue: "Lotus Courtyard", date: "12 DECEMBER · 4:00 PM", time: "4:00 PM" },
-          { name: "Haldi", enabled: true, venue: "Poolside Courtyard", date: "13 DECEMBER · 10:00 AM", time: "10:00 AM" },
-          { name: "Sangeet", enabled: true, venue: "Royal Ballroom", date: "13 DECEMBER · 7:30 PM", time: "7:30 PM" },
-          { name: "Shaadi", enabled: true, venue: "Lake Mandap", date: "14 DECEMBER · 6:30 PM", time: "6:30 PM" },
-          { name: "Reception", enabled: true, venue: "Palace Lawns", date: "14 DECEMBER · 9:00 PM", time: "9:00 PM" },
-          { name: "Vidaai", enabled: true, venue: "Main Courtyard", date: "15 DECEMBER · 9:00 AM", time: "9:00 AM" },
+          { name: "Haldi Ceremony", enabled: true, venue: "Courtyard Garden", date: "Dec 21, 2026", time: "10:00 AM" },
+          { name: "Mehendi & Sangeet", enabled: true, venue: "Royal Banquet Hall", date: "Dec 21, 2026", time: "06:00 PM" },
+          { name: "Wedding Nuptials", enabled: true, venue: "Grand Mandap", date: "Dec 22, 2026", time: "04:30 PM" },
+          { name: "Grand Reception", enabled: true, venue: "The Grand Ballroom", date: "Dec 22, 2026", time: "08:00 PM" },
         ],
-        musicTrack: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        musicTrack: "/templates/royal-lotus/music.mp3",
       });
       setLoading(false);
     }
@@ -94,19 +87,44 @@ export default function EditInvitationPage({ params }: EditInvitationPageProps) 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center text-stone-900">
+      <div className="min-h-screen bg-[#FCFBF7] flex flex-col items-center justify-center text-[#1A1A1A]">
         <Sparkle className="h-10 w-10 text-amber-500 animate-spin-slow mb-2" />
-        <span className="text-xs uppercase tracking-widest text-stone-400">Loading editor...</span>
+        <span className="text-xs uppercase tracking-widest text-stone-400 font-bold">
+          Loading Customizer...
+        </span>
       </div>
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen bg-[#FCFBF7] flex flex-col items-center justify-center text-[#1A1A1A] px-4">
+        <WarningCircle className="h-12 w-12 text-rose-500 mb-3" />
+        <h2 className="text-xl font-bold mb-2">Invitation Not Accessible</h2>
+        <p className="text-sm text-stone-500 mb-6 text-center">{error}</p>
+        <Link
+          href="/dashboard"
+          className="px-6 py-2.5 rounded-full bg-stone-900 text-white text-xs font-bold uppercase tracking-wider"
+        >
+          Return to Dashboard
+        </Link>
+      </div>
+    );
+  }
+
+  const templateId = initialData?.templateId || "royal-lotus";
+
   return (
-    <div className="flex flex-col min-h-screen bg-stone-50 text-stone-900">
+    <div className="flex flex-col min-h-screen bg-[#FCFBF7] text-[#1A1A1A]">
       <GlassNav />
 
-      <main className="flex-grow pt-32 px-6 pb-24">
-        <InvitationEditor initialData={initialData} invitationId={id} />
+      <main className="flex-grow pt-28 pb-20">
+        <InvitationCustomizerWizard
+          templateId={templateId}
+          invitationId={id}
+          initialData={initialData}
+          isEditMode={true}
+        />
       </main>
     </div>
   );

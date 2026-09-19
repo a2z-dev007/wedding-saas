@@ -121,9 +121,9 @@ export default function LoginPage() {
                 <span>Continue with Google (1-Click)</span>
               </button>
 
-              <div className="relative flex items-center justify-center">
+              <div className="relative flex items-center justify-center my-1">
                 <div className="border-t border-stone-200 w-full"></div>
-                <span className="bg-white px-3 text-[10px] uppercase font-bold text-stone-400 tracking-wider">
+                <span className="bg-white px-3 text-[10px] uppercase font-bold text-stone-400 tracking-wider whitespace-nowrap shrink-0">
                   Or Log In with
                 </span>
                 <div className="border-t border-stone-200 w-full"></div>

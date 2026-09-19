@@ -1,22 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { generateUniqueSlug } from "@/lib/slug";
 
 export async function GET(req: NextRequest) {
   try {
     const email = req.nextUrl.searchParams.get("email")?.toLowerCase()?.trim();
 
-    try {
-      const whereClause = email
-        ? {
-            OR: [
-              { user: { email } },
-              { isPublished: true },
-            ],
-          }
-        : {};
+    // If no email is provided, do NOT leak other users' invitations
+    if (!email) {
+      return NextResponse.json({
+        invitations: [],
+        messages: [],
+      });
+    }
 
+    try {
       const invitations = await prisma.invitation.findMany({
-        where: whereClause,
+        where: {
+          user: {
+            email: email,
+          },
+        },
         orderBy: { createdAt: "desc" },
         include: {
           guestMessages: {
@@ -64,35 +68,42 @@ export async function POST(req: NextRequest) {
       transportText,
       eventsJson,
       templateId,
+      email,
+      userEmail,
     } = body;
 
-    const normalizedSlug = (slug || `${brideName}-${groomName}`)
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+    const targetEmail = (userEmail || email || "host@unfoldwed.com").toLowerCase().trim();
+
+    // Generate collision-free unique slug
+    const uniqueSlug = await generateUniqueSlug(slug || `${brideName}-${groomName}`);
 
     try {
-      // Find or create a default user for sandbox/demo if unauthenticated
-      let user = await prisma.user.findFirst();
+      // Find or create user account to link ownership
+      let user = await prisma.user.findUnique({
+        where: { email: targetEmail },
+      });
+
       if (!user) {
         user = await prisma.user.create({
           data: {
-            email: "host@unfoldwed.com",
+            email: targetEmail,
             name: `${brideName} & ${groomName}`,
           },
         });
       }
 
-      // Find or create a default order for demo
-      let order = await prisma.order.findFirst({ where: { userId: user.id } });
+      // Find or create order for this template
+      let order = await prisma.order.findFirst({
+        where: { userId: user.id, templateId: templateId || "royal-lotus" },
+      });
+
       if (!order) {
         order = await prisma.order.create({
           data: {
             userId: user.id,
             templateId: templateId || "royal-lotus",
-            amountPaise: 129900,
-            status: "paid",
+            amountPaise: 149900,
+            status: "pending",
           },
         });
       }
@@ -102,13 +113,13 @@ export async function POST(req: NextRequest) {
           userId: user.id,
           orderId: order.id,
           templateId: templateId || "royal-lotus",
-          slug: normalizedSlug,
+          slug: uniqueSlug,
           brideName,
           groomName,
           weddingDate: new Date(weddingDate),
           weddingTime: weddingTime || "7:00 PM onwards",
-          venueName: venueName || "The Maharaja Palace",
-          venueAddress: venueAddress || "Udaipur, Rajasthan",
+          venueName: venueName || "The Grand Palace",
+          venueAddress: venueAddress || "Rajasthan, India",
           venueLat: venueLat || null,
           venueLng: venueLng || null,
           heroImageUrl: heroImageUrl || null,
@@ -128,7 +139,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           id: `mock-${Date.now()}`,
-          slug: normalizedSlug,
+          slug: uniqueSlug,
           brideName,
           groomName,
           templateId: templateId || "royal-lotus",

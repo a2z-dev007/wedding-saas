@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { RazorpayCheckoutButton } from "@/components/payment/RazorpayCheckoutButton";
 import {
   Clock,
@@ -10,7 +11,8 @@ import {
   CheckCircle,
   CaretDown,
   CaretUp,
-  LockKey,
+  User,
+  House,
 } from "@phosphor-icons/react";
 
 interface DemoBannerProps {
@@ -32,9 +34,14 @@ export function DemoBanner({
   isPublished = false,
   expiresInSeconds = 900,
 }: DemoBannerProps) {
+  const { data: session } = useSession();
   const [timeLeft, setTimeLeft] = useState(expiresInSeconds);
   const [isUnlocked, setIsUnlocked] = useState(isPublished);
-  const [isMinimized, setIsMinimized] = useState(true); // Minimized by default on mobile to prevent blocking envelope / hero
+  const [isMinimized, setIsMinimized] = useState(true);
+
+  useEffect(() => {
+    setIsUnlocked(isPublished);
+  }, [isPublished]);
 
   useEffect(() => {
     if (isUnlocked) return;
@@ -75,18 +82,33 @@ export function DemoBanner({
     setIsUnlocked(true);
   };
 
+  // If already unlocked / published, render sleek top live status bar and NEVER show payment button again
   if (isUnlocked) {
     return (
-      <div className="fixed top-2 inset-x-3 md:inset-x-auto md:right-4 z-[999] flex items-center justify-between gap-3 bg-emerald-950/90 text-emerald-100 backdrop-blur-xl border border-emerald-500/30 px-3.5 py-1.5 rounded-full shadow-xl animate-fade-in pointer-events-auto">
+      <div className="fixed top-2.5 inset-x-3 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-[999] flex items-center justify-between sm:justify-center gap-3 bg-stone-950/85 text-white backdrop-blur-xl border border-emerald-400/40 px-4 py-1.5 rounded-full shadow-2xl animate-fade-in pointer-events-auto">
         <div className="flex items-center gap-1.5">
           <CheckCircle className="h-4 w-4 text-emerald-400 shrink-0" weight="fill" />
-          <span className="text-[11px] font-semibold">Your wedding website is permanently LIVE!</span>
+          <span className="text-[11px] font-semibold text-emerald-200">Live Website Active</span>
         </div>
+
+        <span className="text-white/20 text-xs">|</span>
+
         <Link
-          href={`/${slug}`}
-          className="bg-emerald-500 hover:bg-emerald-400 text-stone-950 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all"
+          href={`/customize/${templateId}?slug=${slug}`}
+          className="flex items-center gap-1 text-[11px] font-semibold text-stone-300 hover:text-amber-300 transition-colors"
         >
-          View Live Link
+          <PencilSimple className="h-3.5 w-3.5" />
+          <span>Edit Details</span>
+        </Link>
+
+        <span className="text-white/20 text-xs">|</span>
+
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-1 text-[11px] font-bold text-amber-400 hover:text-amber-300 transition-colors"
+        >
+          <House className="h-3.5 w-3.5" weight="bold" />
+          <span>Dashboard</span>
         </Link>
       </div>
     );
@@ -126,20 +148,30 @@ export function DemoBanner({
 
           <span className="text-white/20 text-xs">|</span>
 
-          {/* Login / Dashboard Link */}
-          <Link
-            href="/login"
-            className="flex items-center gap-0.5 text-[10px] font-bold text-amber-400 hover:text-amber-200 transition-colors"
-          >
-            <span>Login</span>
-          </Link>
+          {/* Login / Dashboard Link based on session */}
+          {session?.user ? (
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-1 text-[10px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+            >
+              <User className="h-3 w-3" weight="bold" />
+              <span>Dashboard</span>
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center gap-0.5 text-[10px] font-bold text-amber-400 hover:text-amber-200 transition-colors"
+            >
+              <span>Login</span>
+            </Link>
+          )}
         </div>
       </div>
 
-      {/* ── Bottom Floating Sleek Unlock Pill / Bar ── */}
+      {/* ── Bottom Floating Sleek Unlock Pill / Bar (Only in unpaid demo) ── */}
       <div className="absolute bottom-3 inset-x-3 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 flex flex-col items-center">
         {isMinimized ? (
-          /* Minimized Compact Floating Unlock Pill (Doesn't cover anything) */
+          /* Minimized Compact Floating Unlock Pill */
           <div className="pointer-events-auto flex items-center gap-2 bg-stone-950/90 backdrop-blur-xl border border-amber-400/40 px-3 py-1.5 rounded-full shadow-2xl animate-fade-in hover:scale-105 transition-all">
             <button
               onClick={() => setIsMinimized(false)}
@@ -163,7 +195,7 @@ export function DemoBanner({
             />
           </div>
         ) : (
-          /* Expanded Modal / Card (with clean dismiss/minimize toggle) */
+          /* Expanded Card */
           <div className="pointer-events-auto w-full max-w-md bg-stone-950/95 backdrop-blur-2xl border border-amber-400/40 rounded-3xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] flex flex-col gap-3 animate-fade-in">
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-center gap-2.5">
@@ -175,7 +207,7 @@ export function DemoBanner({
                     Love your customized invitation?
                   </h4>
                   <p className="text-[10px] text-stone-400">
-                    Unlock permanent website link, guest RSVPs & WhatsApp sharing.
+                    Unlock permanent website link, guest RSVPs &amp; WhatsApp sharing.
                   </p>
                 </div>
               </div>

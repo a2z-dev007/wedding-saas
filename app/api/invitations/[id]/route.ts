@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { generateUniqueSlug } from "@/lib/slug";
 
 export async function GET(
   req: NextRequest,
@@ -62,11 +63,7 @@ export async function PUT(
       templateId,
     } = body;
 
-    const normalizedSlug = (slug || `${brideName}-${groomName}`)
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+    const uniqueSlug = await generateUniqueSlug(slug || `${brideName}-${groomName}`, id);
 
     try {
       const updated = await prisma.invitation.update({
@@ -80,7 +77,7 @@ export async function PUT(
           venueAddress,
           venueLat: venueLat || null,
           venueLng: venueLng || null,
-          slug: normalizedSlug,
+          slug: uniqueSlug,
           templateId: templateId || "royal-lotus",
           heroImageUrl: heroImageUrl || null,
           slideshowImages: slideshowImages || [],
@@ -99,7 +96,7 @@ export async function PUT(
       return NextResponse.json(
         {
           id,
-          slug: normalizedSlug,
+          slug: uniqueSlug,
           brideName,
           groomName,
           templateId: templateId || "royal-lotus",

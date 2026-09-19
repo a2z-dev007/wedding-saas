@@ -33,7 +33,6 @@ export default function DashboardPage() {
 
   useEffect(() => {
     async function loadDashboardData() {
-      let localInvites: any[] = [];
       let email: string | null = session?.user?.email || null;
 
       if (typeof window !== "undefined") {
@@ -44,93 +43,105 @@ export default function DashboardPage() {
             localStorage.setItem("unfold_user_email", email);
           }
           setConnectedEmail(email);
-          const stored = localStorage.getItem("unfold_active_invitations");
-          if (stored) {
-            localInvites = JSON.parse(stored);
-          }
         } catch (e) {}
       }
 
-      try {
-        // Try fetching user invitations from API
-        const apiUrl = email ? `/api/invitations?email=${encodeURIComponent(email)}` : "/api/invitations";
-        const response = await fetch(apiUrl);
-        if (response.ok) {
-          const data = await response.json();
-          const apiInvites = data.invitations || [];
-          // Merge API and local invites
-          const merged = [...localInvites, ...apiInvites.filter((ai: any) => !localInvites.some(li => li.id === ai.id || li.slug === ai.slug))];
-          setInvitations(merged.length > 0 ? merged : localInvites);
-          setMessages(data.messages || []);
-        } else {
-          loadMockDashboardData(localInvites);
+      if (email) {
+        // Check for any single pending draft created before login
+        let pendingDraft: any = null;
+        if (typeof window !== "undefined") {
+          try {
+            const rawDraft = localStorage.getItem("unfold_pending_draft") || sessionStorage.getItem("unfold_pending_draft");
+            if (rawDraft) {
+              pendingDraft = JSON.parse(rawDraft);
+            }
+          } catch (_) {}
         }
-      } catch (err) {
-        console.warn("Failed to load dashboard from API. Falling back to saved sandbox data.");
-        loadMockDashboardData(localInvites);
-      } finally {
+
+        try {
+          if (pendingDraft) {
+            // Claim single pending draft and clear it
+            const claimRes = await fetch("/api/invitations/claim", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: email.toLowerCase(),
+                draft: pendingDraft,
+              }),
+            });
+
+            if (typeof window !== "undefined") {
+              localStorage.removeItem("unfold_pending_draft");
+              sessionStorage.removeItem("unfold_pending_draft");
+            }
+
+            if (claimRes.ok) {
+              const claimData = await claimRes.json();
+              setInvitations(claimData.invitations || []);
+              setMessages(claimData.messages || []);
+              setIsDemoMode(false);
+              setLoading(false);
+              return;
+            }
+          }
+
+          // Fetch strictly the user's invitations from database
+          const response = await fetch(`/api/invitations?email=${encodeURIComponent(email)}`);
+          if (response.ok) {
+            const data = await response.json();
+            setInvitations(data.invitations || []);
+            setMessages(data.messages || []);
+            setIsDemoMode(false);
+          } else {
+            setInvitations([]);
+            setMessages([]);
+          }
+        } catch (err) {
+          console.warn("Failed to fetch user invitations:", err);
+          setInvitations([]);
+          setMessages([]);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        // Unauthenticated sandbox session
+        loadMockDashboardData();
         setLoading(false);
       }
     }
 
-    function loadMockDashboardData(localInvites: any[] = []) {
+    function loadMockDashboardData() {
       setIsDemoMode(true);
-      if (localInvites && localInvites.length > 0) {
-        setInvitations(localInvites);
-      } else {
-        // Default initial invitation
-        const mockInvitations = [
-          {
-            id: "demo-invitation-id",
-            brideName: "Siya",
-            groomName: "Kabir",
-            slug: "siya-kabir",
-            templateId: "royal-lotus",
-            weddingDate: "2026-12-14T18:30:00.000Z",
-            venueName: "The Maharaja Palace, Udaipur",
-          }
-        ];
-        setInvitations(mockInvitations);
-      }
+      const mockInvitations = [
+        {
+          id: "demo-invitation-id",
+          brideName: "Siya",
+          groomName: "Kabir",
+          slug: "siya-kabir",
+          templateId: "royal-lotus",
+          weddingDate: "2026-12-14T18:30:00.000Z",
+          venueName: "The Maharaja Palace, Udaipur",
+        }
+      ];
+      setInvitations(mockInvitations);
 
-      // Mock RSVPs / messages
       const mockMessages = [
         {
           id: "m1",
           guestName: "Vikram & Neha Sharma",
-          message: "Congratulations Siya & Kabir! Wishing you a lifetime of love and royal happiness together. Can't wait to celebrate in Udaipur!",
+          message: "Congratulations Siya & Kabir! Wishing you a lifetime of love and royal happiness together.",
           rsvpJson: {
             "Wedding Ceremony": { attending: true, guests: 2 },
             "Sangeet Night": { attending: true, guests: 2 }
           },
           createdAt: new Date().toISOString()
         },
-        {
-          id: "m2",
-          guestName: "Aditya Roy",
-          message: "Congrats guys! See you at the Sangeet.",
-          rsvpJson: {
-            "Wedding Ceremony": { attending: false, guests: 0 },
-            "Sangeet Night": { attending: true, guests: 1 }
-          },
-          createdAt: new Date(Date.now() - 3600000).toISOString()
-        },
-        {
-          id: "m3",
-          guestName: "Anjali Gupta",
-          message: "Warmest wishes to the beautiful couple. So happy for you!",
-          rsvpJson: {
-            "Wedding Ceremony": { attending: true, guests: 1 }
-          },
-          createdAt: new Date(Date.now() - 86400000).toISOString()
-        }
       ];
-
       setMessages(mockMessages);
     }
 
     loadDashboardData();
-  }, []);
+  }, [session]);
 
   const totalGuests = messages.reduce((acc, msg) => {
     let count = 0;
