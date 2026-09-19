@@ -84,11 +84,11 @@ export default function TemplatesPage() {
                     <div className="flex gap-2">
                       <Link href={`/preview/${tpl.id}`} className="flex-1">
                         <button className="w-full flex items-center justify-center gap-1 border border-black/[0.06] rounded-full py-2.5 text-xs font-semibold text-stone-700 hover:border-accent-gold/30 transition-colors">
-                          Preview <ArrowUpRight className="h-3 w-3" />
+                          Sample <ArrowUpRight className="h-3 w-3" />
                         </button>
                       </Link>
-                      <Link href={`/dashboard/invitation/new?template=${tpl.id}`} className="flex-1">
-                        <PremiumButton className="w-full text-xs justify-center">Select</PremiumButton>
+                      <Link href={`/customize/${tpl.id}`} className="flex-1">
+                        <PremiumButton className="w-full text-xs justify-center">Try Free</PremiumButton>
                       </Link>
                     </div>
                   </DoubleBezelCard>

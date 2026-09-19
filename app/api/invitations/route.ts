@@ -3,8 +3,20 @@ import prisma from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
   try {
+    const email = req.nextUrl.searchParams.get("email")?.toLowerCase()?.trim();
+
     try {
+      const whereClause = email
+        ? {
+            OR: [
+              { user: { email } },
+              { isPublished: true },
+            ],
+          }
+        : {};
+
       const invitations = await prisma.invitation.findMany({
+        where: whereClause,
         orderBy: { createdAt: "desc" },
         include: {
           guestMessages: {

@@ -88,6 +88,24 @@ export function TemplateDemoPage({ templateId }: TemplateDemoPageProps) {
                 {meta.description}
               </p>
 
+              {/* Primary Try-Before-You-Buy Action */}
+              <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-1.5 text-amber-800 text-xs font-bold uppercase tracking-wider mb-0.5">
+                    <Sparkle size={14} weight="fill" className="text-amber-600" />
+                    <span>Try Before You Buy — 100% Free</span>
+                  </div>
+                  <p className="text-xs text-stone-600">
+                    Input your real names, dates & ceremonies to see your live invitation demo right now.
+                  </p>
+                </div>
+                <Link href={`/customize/${templateId}`} className="w-full sm:w-auto shrink-0">
+                  <PremiumButton className="w-full justify-center !py-2.5 !px-5 text-xs font-bold shadow-md hover:scale-105">
+                    Enter Details Free
+                  </PremiumButton>
+                </Link>
+              </div>
+
               {/* Plan cards */}
               <div className="space-y-4">
                 <PlanCard
@@ -96,8 +114,8 @@ export function TemplateDemoPage({ templateId }: TemplateDemoPageProps) {
                   subtitle="Template personalized to your style"
                   price="₹1,199"
                   priceNote="one-time"
-                  href={`/dashboard/invitation/new?template=${templateId}&plan=classic`}
-                  cta="Choose Classic"
+                  href={`/customize/${templateId}?plan=classic`}
+                  cta="Customize Classic"
                 />
                 <PlanCard
                   icon={Crown}
@@ -107,19 +125,21 @@ export function TemplateDemoPage({ templateId }: TemplateDemoPageProps) {
                   priceNote="one-time"
                   badge="More personalized"
                   highlighted
-                  href={`/dashboard/invitation/new?template=${templateId}&plan=royal`}
-                  cta="Choose Royal"
+                  href={`/customize/${templateId}?plan=royal`}
+                  cta="Customize Royal"
                 />
               </div>
 
-              <Link
-                href={`/preview/${templateId}/interactive`}
-                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent-gold transition-colors"
-              >
-                <DeviceMobile size={16} />
-                Open full-screen interactive demo
-                <ArrowUpRight size={14} />
-              </Link>
+              <div className="flex flex-wrap items-center gap-4 mt-6">
+                <Link
+                  href={`/preview/${templateId}/interactive`}
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent-gold transition-colors"
+                >
+                  <DeviceMobile size={16} />
+                  Open sample preview
+                  <ArrowUpRight size={14} />
+                </Link>
+              </div>
             </motion.div>
           </div>
         </div>

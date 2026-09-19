@@ -2,10 +2,11 @@
 
 import { use, useEffect, useState } from "react";
 import { notFound } from "next/navigation";
-import { TEMPLATES_MAP, NoorNikah } from "@/templates";
+import { TEMPLATES_MAP, NoorNikah, getTemplateDefaultData } from "@/templates";
 import { DoorAnimation } from "@/components/invitation/DoorAnimation";
 import { MusicPlayer } from "@/components/invitation/MusicPlayer";
 import { LanguageToggle } from "@/components/invitation/LanguageToggle";
+import { DemoBanner } from "@/components/preview/DemoBanner";
 import { Sparkle, Warning } from "@phosphor-icons/react";
 
 interface LiveInvitationPageProps {
@@ -66,28 +67,20 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
       setInvitation({
         id: "demo-id",
         slug: slug,
-        templateId: slug.includes("crimson") ? "crimson-royale" : "crimson-royale",
-        brideName: "Ananya",
-        groomName: "Shubham",
+        templateId: "noor-e-nikah",
+        brideName: "Diya",
+        groomName: "Shaan",
         weddingDate: "2026-12-22",
         weddingTime: "05:00 PM onwards",
         venueName: "The Ridgewood Estate",
         venueAddress: "Fatehsagar Lake Road, Udaipur, Rajasthan 313001",
+        isPublished: false,
         events: [
-          { title: "Haldi Ceremony", date: "Dec 21, 2026", time: "10:00 AM", location: "Courtyard Garden", description: "An auspicious morning filled with golden turmeric, laughter, and blessings." },
-          { title: "Mehendi & Sangeet", date: "Dec 21, 2026", time: "06:00 PM", location: "Royal Banquet Hall", description: "An enchanting evening of henna artistry, rhythmic folk melodies, and spirited dance." },
-          { title: "Wedding Ceremony (Pheras)", date: "Dec 22, 2026", time: "04:30 PM", location: "Lakeside Mandap", description: "The sacred nuptial vows as we unite in the presence of the holy fire under starry skies." },
-          { title: "Grand Reception", date: "Dec 22, 2026", time: "08:00 PM", location: "The Ridgewood Grand Ballroom", description: "Join us for a royal dinner feast, champagne toasts, and midnight celebrations." },
+          { name: "Haldi Ceremony", date: "Dec 21, 2026", time: "10:00 AM", venue: "Courtyard Garden" },
+          { name: "Mehendi & Sangeet", date: "Dec 21, 2026", time: "06:00 PM", venue: "Royal Banquet Hall" },
+          { name: "Wedding Ceremony (Nikah)", date: "Dec 22, 2026", time: "04:30 PM", venue: "Lakeside Mandap" },
+          { name: "Grand Reception", date: "Dec 22, 2026", time: "08:00 PM", venue: "The Ridgewood Grand Ballroom" },
         ],
-        gallery: [
-          "/templates/crimson-royale/gallery-1.webp",
-          "/templates/crimson-royale/gallery-2.webp",
-          "/templates/crimson-royale/gallery-3.webp",
-          "/templates/crimson-royale/gallery-4.webp",
-          "/templates/crimson-royale/gallery-5.webp",
-          "/templates/crimson-royale/gallery-6.webp",
-        ],
-        musicUrl: "/templates/crimson-royale/music.mp3",
       });
     }
 
@@ -107,14 +100,35 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
     return notFound();
   }
 
+  const templateDefault = getTemplateDefaultData(invitation.templateId || "noor-e-nikah");
+  const mergedInvitation = {
+    ...templateDefault,
+    ...invitation,
+    events: invitation.events && invitation.events.length > 0 ? invitation.events : templateDefault.events,
+  };
   const SelectedTemplate = TEMPLATES_MAP[invitation.templateId] || NoorNikah;
 
   const handleOpenDoors = () => {
     setHasOpenedDoors(true);
   };
 
+  const isUnpublished = invitation.isPublished === false;
+
   return (
     <div className="relative min-h-screen">
+      {/* If unpublished (free demo preview mode), display Demo Banner */}
+      {isUnpublished && (
+        <DemoBanner
+          invitationId={invitation.id}
+          slug={invitation.slug || slug}
+          templateId={invitation.templateId || "royal-lotus"}
+          templateName={invitation.brideName ? `${invitation.brideName} & ${invitation.groomName}` : undefined}
+          amountPaise={149900}
+          isPublished={false}
+          expiresInSeconds={900}
+        />
+      )}
+
       {/* Demo Warning Banner (if in fallback mock mode) */}
       {isDemoFallback && (
         <div className="fixed top-0 inset-x-0 z-[100] bg-amber-500 text-stone-950 text-[10px] font-bold py-1 px-4 flex items-center justify-center gap-2 select-none">
@@ -124,14 +138,14 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
       )}
 
       {["royal-lotus", "crimson-royale", "noor-e-nikah", "emerald-qasr", "gul-e-noor", "azure-nikah", "kitab-e-nikah", "modern-minimal"].includes(invitation.templateId) ? (
-        <SelectedTemplate data={invitation} />
+        <SelectedTemplate data={mergedInvitation} />
       ) : (
         <>
           {/* 3D Curtain open screen overlay */}
           <DoorAnimation
             onOpen={handleOpenDoors}
-            brideName={invitation.brideName}
-            groomName={invitation.groomName}
+            brideName={mergedInvitation.brideName}
+            groomName={mergedInvitation.groomName}
             theme={
               invitation.templateId === "emerald-noir"
                 ? "emerald"
@@ -144,7 +158,7 @@ export default function LiveInvitationPage({ params }: LiveInvitationPageProps) 
           {/* Main template container */}
           {hasOpenedDoors && (
             <>
-              <SelectedTemplate data={invitation} />
+              <SelectedTemplate data={mergedInvitation} />
               
               {/* Background Audio */}
               <MusicPlayer

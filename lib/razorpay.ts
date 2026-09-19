@@ -1,7 +1,7 @@
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
-const keyId = process.env.RAZORPAY_KEY_ID;
+const keyId = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
 const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
 export const getRazorpayInstance = () => {
@@ -61,3 +61,16 @@ export function verifyRazorpaySignature({
 
   return generatedSignature === razorpaySignature;
 }
+
+export async function fetchRazorpayPayment(paymentId: string) {
+  const instance = getRazorpayInstance();
+  if (!instance) return null;
+  try {
+    const payment = await instance.payments.fetch(paymentId);
+    return payment;
+  } catch (err) {
+    console.warn("Could not fetch payment from Razorpay API:", err);
+    return null;
+  }
+}
+

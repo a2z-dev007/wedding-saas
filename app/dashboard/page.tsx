@@ -25,12 +25,16 @@ export default function DashboardPage() {
   const [messages, setMessages] = useState<any[]>([]);
   const [isDemoMode, setIsDemoMode] = useState(false);
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+  const [connectedEmail, setConnectedEmail] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadDashboardData() {
       let localInvites: any[] = [];
+      let email: string | null = null;
       if (typeof window !== "undefined") {
         try {
+          email = localStorage.getItem("unfold_user_email");
+          setConnectedEmail(email);
           const stored = localStorage.getItem("unfold_active_invitations");
           if (stored) {
             localInvites = JSON.parse(stored);
@@ -40,7 +44,8 @@ export default function DashboardPage() {
 
       try {
         // Try fetching user invitations from API
-        const response = await fetch("/api/invitations");
+        const apiUrl = email ? `/api/invitations?email=${encodeURIComponent(email)}` : "/api/invitations";
+        const response = await fetch(apiUrl);
         if (response.ok) {
           const data = await response.json();
           const apiInvites = data.invitations || [];
@@ -180,11 +185,19 @@ export default function DashboardPage() {
               Your Wedding Invitations
             </h1>
             
-            {isDemoMode && (
-              <span className="inline-block mt-2 rounded bg-amber-500/10 text-amber-600 text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-                Developer Sandbox Session
-              </span>
-            )}
+            <div className="flex flex-wrap items-center gap-2 mt-2">
+              {connectedEmail && (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-[11px] font-semibold px-3 py-0.5">
+                  <CheckCircle size={14} weight="fill" className="text-emerald-600" />
+                  <span>Account: {connectedEmail}</span>
+                </span>
+              )}
+              {isDemoMode && !connectedEmail && (
+                <span className="inline-block rounded bg-amber-500/10 text-amber-600 text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
+                  Developer Sandbox Session
+                </span>
+              )}
+            </div>
           </div>
 
           <Link href="/dashboard/invitation/new">

@@ -132,12 +132,18 @@ export default function NoorNikah({ data }: NoorNikahProps) {
       ? rawEvents.filter((e: EventItem) => e.enabled !== false)
       : resolvedData.events;
 
-  // Gallery Photos
-  const rawGallery = data?.gallery || data?.galleryImages || data?.slideshowImages;
-  const galleryImages: string[] =
-    rawGallery && Array.isArray(rawGallery) && rawGallery.length > 0
-      ? rawGallery
-      : resolvedData.gallery.map((g: any) => typeof g === "string" ? g : g.url);
+  // Dynamic Gallery Photos from uploaded custom images or template default
+  const rawGallery = (data?.gallery && Array.isArray(data.gallery) && data.gallery.length > 0)
+    ? data.gallery
+    : (data?.slideshowImages && Array.isArray(data.slideshowImages) && data.slideshowImages.length > 0)
+    ? data.slideshowImages
+    : (data?.galleryImages && Array.isArray(data.galleryImages) && data.galleryImages.length > 0)
+    ? data.galleryImages
+    : data?.heroImageUrl
+    ? [data.heroImageUrl]
+    : resolvedData.gallery.map((g: any) => typeof g === "string" ? g : g.url);
+
+  const galleryImages: string[] = rawGallery.filter(Boolean);
 
   // Gallery captions metadata for bento
   const galleryCaptions = [
@@ -605,11 +611,11 @@ export default function NoorNikah({ data }: NoorNikahProps) {
           <picture className="noor-hero-picture">
             <source
               media="(min-width: 768px)"
-              srcSet="/templates/noor-e-nikah/hero-couple-desktop.jpg"
+              srcSet={data?.heroImageUrl && data.heroImageUrl.trim() ? data.heroImageUrl : "/templates/noor-e-nikah/hero-couple-desktop.jpg"}
             />
             <img
-              src="/templates/noor-e-nikah/hero-couple-mobile.jpg"
-              alt="Regal Muslim Wedding Couple at Mughal Palace"
+              src={data?.heroImageUrl && data.heroImageUrl.trim() ? data.heroImageUrl : "/templates/noor-e-nikah/hero-couple-mobile.jpg"}
+              alt={`${brideName} & ${groomName} Wedding Portal`}
               className="noor-hero-img"
             />
           </picture>
@@ -905,18 +911,18 @@ export default function NoorNikah({ data }: NoorNikahProps) {
           </div>
         </motion.div>
 
-        {/* 4A. ASYMMETRICAL BENTO GRID VIEW */}
+        {/* 4A. ADAPTIVE BENTO / GRID VIEW */}
         {galleryViewMode === "bento" && (
           <motion.div 
-            className="noor-gallery-bento-grid"
+            className={`noor-gallery-bento-grid ${galleryImages.length === 1 ? "is-single-photo" : galleryImages.length === 2 ? "is-two-photos" : ""}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
             {galleryImages.map((imgUrl, i) => {
               const meta = galleryCaptions[i % galleryCaptions.length];
-              const isLarge = i === 0;
-              const isWide = i === 3;
+              const isLarge = galleryImages.length >= 3 && i === 0;
+              const isWide = galleryImages.length >= 4 && i === 3;
               return (
                 <motion.div
                   key={i}
@@ -936,8 +942,12 @@ export default function NoorNikah({ data }: NoorNikahProps) {
                   />
                   <div className="noor-bento-glass-overlay">
                     <div className="noor-bento-caption">
-                      <p className="noor-bento-title">{meta.title}</p>
-                      <p className="noor-bento-sub">{meta.subtitle}</p>
+                      <p className="noor-bento-title">
+                        {galleryImages.length === 1 ? `${brideName} & ${groomName}` : meta.title}
+                      </p>
+                      <p className="noor-bento-sub">
+                        {galleryImages.length === 1 ? "Cherished Wedding Moment" : meta.subtitle}
+                      </p>
                     </div>
                     <span className="noor-bento-tap-icon">
                       <Sparkle size={14} weight="fill" />

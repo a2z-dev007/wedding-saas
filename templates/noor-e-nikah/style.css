@@ -1452,8 +1452,24 @@
   width: 100%;
 }
 
+.tmpl-noor-nikah .noor-gallery-bento-grid.is-single-photo {
+  grid-template-columns: 1fr;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.tmpl-noor-nikah .noor-gallery-bento-grid.is-single-photo .noor-bento-item {
+  min-height: clamp(340px, 50vh, 520px);
+}
+
+.tmpl-noor-nikah .noor-gallery-bento-grid.is-two-photos {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  max-width: 780px;
+  margin: 0 auto;
+}
+
 @media (min-width: 640px) {
-  .tmpl-noor-nikah .noor-gallery-bento-grid {
+  .tmpl-noor-nikah .noor-gallery-bento-grid:not(.is-single-photo):not(.is-two-photos) {
     grid-template-columns: repeat(2, 1fr);
   }
 }

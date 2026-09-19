@@ -17,14 +17,28 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
   const searchParams = useSearchParams();
   const isEmbed = searchParams.get("embed") === "1";
 
-  const [brideName, setBrideName] = useState(templateId === "noor-e-nikah" ? "Diya" : "Ananya");
-  const [groomName, setGroomName] = useState(templateId === "noor-e-nikah" ? "Shaan" : "Shubham");
+  const templateDefault = getTemplateDefaultData(templateId);
+  const defaultBride = templateDefault?.brideName || templateDefault?.couple?.brideName || (templateId.includes("nikah") || templateId.includes("emerald") || templateId.includes("gul") ? "Diya" : "Ananya");
+  const defaultGroom = templateDefault?.groomName || templateDefault?.couple?.groomName || (templateId.includes("nikah") || templateId.includes("emerald") || templateId.includes("gul") ? "Shaan" : "Shubham");
+
+  const [brideName, setBrideName] = useState(defaultBride);
+  const [groomName, setGroomName] = useState(defaultGroom);
   const [isOpenPanel, setIsOpenPanel] = useState(!isEmbed);
   const [hasOpenedDoors, setHasOpenedDoors] = useState(false);
 
   const SelectedTemplate = TEMPLATES_MAP[templateId] || NoorNikah;
-  const mockData = getMockInvitationData(brideName, groomName);
-  const musicTrack = "/templates/crimson-royale/music.mp3";
+  const sampleData = {
+    ...templateDefault,
+    templateId,
+    brideName: brideName || defaultBride,
+    groomName: groomName || defaultGroom,
+    couple: {
+      ...templateDefault?.couple,
+      brideName: brideName || defaultBride,
+      groomName: groomName || defaultGroom,
+    },
+  };
+  const musicTrack = sampleData.musicTrack || sampleData.audioTrack || `/templates/${templateId}/music.mp3`;
 
   const theme =
     templateId === "crimson-royale"
@@ -40,7 +54,7 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
   return (
     <div className={`relative min-h-[100dvh] bg-[#380D17] overflow-x-hidden ${isEmbed ? "overflow-y-auto" : ""}`}>
       {["royal-lotus", "crimson-royale", "noor-e-nikah", "emerald-qasr", "gul-e-noor", "azure-nikah", "kitab-e-nikah", "modern-minimal"].includes(templateId) ? (
-        <SelectedTemplate data={mockData} />
+        <SelectedTemplate data={sampleData} />
       ) : (
         <>
           <DoorAnimation
@@ -51,7 +65,7 @@ function InteractivePreviewInner({ templateId }: InteractivePreviewProps) {
           />
           {hasOpenedDoors && (
             <>
-              <SelectedTemplate data={mockData} />
+              <SelectedTemplate data={sampleData} />
               <MusicPlayer trackUrl={musicTrack} autoPlay />
             </>
           )}
