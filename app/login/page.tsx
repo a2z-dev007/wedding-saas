@@ -40,10 +40,15 @@ export default function LoginPage() {
       if (res?.error) {
         setErrorMessage(res.error || "Invalid credentials. Please check your details.");
       } else if (res?.ok) {
+        const normalized = email.trim().toLowerCase();
         if (typeof window !== "undefined") {
-          localStorage.setItem("unfold_user_email", email.trim().toLowerCase());
+          localStorage.setItem("unfold_user_email", normalized);
         }
-        router.push("/dashboard");
+        if (normalized.includes("admin") || normalized === "admin@unfoldwed.com") {
+          router.push("/admin");
+        } else {
+          router.push("/dashboard");
+        }
       }
     } catch (err: any) {
       setErrorMessage(err?.message || "An unexpected error occurred.");
@@ -245,7 +250,21 @@ export default function LoginPage() {
               </Link>
             </div>
 
-            <div className="mt-3 text-center">
+            <div className="mt-3 flex flex-col gap-1.5 text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail("admin@unfoldwed.com");
+                  setPassword("AdminPassword@123");
+                  setAuthMode("password");
+                  setErrorMessage("");
+                }}
+                className="text-[11px] text-amber-700 font-bold bg-amber-50 border border-amber-200/80 rounded-lg py-1.5 px-3 hover:bg-amber-100 transition flex items-center justify-center gap-1.5"
+              >
+                <Sparkle size={13} weight="fill" className="text-amber-600" />
+                <span>Auto-fill Admin Credentials (admin@unfoldwed.com)</span>
+              </button>
+
               <button
                 onClick={() => router.push("/dashboard")}
                 className="text-[11px] text-stone-400 font-medium hover:text-stone-600 hover:underline"

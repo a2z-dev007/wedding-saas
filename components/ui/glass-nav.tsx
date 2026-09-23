@@ -44,7 +44,7 @@ export function GlassNav() {
           unfold
         </Link>
 
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-5">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -54,12 +54,16 @@ export function GlassNav() {
               {link.label}
             </Link>
           ))}
+
           {session ? (
             <>
               <Link href="/dashboard" className="text-xs font-medium text-stone-600 hover:text-accent-gold transition-colors">
                 Dashboard
               </Link>
-              <button onClick={() => signOut()} className="text-xs font-medium text-stone-600 hover:text-accent-gold transition-colors">
+              <button
+                onClick={() => signOut({ callbackUrl: "/login" })}
+                className="text-xs font-medium text-stone-600 hover:text-accent-gold transition-colors cursor-pointer"
+              >
                 Logout
               </button>
             </>
@@ -112,12 +116,16 @@ export function GlassNav() {
                   {link.label}
                 </Link>
               ))}
+
               {session ? (
                 <>
                   <Link href="/dashboard" onClick={() => setIsOpen(false)} className="text-base font-medium py-3 border-b border-black/[0.04]">
                     Dashboard
                   </Link>
-                  <button onClick={() => { signOut(); setIsOpen(false); }} className="text-left text-base font-medium py-3">
+                  <button
+                    onClick={() => { signOut({ callbackUrl: "/login" }); setIsOpen(false); }}
+                    className="text-left text-base font-medium py-3"
+                  >
                     Logout
                   </button>
                 </>
