@@ -62,10 +62,12 @@ export interface CrimsonRoyaleData {
   };
   events?: EventItem[];
   eventsJson?: EventItem[];
-  gallery?: string[];
-  slideshowImages?: string[];
+  gallery?: any[];
+  slideshowImages?: any[];
+  galleryImages?: any[];
   musicUrl?: string;
   musicTrack?: string;
+  [key: string]: any;
 }
 
 export interface CrimsonRoyaleProps {
@@ -248,9 +250,9 @@ export default function CrimsonRoyale({
         },
       ];
 
-  const rawGallery = data?.gallery || data?.slideshowImages;
-  const galleryImages: string[] = (rawGallery && rawGallery.length > 0)
-    ? rawGallery
+  const rawGallery = data?.gallery || data?.slideshowImages || data?.galleryImages;
+  const galleryImages: string[] = (rawGallery && Array.isArray(rawGallery) && rawGallery.length > 0)
+    ? rawGallery.map((g: any) => (typeof g === "string" ? g : g?.url || g?.src || "")).filter(Boolean)
     : [
         "/templates/crimson-royale/gallery-1.webp",
         "/templates/crimson-royale/gallery-2.webp",

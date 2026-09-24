@@ -21,6 +21,7 @@
   "videoOpening": {
     "videoUrl": "/templates/emerald-qasr/opening.mp4",
     "posterUrl": "/templates/emerald-qasr/poster.png",
+    "desktopPosterUrl": "/templates/emerald-qasr/envelope-desktop.jpg",
     "sealMonogram": "Z&F"
   },
   "audioTrack": "/audio/wedding-ambience.mp3",

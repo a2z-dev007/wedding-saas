@@ -21,6 +21,7 @@
   "videoOpening": {
     "videoUrl": "/templates/kitab-e-nikah/opening.mp4",
     "posterUrl": "/templates/kitab-e-nikah/poster.png",
+    "desktopPosterUrl": "/templates/kitab-e-nikah/envelope-desktop.jpg",
     "sealMonogram": "M&I"
   },
   "audioTrack": "/audio/wedding-ambience.mp3",

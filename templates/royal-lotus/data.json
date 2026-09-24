@@ -70,11 +70,11 @@
     }
   ],
   "gallery": [
-    { "url": "/templates/crimson-royale/gallery-1.png", "caption": "The Royal Palace Courtyard" },
-    { "url": "/templates/crimson-royale/gallery-2.png", "caption": "Intricate Bridal Mehendi" },
-    { "url": "/templates/crimson-royale/gallery-3.png", "caption": "A Promise of Togetherness" },
-    { "url": "/templates/crimson-royale/gallery-4.png", "caption": "Sunset at the Lake Palace" },
-    { "url": "/templates/crimson-royale/gallery-5.png", "caption": "Celebrations and Joy" },
-    { "url": "/templates/crimson-royale/gallery-6.png", "caption": "Everlasting Love" }
+    { "url": "/templates/crimson-royale/gallery-1.webp", "caption": "The Royal Palace Courtyard" },
+    { "url": "/templates/crimson-royale/gallery-2.webp", "caption": "Intricate Bridal Mehendi" },
+    { "url": "/templates/crimson-royale/gallery-3.webp", "caption": "A Promise of Togetherness" },
+    { "url": "/templates/crimson-royale/gallery-4.webp", "caption": "Sunset at the Lake Palace" },
+    { "url": "/templates/crimson-royale/gallery-5.webp", "caption": "Celebrations and Joy" },
+    { "url": "/templates/crimson-royale/gallery-6.webp", "caption": "Everlasting Love" }
   ]
 }

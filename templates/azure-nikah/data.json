@@ -21,6 +21,7 @@
   "videoOpening": {
     "videoUrl": "/templates/azure-nikah/opening.mp4",
     "posterUrl": "/templates/azure-nikah/poster.png",
+    "desktopPosterUrl": "/templates/azure-nikah/envelope-desktop.jpg",
     "sealMonogram": "S&Z"
   },
   "audioTrack": "/audio/wedding-ambience.mp3",

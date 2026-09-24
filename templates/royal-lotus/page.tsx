@@ -391,15 +391,26 @@ export default function RoyalLotus({ data }: RoyalLotusProps) {
       ];
 
   // Authentic 6-item gallery photos from live template
-  const galleryItems: GalleryItem[] = data?.gallery && data.gallery.length > 0
-    ? data.gallery
+  const rawLotusGallery = data?.gallery && data.gallery.length > 0 ? data.gallery : null;
+  const galleryItems: GalleryItem[] = rawLotusGallery
+    ? rawLotusGallery
+        .map((item: any, idx: number) => {
+          if (typeof item === "string") {
+            return { url: item, caption: `Wedding Moment ${idx + 1}` };
+          }
+          return {
+            url: item?.url || item?.src || "",
+            caption: item?.caption || item?.title || `Wedding Moment ${idx + 1}`,
+          };
+        })
+        .filter((item: GalleryItem) => Boolean(item.url))
     : [
-        { url: "https://images.unsplash.com/photo-1599462616558-2b75fd26a283?auto=format&fit=crop&w=900&q=80", caption: "When their story began" },
-        { url: "https://images.unsplash.com/photo-1587271636175-90d58cdad458?auto=format&fit=crop&w=900&q=80", caption: "Family blessings" },
-        { url: "https://images.unsplash.com/photo-1665960213508-48f07086d49c?auto=format&fit=crop&w=900&q=80", caption: "A royal pre-wedding shoot" },
-        { url: "https://images.unsplash.com/photo-1542042161784-26ab9e041e89?auto=format&fit=crop&w=900&q=80", caption: "The rings that started forever" },
-        { url: "https://images.unsplash.com/photo-1611106211090-8f3c79eb8552?auto=format&fit=crop&w=900&q=80", caption: "A thousand little memories" },
-        { url: "https://images.unsplash.com/photo-1600685890506-593fdf55949b?auto=format&fit=crop&w=900&q=80", caption: "Forever starts here" },
+        { url: "/templates/crimson-royale/gallery-1.webp", caption: "The Royal Palace Courtyard" },
+        { url: "/templates/crimson-royale/gallery-2.webp", caption: "Intricate Bridal Mehendi" },
+        { url: "/templates/crimson-royale/gallery-3.webp", caption: "A Promise of Togetherness" },
+        { url: "/templates/crimson-royale/gallery-4.webp", caption: "Sunset at the Lake Palace" },
+        { url: "/templates/crimson-royale/gallery-5.webp", caption: "Celebrations and Joy" },
+        { url: "/templates/crimson-royale/gallery-6.webp", caption: "Everlasting Love" },
       ];
 
   // Deterministic floating petals to guarantee 100% hydration match between SSR and client

@@ -141,12 +141,16 @@ export default function NoorNikah({ data }: NoorNikahProps) {
     ? data.galleryImages
     : data?.heroImageUrl
     ? [data.heroImageUrl]
-    : resolvedData.gallery.map((g: any) => typeof g === "string" ? g : g.url);
+    : resolvedData.gallery;
 
-  const galleryImages: string[] = rawGallery.filter(Boolean);
+  const galleryImages: string[] = Array.isArray(rawGallery)
+    ? rawGallery
+        .map((g: any) => (typeof g === "string" ? g : g?.url || g?.src || ""))
+        .filter(Boolean)
+    : [];
 
   // Gallery captions metadata for bento
-  const galleryCaptions = [
+  const defaultGalleryCaptions = [
     { title: "Imperial Royal Couple", subtitle: "Mughal Palace Arch" },
     { title: "Sacred Ring Ceremony", subtitle: "A Promise of Forever" },
     { title: "Bridal Henna & Jewels", subtitle: "Intricate Royal Filigree" },
@@ -154,6 +158,18 @@ export default function NoorNikah({ data }: NoorNikahProps) {
     { title: "The Royal Entrance", subtitle: "Under the Golden Canopy" },
     { title: "Eternal Duas & Blessings", subtitle: "United by Destiny" },
   ];
+
+  const galleryCaptions = Array.isArray(rawGallery)
+    ? rawGallery.map((g: any, i: number) => {
+        if (typeof g === "object" && g && (g.title || g.caption)) {
+          return {
+            title: g.title || g.caption || defaultGalleryCaptions[i % defaultGalleryCaptions.length].title,
+            subtitle: g.subtitle || defaultGalleryCaptions[i % defaultGalleryCaptions.length].subtitle,
+          };
+        }
+        return defaultGalleryCaptions[i % defaultGalleryCaptions.length];
+      })
+    : defaultGalleryCaptions;
 
   // Countdown timer logic
   const [timeLeft, setTimeLeft] = useState({

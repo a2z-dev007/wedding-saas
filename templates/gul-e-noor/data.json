@@ -21,6 +21,7 @@
   "videoOpening": {
     "videoUrl": "/templates/gul-e-noor/opening.mp4",
     "posterUrl": "/templates/gul-e-noor/poster.png",
+    "desktopPosterUrl": "/templates/gul-e-noor/envelope-desktop.jpg",
     "sealMonogram": "A&H"
   },
   "audioTrack": "/audio/wedding-ambience.mp3",

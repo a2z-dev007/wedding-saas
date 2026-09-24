@@ -1,6 +1,6 @@
 /* ==========================================================================
    KITAB-E-NIKAH — SACRED VELVET BOOK & ARABESQUE GOLD NIKAH TEMPLATE CSS
-   Seamless Ink-on-Paper Video Envelope Typography & Authentic Wax Seal
+   Seamless Responsive Mobile-First & Desktop Presentation, Bento & Slider
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
@@ -15,13 +15,6 @@
   --kn-gold-border: rgba(229, 184, 105, 0.4);
   --kn-text-light: #FAF2E3;
   --kn-text-muted: #CDB3BC;
-
-  /* Ink Colors on the Illuminated Book Parchment */
-  --kn-ink-bismillah: #8C5E14;
-  --kn-ink-honor: #663F08;
-  --kn-ink-names: #2E0510;
-  --kn-ink-subtext: #4D1927;
-  --kn-ink-meta: #380715;
 }
 
 .kitab-e-nikah-root {
@@ -35,33 +28,49 @@
   font-family: 'Plus Jakarta Sans', sans-serif;
   overflow-x: hidden;
   position: relative;
-  padding-bottom: 60px;
+  padding-bottom: 80px;
 }
 
+/* ── Fluid Responsive Viewport Shell (Mobile First -> Luxury Desktop) ── */
 .kn-viewport-shell {
   width: 100%;
-  max-width: 440px;
+  max-width: 480px;
   margin: 0 auto;
   padding: 20px 16px;
   box-sizing: border-box;
+  transition: max-width 0.4s ease;
 }
 
 @media (min-width: 768px) {
   .kn-viewport-shell {
-    max-width: 480px;
-    padding: 32px 20px;
+    max-width: 820px;
+    padding: 36px 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .kn-viewport-shell {
+    max-width: 1180px;
+    padding: 44px 32px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .kn-viewport-shell {
+    max-width: 1240px;
+    padding: 48px 36px;
   }
 }
 
 .kn-header-arch {
   text-align: center;
-  margin-bottom: 20px;
-  padding-top: 10px;
+  margin-bottom: 24px;
+  padding-top: 8px;
 }
 
 .kn-arch-bismillah {
   font-family: 'Amiri', serif;
-  font-size: 26px;
+  font-size: clamp(24px, 4vw, 32px);
   color: var(--kn-gold-bright);
   text-shadow: 0 0 16px rgba(229, 184, 105, 0.5);
   margin-bottom: 4px;
@@ -69,15 +78,185 @@
 
 .kn-arch-tag {
   font-family: 'Cinzel', serif;
-  font-size: 9px;
+  font-size: clamp(9px, 1.4vw, 11px);
   letter-spacing: 0.28em;
   color: var(--kn-gold-primary);
   text-transform: uppercase;
 }
 
+/* ── Hero Stage Container & Floating Elements ── */
+.kn-hero-stage-container {
+  position: relative;
+  width: 100%;
+}
+
+.kn-hero-floating-elements {
+  position: absolute;
+  inset: -20px -10px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* ── Hanging & Swaying Ottoman Lanterns ── */
+.kn-floating-lantern {
+  position: absolute;
+  top: -15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: top center;
+}
+
+.kn-lantern-left {
+  left: 6px;
+  animation: kn-lantern-sway-l 4.8s ease-in-out infinite alternate;
+}
+
+.kn-lantern-right {
+  right: 6px;
+  animation: kn-lantern-sway-r 5.2s ease-in-out infinite alternate;
+}
+
+@media (min-width: 1024px) {
+  .kn-hero-floating-elements {
+    inset: -30px -40px;
+  }
+  .kn-lantern-left {
+    left: 20px;
+    top: -20px;
+  }
+  .kn-lantern-right {
+    right: 20px;
+    top: -20px;
+  }
+}
+
+.kn-lantern-chain {
+  width: 1.5px;
+  height: clamp(30px, 6vw, 65px);
+  background: linear-gradient(180deg, rgba(229, 184, 105, 0.2), #E5B869);
+  box-shadow: 0 0 6px rgba(229, 184, 105, 0.4);
+}
+
+.kn-lantern-body {
+  position: relative;
+  width: clamp(32px, 5vw, 54px);
+  height: clamp(54px, 8.5vw, 90px);
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6));
+}
+
+.kn-lantern-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.kn-lantern-flame {
+  animation: kn-flame-flicker 1.8s ease-in-out infinite alternate;
+}
+
+.kn-lantern-light-glow {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(254, 240, 199, 0.45) 0%, rgba(229, 184, 105, 0.15) 50%, transparent 75%);
+  filter: blur(8px);
+  pointer-events: none;
+  animation: kn-glow-pulse 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes kn-lantern-sway-l {
+  0% { transform: rotate(-5deg) translateY(0); }
+  50% { transform: rotate(3deg) translateY(-2px); }
+  100% { transform: rotate(-4deg) translateY(0); }
+}
+
+@keyframes kn-lantern-sway-r {
+  0% { transform: rotate(4deg) translateY(0); }
+  50% { transform: rotate(-3deg) translateY(-2px); }
+  100% { transform: rotate(5deg) translateY(0); }
+}
+
+@keyframes kn-flame-flicker {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  35% { opacity: 0.65; transform: scale(0.85); }
+  70% { opacity: 1; transform: scale(1.15); }
+}
+
+@keyframes kn-glow-pulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+  50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* ── Floating Starburst Medallions ── */
+.kn-floating-medallion {
+  position: absolute;
+  color: #FEF0C7;
+  filter: drop-shadow(0 0 10px rgba(229, 184, 105, 0.8));
+  opacity: 0.85;
+}
+
+.kn-floating-medallion.star-1 {
+  top: 18%;
+  left: 3%;
+  animation: kn-star-float-1 6s ease-in-out infinite alternate;
+}
+
+.kn-floating-medallion.star-2 {
+  bottom: 22%;
+  left: 5%;
+  animation: kn-star-float-2 7s ease-in-out infinite alternate;
+}
+
+.kn-floating-medallion.star-3 {
+  top: 25%;
+  right: 3%;
+  animation: kn-star-float-3 6.5s ease-in-out infinite alternate;
+}
+
+.kn-floating-medallion.star-4 {
+  bottom: 18%;
+  right: 4%;
+  animation: kn-star-float-4 8s ease-in-out infinite alternate;
+}
+
+@media (min-width: 1024px) {
+  .kn-floating-medallion.star-1 { left: 6%; top: 22%; }
+  .kn-floating-medallion.star-2 { left: 8%; bottom: 25%; }
+  .kn-floating-medallion.star-3 { right: 6%; top: 28%; }
+  .kn-floating-medallion.star-4 { right: 8%; bottom: 22%; }
+}
+
+@keyframes kn-star-float-1 {
+  0% { transform: translateY(0) rotate(0deg) scale(0.9); opacity: 0.6; }
+  100% { transform: translateY(-16px) rotate(45deg) scale(1.1); opacity: 1; }
+}
+
+@keyframes kn-star-float-2 {
+  0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.7; }
+  100% { transform: translateY(14px) rotate(-35deg) scale(0.85); opacity: 0.95; }
+}
+
+@keyframes kn-star-float-3 {
+  0% { transform: translateY(0) rotate(0deg) scale(0.85); opacity: 0.65; }
+  100% { transform: translateY(-18px) rotate(40deg) scale(1.15); opacity: 1; }
+}
+
+@keyframes kn-star-float-4 {
+  0% { transform: translateY(0) rotate(0deg) scale(1.1); opacity: 0.8; }
+  100% { transform: translateY(16px) rotate(-50deg) scale(0.9); opacity: 0.6; }
+}
+
+/* ── Video Hero Wrapper (Properly centered & bounded on all screens) ── */
 .kn-video-hero-wrapper {
   position: relative;
-  margin-bottom: 28px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 28px auto;
 }
 
 .kn-video-card {
@@ -100,49 +279,15 @@
   cursor: default;
 }
 
+.kn-desktop-envelope-preview {
+  display: none;
+}
+
 .kn-main-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-/* ── Realistic Sacred Book Seal ── */
-.kn-seal-monogram-anchor {
-  position: absolute;
-  top: 45.2%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 12;
-  pointer-events: none;
-  transition: transform 1.6s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 1.3s ease-in;
-}
-
-.kn-seal-monogram-anchor.kn-seal-lifting {
-  transform: translate(-50%, calc(-50% - 110px)) scale(0.85);
-  opacity: 0;
-}
-
-.kn-wax-initials-ring {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-}
-
-.kn-wax-initials {
-  font-family: 'Cinzel', serif;
-  font-weight: 800;
-  font-size: 13.5px;
-  color: #FDF1D6;
-  letter-spacing: 0.06em;
-  text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.95),
-    0 0 5px rgba(229, 184, 105, 0.7);
 }
 
 .kn-tap-prompt-ribbon {
@@ -173,7 +318,7 @@
   50% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 12px rgba(229, 184, 105, 0.5); }
 }
 
-/* ── Royal Unlock Velvet Amber Flash Overlay ── */
+/* ── Royal Unlock Flash Overlay ── */
 .kn-unlock-flash-overlay {
   position: fixed;
   inset: 0;
@@ -189,7 +334,7 @@
   100% { opacity: 0; transform: scale(1.2); filter: brightness(1); }
 }
 
-/* ── Permanent Palace Royal Hero Section with Parallax Depth & Backdrop ── */
+/* ── Permanent Palace Royal Hero Section (Responsive Parallax Depth & Backdrop) ── */
 .kn-permanent-hero-card {
   width: 100%;
   border-radius: 26px;
@@ -197,12 +342,18 @@
   box-shadow:
     0 20px 50px rgba(0, 0, 0, 0.8),
     0 0 35px rgba(229, 184, 105, 0.28);
-  padding: 28px 18px 24px 18px;
+  padding: 32px 20px 28px 20px;
   box-sizing: border-box;
   margin-bottom: 28px;
   position: relative;
   overflow: hidden;
   background-color: #140409;
+}
+
+@media (min-width: 768px) {
+  .kn-permanent-hero-card {
+    padding: 44px 36px 36px 36px;
+  }
 }
 
 .kn-hero-bg-layer {
@@ -255,7 +406,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 16px;
+  gap: 18px;
   position: relative;
   z-index: 3;
 }
@@ -269,7 +420,7 @@
 
 .kn-hero-bismillah {
   font-family: 'Amiri', serif;
-  font-size: 26px;
+  font-size: clamp(24px, 3.5vw, 32px);
   color: var(--kn-gold-bright);
   text-shadow: 0 0 16px rgba(229, 184, 105, 0.65);
   line-height: 1.15;
@@ -277,7 +428,7 @@
 
 .kn-hero-honor-tag {
   font-family: 'Cinzel', serif;
-  font-size: 8.5px;
+  font-size: clamp(8.5px, 1.2vw, 10.5px);
   font-weight: 700;
   letter-spacing: 0.24em;
   color: var(--kn-gold-primary);
@@ -293,7 +444,7 @@
 
 .kn-hero-family-intro {
   font-family: 'Cinzel', serif;
-  font-size: 8.5px;
+  font-size: clamp(8.5px, 1.2vw, 10px);
   letter-spacing: 0.2em;
   color: var(--kn-gold-primary);
   text-transform: uppercase;
@@ -303,7 +454,7 @@
 
 .kn-hero-names {
   font-family: 'Playfair Display', serif;
-  font-size: 33px;
+  font-size: clamp(30px, 5vw, 48px);
   font-weight: 800;
   color: var(--kn-text-light);
   line-height: 1.15;
@@ -311,7 +462,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
   text-shadow:
     0 2px 12px rgba(0, 0, 0, 0.8),
@@ -327,7 +478,7 @@
 
 .kn-hero-amp {
   font-family: 'Cinzel', serif;
-  font-size: 22px;
+  font-size: clamp(22px, 3.5vw, 32px);
   color: var(--kn-gold-primary);
   font-weight: 600;
 }
@@ -335,10 +486,10 @@
 .kn-hero-subquote {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  font-size: 13px;
+  font-size: clamp(12.5px, 1.6vw, 15px);
   color: var(--kn-text-muted);
-  line-height: 1.45;
-  max-width: 320px;
+  line-height: 1.5;
+  max-width: 520px;
   margin: 0;
 }
 
@@ -350,6 +501,15 @@
   width: 100%;
 }
 
+@media (min-width: 768px) {
+  .kn-hero-meta-badges {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+}
+
 .kn-hero-meta-badge {
   display: inline-flex;
   align-items: center;
@@ -358,29 +518,37 @@
   background: rgba(30, 7, 15, 0.85);
   border: 1px solid rgba(229, 184, 105, 0.35);
   border-radius: 999px;
-  padding: 8px 16px;
+  padding: 8px 18px;
   font-family: 'Cinzel', serif;
   font-size: 11.5px;
   font-weight: 600;
   color: var(--kn-gold-bright);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   width: 100%;
-  max-width: 320px;
+  max-width: 360px;
   box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .kn-hero-meta-badge {
+    width: auto;
+    max-width: none;
+  }
 }
 
 .kn-hero-venue-badge {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 11px;
+  font-size: 11.5px;
 }
 
 .kn-hero-actions-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
-  margin-top: 4px;
+  max-width: 380px;
+  margin-top: 6px;
 }
 
 .kn-hero-btn-primary {
@@ -393,14 +561,14 @@
   color: #140409;
   border: none;
   border-radius: 999px;
-  padding: 10px 16px;
+  padding: 10px 18px;
   font-family: 'Cinzel', serif;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 800;
   letter-spacing: 0.08em;
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(229, 184, 105, 0.35);
-  min-height: 42px;
+  min-height: 44px;
   transition: all 0.25s ease;
 }
 
@@ -426,7 +594,7 @@
   letter-spacing: 0.06em;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  min-height: 42px;
+  min-height: 44px;
   transition: all 0.25s ease;
 }
 
@@ -436,8 +604,8 @@
 }
 
 .kn-hero-btn-replay {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -456,7 +624,6 @@
   transform: rotate(180deg);
 }
 
-
 .kn-scroll-cue {
   display: flex;
   flex-direction: column;
@@ -464,7 +631,7 @@
   gap: 4px;
   margin-top: 14px;
   font-family: 'Cinzel', serif;
-  font-size: 9px;
+  font-size: 9.5px;
   letter-spacing: 0.2em;
   color: var(--kn-gold-bright);
   text-transform: uppercase;
@@ -478,32 +645,33 @@
 }
 
 @keyframes kn-bounce {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(5px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
 }
 
+/* ── Generic Section Card ── */
 .kn-section {
   background: var(--kn-bg-card);
   border: 1px solid var(--kn-gold-border);
-  border-radius: 20px;
-  padding: 22px 18px;
-  margin-bottom: 22px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border-radius: 24px;
+  padding: 26px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
   position: relative;
   overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .kn-section {
+    padding: 36px 32px;
+    margin-bottom: 32px;
+  }
 }
 
 .kn-section-subtitle {
   display: block;
   font-family: 'Cinzel', serif;
-  font-size: 8.5px;
+  font-size: 9px;
   letter-spacing: 0.24em;
   color: var(--kn-gold-primary);
   text-transform: uppercase;
@@ -513,11 +681,11 @@
 
 .kn-section-title {
   font-family: 'Playfair Display', serif;
-  font-size: 22px;
+  font-size: clamp(22px, 3.2vw, 30px);
   font-weight: 700;
   color: #FFFDF8;
   text-align: center;
-  margin: 0 0 18px 0;
+  margin: 0 0 20px 0;
 }
 
 /* ── Quranic Verse Card ── */
@@ -528,27 +696,9 @@
   position: relative;
 }
 
-.kn-quran-glow-backdrop {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 140px;
-  height: 140px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(229, 184, 105, 0.2) 0%, transparent 70%);
-  filter: blur(20px);
-  pointer-events: none;
-  animation: kn-ambient-pulse 4s infinite ease-in-out;
-}
-
-@keyframes kn-ambient-pulse {
-  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
-  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
-}
-
 .kn-arabic-verse {
   font-family: 'Amiri', serif;
-  font-size: 20px;
+  font-size: clamp(20px, 3.2vw, 28px);
   color: var(--kn-gold-bright);
   line-height: 1.8;
   margin-bottom: 12px;
@@ -560,17 +710,20 @@
 .kn-verse-translation {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  font-size: 12.5px;
+  font-size: clamp(13px, 1.8vw, 16px);
   color: var(--kn-text-light);
   line-height: 1.6;
   margin-bottom: 8px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
   z-index: 2;
 }
 
 .kn-verse-ref {
   font-family: 'Cinzel', serif;
-  font-size: 9px;
+  font-size: 9.5px;
   letter-spacing: 0.18em;
   color: var(--kn-gold-primary);
   text-transform: uppercase;
@@ -587,14 +740,21 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  margin-bottom: 14px;
+  max-width: 480px;
+  margin: 0 auto 16px auto;
+}
+
+@media (min-width: 768px) {
+  .kn-countdown-grid {
+    gap: 14px;
+  }
 }
 
 .kn-countdown-cell {
-  background: rgba(22, 5, 11, 0.6);
+  background: rgba(22, 5, 11, 0.65);
   border: 1px solid rgba(229, 184, 105, 0.3);
-  border-radius: 12px;
-  padding: 10px 4px;
+  border-radius: 14px;
+  padding: 12px 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -610,22 +770,22 @@
 
 .kn-time-val {
   font-family: 'Cinzel', serif;
-  font-size: 20px;
+  font-size: clamp(20px, 3vw, 28px);
   font-weight: 700;
   color: var(--kn-gold-bright);
   text-shadow: 0 0 8px rgba(229, 184, 105, 0.4);
 }
 
 .kn-time-lbl {
-  font-size: 8.5px;
+  font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--kn-text-muted);
   margin-top: 2px;
 }
 
-.kn-islamic-date-text {
-  font-size: 10px;
+.kn-hijri-date {
+  font-size: 11px;
   color: var(--kn-gold-primary);
   font-family: 'Cinzel', serif;
   letter-spacing: 0.1em;
@@ -633,8 +793,8 @@
 
 /* ── Interactive Scratch-to-Reveal Date ── */
 .kn-scratch-section {
-  margin-top: 22px;
-  padding-top: 18px;
+  margin-top: 24px;
+  padding-top: 20px;
   border-top: 1px dashed rgba(229, 184, 105, 0.35);
   display: flex;
   flex-direction: column;
@@ -649,7 +809,7 @@
 .kn-scratch-subtitle {
   display: block;
   font-family: 'Cinzel', serif;
-  font-size: 8px;
+  font-size: 8.5px;
   letter-spacing: 0.22em;
   color: var(--kn-gold-primary);
   text-transform: uppercase;
@@ -658,37 +818,48 @@
 
 .kn-scratch-title {
   font-family: 'Playfair Display', serif;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: #FFFDF8;
   margin: 0 0 4px 0;
 }
 
 .kn-scratch-desc {
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--kn-text-muted);
   margin: 0;
 }
 
 .kn-scratch-card-wrapper {
   width: 100%;
-  max-width: 320px;
+  max-width: 340px;
   margin: 0 auto;
 }
 
+/* ── Events Timeline (Desktop 2-Column Responsive Grid) ── */
 .kn-events-list {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
+@media (min-width: 768px) {
+  .kn-events-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
 .kn-event-card {
   background: rgba(22, 5, 11, 0.7);
   border: 1px solid rgba(229, 184, 105, 0.3);
-  border-radius: 14px;
-  padding: 14px;
+  border-radius: 16px;
+  padding: 18px 16px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
 }
 
 .kn-event-card:hover {
@@ -712,16 +883,17 @@
   color: #240f02;
   background: var(--kn-gold-metallic);
   border-radius: 50%;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .kn-event-name {
   font-family: 'Playfair Display', serif;
-  font-size: 16px;
+  font-size: 16.5px;
   font-weight: 600;
   color: #FFFDF8;
   margin: 0;
@@ -730,15 +902,15 @@
 .kn-event-details {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 10px;
+  gap: 7px;
+  margin-bottom: 12px;
 }
 
 .kn-event-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: 11.5px;
   color: var(--kn-text-light);
 }
 
@@ -750,27 +922,346 @@
   border: 1px dashed rgba(229, 184, 105, 0.4);
   border-radius: 999px;
   padding: 4px 10px;
-  font-size: 9.5px;
+  font-size: 10px;
   color: var(--kn-gold-bright);
   margin-bottom: 8px;
+  align-self: flex-start;
 }
 
 .kn-event-desc {
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--kn-text-muted);
-  line-height: 1.4;
+  line-height: 1.45;
   margin: 0;
 }
 
+/* ==========================================================================
+   PHOTO GALLERY: BENTO MOSAIC & CINEMATIC SLIDER
+   ========================================================================== */
+.kn-gallery-section {
+  text-align: center;
+}
+
+.kn-gallery-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(20, 4, 9, 0.85);
+  border: 1px solid rgba(229, 184, 105, 0.35);
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: 22px;
+}
+
+.kn-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--kn-text-muted);
+  border: none;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.kn-toggle-btn.active {
+  background: var(--kn-gold-metallic);
+  color: #1a060c;
+  box-shadow: 0 2px 10px rgba(229, 184, 105, 0.4);
+}
+
+/* ── Bento Mosaic Grid ── */
+.kn-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .kn-bento-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+.kn-bento-card {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(229, 184, 105, 0.3);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  background: #0f0206;
+}
+
+.kn-bento-card.kn-bento-featured {
+  grid-column: span 2;
+  aspect-ratio: 16 / 10;
+}
+
+@media (min-width: 768px) {
+  .kn-bento-card.kn-bento-featured {
+    grid-column: span 2;
+    grid-row: span 2;
+    aspect-ratio: auto;
+  }
+  .kn-bento-card.kn-bento-wide {
+    grid-column: span 2;
+    aspect-ratio: 21 / 9;
+  }
+}
+
+.kn-bento-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kn-bento-card:hover .kn-bento-img {
+  transform: scale(1.08);
+}
+
+.kn-bento-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(18, 3, 7, 0.88) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 14px;
+  box-sizing: border-box;
+  opacity: 0.95;
+  transition: opacity 0.3s ease;
+}
+
+.kn-bento-meta {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.kn-bento-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFDF8;
+}
+
+.kn-bento-sub {
+  font-size: 9.5px;
+  color: var(--kn-gold-primary);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+}
+
+.kn-bento-zoom-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(229, 184, 105, 0.25);
+  border: 1px solid var(--kn-gold-primary);
+  color: var(--kn-gold-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+/* ── Cinematic Slider ── */
+.kn-slider-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.kn-slider-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1.5px solid var(--kn-gold-border);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+  background: #0d0205;
+  cursor: pointer;
+}
+
+.kn-slide-item {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.kn-slider-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.kn-slider-overlay-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(18, 3, 7, 0.92) 100%);
+  padding: 24px 18px 14px 18px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kn-slider-caption-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFDF8;
+}
+
+.kn-slider-caption-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--kn-gold-primary);
+}
+
+.kn-slider-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(22, 4, 10, 0.75);
+  border: 1px solid var(--kn-gold-border);
+  color: var(--kn-gold-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: all 0.25s ease;
+  z-index: 10;
+}
+
+.kn-slider-nav-btn:hover {
+  background: var(--kn-gold-primary);
+  color: #140409;
+}
+
+.kn-slider-nav-btn.prev { left: 12px; }
+.kn-slider-nav-btn.next { right: 12px; }
+
+.kn-slider-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.kn-slider-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kn-slider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(229, 184, 105, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.kn-slider-dot.active {
+  width: 24px;
+  border-radius: 999px;
+  background: var(--kn-gold-metallic);
+}
+
+.kn-slider-counter {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  color: var(--kn-gold-primary);
+  letter-spacing: 0.1em;
+}
+
+/* ── Fullscreen Lightbox Modal ── */
+.kn-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(10, 2, 5, 0.92);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.kn-lightbox-card {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1.5px solid var(--kn-gold-border);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+}
+
+.kn-lightbox-img {
+  width: 100%;
+  height: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  display: block;
+}
+
+.kn-lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(20, 4, 9, 0.85);
+  border: 1px solid var(--kn-gold-primary);
+  color: var(--kn-gold-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* ── Venue Destination ── */
 .kn-venue-box {
   text-align: center;
 }
 
 .kn-venue-addr {
-  font-size: 11.5px;
+  font-size: 12px;
   color: var(--kn-text-muted);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   line-height: 1.5;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .kn-map-cta-btn {
@@ -781,15 +1272,16 @@
   background: rgba(229, 184, 105, 0.15);
   border: 1px solid var(--kn-gold-primary);
   border-radius: 999px;
-  padding: 10px 20px;
+  padding: 11px 24px;
   font-family: 'Cinzel', serif;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 700;
   color: var(--kn-gold-bright);
   text-decoration: none;
   min-height: 44px;
 }
 
+/* ── RSVP CTA Card ── */
 .kn-rsvp-banner {
   text-align: center;
   background: linear-gradient(135deg, rgba(60, 15, 30, 0.85) 0%, rgba(25, 5, 12, 0.9) 100%);
@@ -804,17 +1296,17 @@
 
 .kn-rsvp-title {
   font-family: 'Playfair Display', serif;
-  font-size: 20px;
+  font-size: clamp(20px, 3vw, 26px);
   color: #FFFDF8;
   margin: 0 0 6px 0;
 }
 
 .kn-rsvp-sub {
-  font-size: 11px;
+  font-size: 11.5px;
   color: var(--kn-text-muted);
-  max-width: 280px;
-  line-height: 1.4;
-  margin-bottom: 16px;
+  max-width: 380px;
+  line-height: 1.5;
+  margin-bottom: 18px;
 }
 
 .kn-rsvp-open-btn {
@@ -826,9 +1318,9 @@
   color: #240f02;
   border: none;
   border-radius: 999px;
-  padding: 12px 26px;
+  padding: 12px 28px;
   font-family: 'Cinzel', serif;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.1em;
   box-shadow: 0 6px 20px rgba(229, 184, 105, 0.4);
@@ -836,9 +1328,10 @@
   min-height: 44px;
 }
 
+/* ── Footer ── */
 .kn-footer {
   text-align: center;
-  padding: 24px 0 10px 0;
+  padding: 32px 0 10px 0;
 }
 
 .kn-footer-monogram {
@@ -846,8 +1339,8 @@
   font-size: 14px;
   font-weight: 700;
   color: var(--kn-gold-primary);
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid var(--kn-gold-border);
   display: inline-flex;
@@ -858,18 +1351,19 @@
 
 .kn-footer-names {
   font-family: 'Playfair Display', serif;
-  font-size: 18px;
+  font-size: 20px;
   color: #FFFDF8;
   margin: 0 0 6px 0;
 }
 
 .kn-footer-quote {
-  font-size: 10px;
+  font-size: 10.5px;
   color: var(--kn-gold-bright);
   letter-spacing: 0.1em;
   opacity: 0.8;
 }
 
+/* ── Floating Controls & Modals ── */
 .kn-music-toggle {
   position: fixed;
   bottom: 24px;
@@ -903,11 +1397,11 @@
 
 .kn-modal-container {
   width: 100%;
-  max-width: 380px;
+  max-width: 420px;
   background: #1f070e;
   border: 1.5px solid var(--kn-gold-primary);
   border-radius: 20px;
-  padding: 24px 20px;
+  padding: 26px 22px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
   position: relative;
   box-sizing: border-box;
@@ -969,7 +1463,7 @@
   background: rgba(15, 3, 7, 0.8);
   border: 1px solid rgba(229, 184, 105, 0.3);
   border-radius: 10px;
-  padding: 9px 12px;
+  padding: 10px 12px;
   color: #FFFDF8;
   font-size: 12px;
   box-sizing: border-box;
@@ -1031,10 +1525,6 @@
   padding: 20px 0;
 }
 
-/* ==========================================================================
-   LUXURY FLOATING, GLOW & MOTION SYSTEM
-   ========================================================================== */
-
 /* ── Ambient Floating Particles ── */
 .kn-floating-particles {
   position: fixed;
@@ -1052,12 +1542,12 @@
   animation: kn-particle-drift infinite ease-in-out;
 }
 
-.kn-particle.p1 { width: 5px; height: 5px; top: 15%; left: 10%; animation-duration: 9.5s; animation-delay: 0s; }
-.kn-particle.p2 { width: 7px; height: 7px; top: 35%; left: 88%; animation-duration: 12.5s; animation-delay: 1.8s; }
-.kn-particle.p3 { width: 4px; height: 4px; top: 56%; left: 16%; animation-duration: 8.8s; animation-delay: 1s; }
-.kn-particle.p4 { width: 6px; height: 6px; top: 76%; left: 82%; animation-duration: 11.2s; animation-delay: 2.6s; }
-.kn-particle.p5 { width: 4px; height: 4px; top: 88%; left: 24%; animation-duration: 10.5s; animation-delay: 0.8s; }
-.kn-particle.p6 { width: 5px; height: 5px; top: 22%; left: 76%; animation-duration: 13.5s; animation-delay: 3.8s; }
+.kn-particle.p1 { width: 5px; height: 5px; top: 15%; left: 10%; animation-duration: 9.5s; }
+.kn-particle.p2 { width: 7px; height: 7px; top: 35%; left: 88%; animation-duration: 12.5s; }
+.kn-particle.p3 { width: 4px; height: 4px; top: 56%; left: 16%; animation-duration: 8.8s; }
+.kn-particle.p4 { width: 6px; height: 6px; top: 76%; left: 82%; animation-duration: 11.2s; }
+.kn-particle.p5 { width: 4px; height: 4px; top: 88%; left: 24%; animation-duration: 10.5s; }
+.kn-particle.p6 { width: 5px; height: 5px; top: 22%; left: 76%; animation-duration: 13.5s; }
 
 @keyframes kn-particle-drift {
   0% { transform: translateY(0) scale(0.8); opacity: 0.15; }
@@ -1065,7 +1555,6 @@
   100% { transform: translateY(-85px) scale(0.8); opacity: 0.15; }
 }
 
-/* ── Floating Equalizer Soundwave ── */
 .kn-soundwave-bars {
   display: inline-flex;
   align-items: flex-end;
@@ -1089,7 +1578,6 @@
   100% { height: 13px; opacity: 1; }
 }
 
-/* ── Ambient Glowing Backdrop Pulse ── */
 .kn-quran-glow-backdrop {
   position: absolute;
   top: 50%;
@@ -1108,27 +1596,6 @@
   100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.85; }
 }
 
-/* ── Wax Seal Breathe Animation ── */
-.kn-wax-initials-ring {
-  animation: kn-seal-breathe 3.5s ease-in-out infinite;
-}
-
-@keyframes kn-seal-breathe {
-  0%, 100% { box-shadow: 0 0 10px rgba(229, 184, 105, 0.25); }
-  50% { box-shadow: 0 0 22px rgba(229, 184, 105, 0.65); }
-}
-
-/* ── Scroll Cue Bounce ── */
-.kn-scroll-chevron {
-  animation: kn-bounce-arrow 1.8s ease-in-out infinite;
-}
-
-@keyframes kn-bounce-arrow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
-}
-
-/* ── Gentle Floating Utilities ── */
 .kn-floating-element {
   animation: kn-float 4.5s ease-in-out infinite alternate;
 }
@@ -1136,4 +1603,902 @@
 @keyframes kn-float {
   0% { transform: translateY(0px); }
   100% { transform: translateY(-5px); }
+}
+
+/* ==========================================================================
+   GRAND DESKTOP & MOBILE RESPONSIVE ARCHITECTURE (2-Column Editorial Suite)
+   ========================================================================== */
+
+/* ── Fluid Responsive Viewport Shell ── */
+.kn-viewport-shell {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 14px;
+  box-sizing: border-box;
+  transition: max-width 0.4s ease;
+}
+
+@media (min-width: 768px) {
+  .kn-viewport-shell {
+    max-width: 820px;
+    padding: 32px 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .kn-viewport-shell {
+    max-width: 1200px;
+    padding: 40px 32px;
+  }
+}
+
+@media (min-width: 1360px) {
+  .kn-viewport-shell {
+    max-width: 1280px;
+    padding: 48px 40px;
+  }
+}
+
+/* ── Grand Centered Envelope Hero Stage ── */
+.kn-hero-stage-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto 36px auto;
+}
+
+@media (min-width: 1024px) {
+  .kn-viewport-shell {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .kn-header-arch {
+    display: none;
+  }
+
+  .kn-hero-stage-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    min-height: 700px;
+    margin: 0 0 60px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .kn-video-hero-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .kn-video-card {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    aspect-ratio: auto;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .kn-desktop-envelope-preview {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    filter: brightness(0.92);
+  }
+
+  .kn-main-video {
+    display: none;
+  }
+
+  .kn-seal-monogram-anchor,
+  .kn-tap-prompt-ribbon {
+    display: none !important;
+  }
+
+  .kn-permanent-hero-card {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    margin-bottom: 0;
+  }
+
+  .kn-hero-bg-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .kn-hero-bg-overlay {
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(36, 8, 16, 0.45) 0%,
+      rgba(20, 4, 9, 0.78) 65%,
+      rgba(12, 2, 5, 0.88) 100%
+    );
+  }
+
+  .kn-hero-inner-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 14px;
+    max-width: 840px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3;
+  }
+
+  .kn-hero-bismillah {
+    font-size: 32px;
+    color: #FDF1D6;
+    text-shadow: 0 0 16px rgba(229, 184, 105, 0.7);
+    margin-bottom: 2px;
+  }
+
+  .kn-hero-honor-tag {
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--kn-gold-primary);
+    margin: 0;
+  }
+
+  .kn-hero-family-intro {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--kn-gold-primary);
+    margin: 0;
+  }
+
+  .kn-hero-names {
+    font-size: 52px;
+    color: #FFFDF8;
+    text-shadow: 0 3px 20px rgba(0, 0, 0, 0.9), 0 0 28px rgba(229, 184, 105, 0.5);
+    margin: 4px 0 2px 0;
+    line-height: 1.15;
+  }
+
+  .kn-hero-bride,
+  .kn-hero-groom {
+    color: #FFFDF8;
+  }
+
+  .kn-hero-amp {
+    color: var(--kn-gold-primary);
+    font-size: 36px;
+    margin: 0 12px;
+  }
+
+  .kn-hero-subquote {
+    font-size: 15px;
+    max-width: 600px;
+    color: #F5E6CC;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .kn-hero-meta-badges {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 6px;
+  }
+
+  .kn-hero-meta-badge {
+    font-size: 12.5px;
+    padding: 7px 18px;
+    background: rgba(36, 8, 16, 0.65);
+    border: 1px solid rgba(229, 184, 105, 0.5);
+    border-radius: 999px;
+    color: #FDF1D6;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .kn-hero-actions-row {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    z-index: 25;
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 8px auto 0 auto;
+  }
+
+  .kn-hero-btn-primary {
+    flex: 1.2;
+    min-height: 46px;
+    padding: 12px 28px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    background: linear-gradient(135deg, #FEF0C7 0%, #E5B869 50%, #9E7420 100%);
+    color: #1A050D;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(229, 184, 105, 0.45);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .kn-hero-btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 28px rgba(229, 184, 105, 0.65);
+  }
+
+  .kn-hero-btn-secondary {
+    flex: 1;
+    min-height: 46px;
+    padding: 12px 24px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    background: rgba(36, 8, 16, 0.85);
+    color: #FDF1D6;
+    border: 1.5px solid rgba(229, 184, 105, 0.6);
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    backdrop-filter: blur(12px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .kn-hero-btn-secondary:hover {
+    background: rgba(56, 12, 24, 0.95);
+    border-color: #FDF1D6;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .kn-scroll-cue {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 25;
+    margin-top: 0;
+  }
+
+  .kn-unlocked-flow {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 32px;
+  }
+}
+
+/* ── Editorial Suite Card Elements ── */
+.kn-editorial-crest {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.kn-editorial-monogram {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(229, 184, 105, 0.25) 0%, rgba(36, 8, 16, 0.8) 100%);
+  border: 1.5px solid var(--kn-gold-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--kn-gold-bright);
+  box-shadow: 0 0 16px rgba(229, 184, 105, 0.3);
+}
+
+.kn-editorial-badge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 22px 0;
+}
+
+.kn-editorial-badge-item {
+  background: rgba(18, 4, 8, 0.65);
+  border: 1px solid rgba(229, 184, 105, 0.25);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.kn-editorial-badge-item:hover {
+  border-color: rgba(229, 184, 105, 0.6);
+  transform: translateY(-2px);
+}
+
+.kn-editorial-badge-icon {
+  color: var(--kn-gold-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.kn-editorial-badge-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.kn-editorial-badge-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--kn-text-muted);
+  text-transform: uppercase;
+}
+
+.kn-editorial-badge-val {
+  font-size: 12px;
+  color: var(--kn-text-light);
+  font-weight: 500;
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+.kn-editorial-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.kn-editorial-btn-primary {
+  flex: 1.4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--kn-gold-metallic);
+  color: #140409;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(229, 184, 105, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kn-editorial-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(229, 184, 105, 0.5);
+}
+
+.kn-editorial-btn-secondary {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(45, 12, 22, 0.85);
+  color: var(--kn-gold-bright);
+  border: 1px solid var(--kn-gold-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.kn-editorial-btn-secondary:hover {
+  background: rgba(60, 16, 30, 0.95);
+  border-color: var(--kn-gold-primary);
+}
+
+/* ── Flanking Parallax Motifs & Section Backgrounds ── */
+.kn-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.kn-parallax-bg {
+  position: absolute;
+  inset: -5%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) saturate(0.9) brightness(0.65);
+  opacity: 0.35;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .kn-parallax-bg {
+    background-attachment: fixed;
+  }
+}
+
+.kn-flanking-motif {
+  position: absolute;
+  top: -20px;
+  width: 140px;
+  max-width: 25vw;
+  height: auto;
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 0;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.kn-flanking-motif.left {
+  left: -20px;
+}
+
+.kn-flanking-motif.right {
+  right: -20px;
+  transform: scaleX(-1);
+}
+
+@media (min-width: 1024px) {
+  .kn-flanking-motif {
+    width: 220px;
+    opacity: 0.75;
+  }
+}
+
+/* ── Falling Golden Leaf Petals System (Royal Lotus Parallax Engine) ── */
+.kn-petals-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 35;
+  overflow: hidden;
+}
+
+.kn-petal {
+  position: absolute;
+  top: -30px;
+  color: #FEF0C7;
+  opacity: 0.8;
+  filter: drop-shadow(0 2px 8px rgba(229, 184, 105, 0.65));
+  animation: kn-petal-fall linear infinite, kn-petal-sway ease-in-out infinite alternate;
+}
+
+@keyframes kn-petal-fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.85; }
+  85% { opacity: 0.85; }
+  100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes kn-petal-sway {
+  0% { transform: translateX(-24px) rotate(-25deg); }
+  100% { transform: translateX(24px) rotate(25deg); }
+}
+
+/* ── Meet the Couple Story Section ── */
+.kn-couple-story-box {
+  text-align: center;
+  padding: 36px 24px;
+}
+
+.kn-couple-story-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(14px, 1.8vw, 17px);
+  color: var(--kn-text-light);
+  line-height: 1.8;
+  max-width: 680px;
+  margin: 16px auto 20px auto;
+}
+
+.kn-couple-hashtag {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(16px, 2.2vw, 22px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--kn-gold-bright);
+  text-shadow: 0 0 12px rgba(229, 184, 105, 0.4);
+}
+
+/* ── Guest Essentials (Things to Know) 4-Card Grid ── */
+.kn-essentials-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+@media (min-width: 640px) {
+  .kn-essentials-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .kn-essentials-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+
+.kn-essentials-card {
+  background: rgba(36, 8, 16, 0.75);
+  border: 1px solid rgba(229, 184, 105, 0.3);
+  border-radius: 18px;
+  padding: 24px 18px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.kn-essentials-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(229, 184, 105, 0.7);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 16px rgba(229, 184, 105, 0.25);
+}
+
+.kn-essentials-icon-frame {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(229, 184, 105, 0.2) 0%, rgba(45, 12, 22, 0.8) 100%);
+  border: 1.5px solid var(--kn-gold-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  color: var(--kn-gold-bright);
+  box-shadow: 0 0 14px rgba(229, 184, 105, 0.3);
+  transition: transform 0.35s ease;
+}
+
+.kn-essentials-card:hover .kn-essentials-icon-frame {
+  transform: scale(1.1);
+}
+
+.kn-essentials-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFDF8;
+  margin: 0 0 8px 0;
+}
+
+.kn-essentials-rule {
+  width: 32px;
+  height: 1px;
+  background: var(--kn-gold-primary);
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+
+.kn-essentials-card-desc {
+  font-size: 11.5px;
+  color: var(--kn-text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── Corner Ornaments for Grand Desktop Cards ── */
+.kn-section-corner-ornament {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .kn-section-corner-ornament {
+    display: block;
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+    border-color: rgba(229, 184, 105, 0.7);
+    z-index: 5;
+    transition: all 0.3s ease;
+  }
+  .kn-section-corner-ornament.top-left {
+    top: 14px;
+    left: 14px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+    border-top-left-radius: 6px;
+  }
+  .kn-section-corner-ornament.top-right {
+    top: 14px;
+    right: 14px;
+    border-top: 2px solid;
+    border-right: 2px solid;
+    border-top-right-radius: 6px;
+  }
+  .kn-section-corner-ornament.bottom-left {
+    bottom: 14px;
+    left: 14px;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+    border-bottom-left-radius: 6px;
+  }
+  .kn-section-corner-ornament.bottom-right {
+    bottom: 14px;
+    right: 14px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    border-bottom-right-radius: 6px;
+  }
+  .kn-section:hover .kn-section-corner-ornament {
+    border-color: #FEF0C7;
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* ── 2-Column Split Rows (Countdown + Scratch Card) ── */
+.kn-grid-2col-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 1024px) {
+  .kn-grid-2col-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: stretch;
+    margin-bottom: 36px;
+  }
+  .kn-grid-2col-row > .kn-section {
+    margin-bottom: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .kn-countdown-grid {
+    gap: 16px;
+    max-width: 100%;
+    margin-bottom: 22px;
+  }
+  .kn-countdown-cell {
+    padding: 22px 14px;
+    border-radius: 18px;
+    background: rgba(20, 4, 9, 0.75);
+    border: 1.5px solid rgba(229, 184, 105, 0.35);
+  }
+  .kn-time-val {
+    font-size: 34px;
+  }
+  .kn-time-lbl {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+  }
+  .kn-scratch-card-wrapper {
+    max-width: 440px;
+  }
+}
+
+/* ── 3-Column Events / Itinerary on Desktop ── */
+@media (min-width: 768px) {
+  .kn-events-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .kn-events-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .kn-event-card {
+    padding: 28px 24px;
+    border-radius: 20px;
+    background: rgba(28, 6, 13, 0.85);
+    border: 1.5px solid rgba(229, 184, 105, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    min-height: 280px;
+  }
+  .kn-event-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(229, 184, 105, 0.8);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(229, 184, 105, 0.3);
+  }
+  .kn-event-name {
+    font-size: 20px;
+  }
+  .kn-event-row {
+    font-size: 13px;
+  }
+  .kn-event-desc {
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+}
+
+/* ── Venue Split Grid ── */
+.kn-venue-split-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 1024px) {
+  .kn-venue-split-grid {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .kn-venue-addr {
+    font-size: 14.5px;
+  }
+}
+
+/* ── Desktop Grand Viewport Refinements ── */
+@media (min-width: 1024px) {
+  .kn-section {
+    padding: 48px 44px;
+    margin-bottom: 36px;
+    border-radius: 28px;
+    background: linear-gradient(145deg, rgba(40, 8, 18, 0.88) 0%, rgba(20, 4, 9, 0.95) 100%);
+    border: 1.5px solid rgba(229, 184, 105, 0.45);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 25px rgba(229, 184, 105, 0.12);
+    backdrop-filter: blur(16px);
+  }
+
+  .kn-quran-card {
+    padding: 56px 48px;
+    background: radial-gradient(circle at 50% 50%, rgba(65, 14, 28, 0.85) 0%, rgba(20, 4, 9, 0.96) 100%);
+  }
+
+  .kn-arabic-verse {
+    font-size: 34px;
+    line-height: 2.1;
+    letter-spacing: 0.02em;
+    margin-bottom: 18px;
+  }
+
+  .kn-verse-translation {
+    font-size: 18px;
+    max-width: 820px;
+    line-height: 1.8;
+    margin-bottom: 14px;
+  }
+
+  .kn-verse-ref {
+    font-size: 12px;
+  }
+
+  .kn-couple-story-box {
+    padding: 52px 48px;
+  }
+
+  .kn-couple-story-text {
+    font-size: 19px;
+    max-width: 840px;
+    line-height: 1.9;
+    margin: 20px auto 26px auto;
+  }
+
+  .kn-couple-hashtag {
+    font-size: 26px;
+    letter-spacing: 0.16em;
+  }
+
+  .kn-bento-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .kn-bento-card {
+    border-radius: 20px;
+    border: 1.5px solid rgba(229, 184, 105, 0.35);
+  }
+
+  .kn-slider-stage {
+    max-width: 860px;
+  }
+
+  .kn-essentials-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .kn-essentials-card {
+    padding: 34px 22px;
+    border-radius: 20px;
+    border: 1.5px solid rgba(229, 184, 105, 0.35);
+  }
+
+  .kn-essentials-icon-frame {
+    width: 68px;
+    height: 68px;
+    margin-bottom: 18px;
+  }
+
+  .kn-essentials-card-title {
+    font-size: 18px;
+  }
+
+  .kn-essentials-card-desc {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .kn-rsvp-banner {
+    padding: 56px 48px;
+    border-radius: 28px;
+  }
+
+  .kn-rsvp-title {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .kn-rsvp-sub {
+    font-size: 16px;
+    max-width: 680px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .kn-rsvp-open-btn {
+    padding: 16px 44px;
+    font-size: 14px;
+  }
 }
