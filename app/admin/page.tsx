@@ -10,6 +10,7 @@ import { AdminCreateModal } from "@/components/admin/AdminCreateModal";
 import { AdminInvitationsTable } from "@/components/admin/AdminInvitationsTable";
 import { AdminUsersTable } from "@/components/admin/AdminUsersTable";
 import { AdminOrdersTable } from "@/components/admin/AdminOrdersTable";
+import { AdminRsvpsTable } from "@/components/admin/AdminRsvpsTable";
 import { isUserAdmin } from "@/lib/admin-client";
 import {
   Sparkle,
@@ -37,11 +38,12 @@ import {
 export default function AdminDashboardPage() {
   const { data: session, status: authStatus } = useSession();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"overview" | "invitations" | "users" | "orders">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "invitations" | "rsvps" | "users" | "orders">("overview");
 
   // Data State
   const [stats, setStats] = useState<any>(null);
   const [invitations, setInvitations] = useState<any[]>([]);
+  const [rsvps, setRsvps] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -64,11 +66,12 @@ export default function AdminDashboardPage() {
     if (!authorizedAdmin) return;
     setLoading(true);
     try {
-      const [statsRes, invRes, usersRes, ordersRes] = await Promise.all([
+      const [statsRes, invRes, usersRes, ordersRes, rsvpsRes] = await Promise.all([
         fetch("/api/admin/stats"),
         fetch("/api/admin/invitations"),
         fetch("/api/admin/users"),
         fetch("/api/admin/orders"),
+        fetch("/api/admin/rsvps"),
       ]);
 
       if (statsRes.ok) {
@@ -86,6 +89,10 @@ export default function AdminDashboardPage() {
       if (ordersRes.ok) {
         const ordersData = await ordersRes.json();
         setOrders(ordersData.orders || []);
+      }
+      if (rsvpsRes.ok) {
+        const rsvpsData = await rsvpsRes.json();
+        setRsvps(rsvpsData.rsvps || []);
       }
     } catch (err) {
       console.error("Failed to load admin data:", err);
@@ -316,6 +323,18 @@ export default function AdminDashboardPage() {
           </button>
 
           <button
+            onClick={() => setActiveTab("rsvps")}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+              activeTab === "rsvps"
+                ? "bg-white text-stone-900 shadow-sm border border-stone-200/80"
+                : "text-stone-600 hover:text-stone-900"
+            }`}
+          >
+            <Heart size={16} weight="bold" />
+            <span>Guest RSVPs ({rsvps.length})</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab("users")}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
               activeTab === "users"
@@ -508,6 +527,17 @@ export default function AdminDashboardPage() {
                     </button>
 
                     <button
+                      onClick={() => setActiveTab("rsvps")}
+                      className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-800 text-xs font-bold flex items-center justify-between transition cursor-pointer"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Heart size={16} weight="bold" />
+                        <span>Inspect Guest RSVPs &amp; Wishes ({rsvps.length})</span>
+                      </span>
+                      <span>→</span>
+                    </button>
+
+                    <button
                       onClick={() => setActiveTab("orders")}
                       className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-800 text-xs font-bold flex items-center justify-between transition cursor-pointer"
                     >
@@ -538,6 +568,25 @@ export default function AdminDashboardPage() {
 
             <AdminInvitationsTable
               invitations={invitations}
+              onRefresh={loadAllAdminData}
+            />
+          </div>
+        )}
+
+        {/* ── TAB 2.5: GUEST RSVPS ── */}
+        {activeTab === "rsvps" && (
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-xl font-serif font-bold text-stone-900">
+                Guest RSVPs &amp; Messages Directory
+              </h2>
+              <p className="text-xs text-stone-500">
+                Live attendance confirmations, guest counts, direct WhatsApp chat links, and wedding blessings across all templates.
+              </p>
+            </div>
+
+            <AdminRsvpsTable
+              rsvps={rsvps}
               onRefresh={loadAllAdminData}
             />
           </div>

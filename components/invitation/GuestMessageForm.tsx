@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import { DoubleBezelCard } from "@/components/ui/double-bezel-card";
 import { PremiumButton } from "@/components/ui/premium-button";
-import { Check, Heart, Sparkle } from "@phosphor-icons/react";
+import { Check, Heart, Sparkle, WhatsappLogo } from "@phosphor-icons/react";
 import Link from "next/link";
 
 const rsvpFormSchema = zod.object({
@@ -80,6 +80,8 @@ export function GuestMessageForm({ invitationId, events, onSuccessSubmit }: Gues
 
   const onSubmit = async (data: RSVPFormValues) => {
     setIsSubmitting(true);
+
+
     try {
       const response = await fetch("/api/messages", {
         method: "POST",
@@ -121,12 +123,12 @@ export function GuestMessageForm({ invitationId, events, onSuccessSubmit }: Gues
           Thank you for your response!
         </h3>
         
-        <p className="text-sm text-stone-500 max-w-[40ch] mb-8">
-          Your RSVP details and wedding wishes have been sent to the happy couple.
+        <p className="text-sm text-stone-500 max-w-[40ch] mb-6">
+          Your RSVP details and wedding wishes have been saved.
         </p>
 
         {/* Viral RSVP Referral Loop */}
-        <div className="w-full border-t border-dashed border-stone-200 dark:border-stone-800 pt-8 mt-4 flex flex-col items-center">
+        <div className="w-full border-t border-dashed border-stone-200 dark:border-stone-800 pt-6 mt-2 flex flex-col items-center">
           <div className="flex items-center gap-1 text-amber-600 mb-2">
             <Sparkle className="h-4 w-4 animate-spin-slow" weight="fill" />
             <span className="text-[10px] uppercase font-bold tracking-[0.15em]">Made with Unfold</span>

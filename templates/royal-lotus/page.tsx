@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import confetti from "canvas-confetti";
+import { Heart, Sparkle, CheckCircle, X, WhatsappLogo } from "@phosphor-icons/react";
 import defaultData from "./data.json";
 import "./style.css";
 
@@ -347,22 +349,52 @@ function RoyalLotusIntro({
 export default function RoyalLotus({ data }: RoyalLotusProps) {
   const [unlocked, setUnlocked] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [rsvpState, setRsvpState] = useState<{
-    name: string;
-    contact: string;
-    attending: string;
-    guests: string;
-    message: string;
-  }>({
-    name: "",
-    contact: "",
-    attending: "yes",
-    guests: "2",
-    message: "",
-  });
-  const [isRsvpSubmitting, setIsRsvpSubmitting] = useState(false);
-  const [rsvpSuccess, setRsvpSuccess] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
+
+  // RSVP Form State & Handlers
+  const [isRsvpOpen, setIsRsvpOpen] = useState(false);
+  const [rsvpAttending, setRsvpAttending] = useState("yes");
+  const [rsvpGuests, setRsvpGuests] = useState("2");
+  const [rsvpName, setRsvpName] = useState("");
+  const [rsvpPhone, setRsvpPhone] = useState("");
+  const [rsvpWishes, setRsvpWishes] = useState("");
+  const [isRsvpSubmitted, setIsRsvpSubmitted] = useState(false);
+
+  const handleRsvpSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsRsvpSubmitted(true);
+    try {
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ["#FF9933", "#FFD700", "#138808", "#FFFFFF", "#D4AF37"],
+      });
+    } catch (_) {}
+
+
+
+    try {
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          invitationId: data?.id,
+          slug: (data as any)?.slug,
+          guestName: rsvpName,
+          message: rsvpWishes,
+          rsvpJson: {
+            phone: rsvpPhone,
+            attending: rsvpAttending === "yes",
+            guests: rsvpAttending === "yes" ? (parseInt(rsvpGuests, 10) || 1) : 0,
+            submittedAt: new Date().toISOString(),
+          },
+        }),
+      });
+    } catch (err) {
+      console.warn("Could not save RSVP to server:", err);
+    }
+  };
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -452,14 +484,6 @@ export default function RoyalLotus({ data }: RoyalLotusProps) {
     } else {
       audioRef.current.play().then(() => setIsAudioPlaying(true)).catch(() => {});
     }
-  };
-
-  const handleRsvpSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsRsvpSubmitting(true);
-    await new Promise((r) => setTimeout(r, 900));
-    setIsRsvpSubmitting(false);
-    setRsvpSuccess(true);
   };
 
   return (
@@ -866,7 +890,7 @@ export default function RoyalLotus({ data }: RoyalLotusProps) {
       </section>
 
       {/* ─────────────────────────────────────────────────────────────────────────────
-          SECTION 6: INTERACTIVE RSVP FORM
+          SECTION 6: INTERACTIVE RSVP PEDESTAL BANNER
       ───────────────────────────────────────────────────────────────────────────── */}
       <section className="section rsvp" id="rsvp">
         <div
@@ -883,100 +907,27 @@ export default function RoyalLotus({ data }: RoyalLotusProps) {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.7 }}
         >
-          <p className="eyebrow">Join The Celebration</p>
-          <h2 className="rsvp__title script">RSVP</h2>
-          <p className="rsvp__body">
-            {data?.rsvpDeadline || "Kindly RSVP by 15th November 2026. We've saved you a seat — just let us know you're coming."}
-          </p>
-
-          <form className="rsvp__form" onSubmit={handleRsvpSubmit}>
-            {rsvpSuccess ? (
-              <div className="rsvp__success">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.6" />
-                  <path d="M7.5 12.5l3 3 6-6.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <h4>Thank You!</h4>
-                <p>
-                  Thank you, {rsvpState.name || "Guest"}! We've marked you down for {rsvpState.guests} guest(s). See you in Udaipur!
-                </p>
-              </div>
-            ) : (
-              <>
-                <div className="rsvp__field">
-                  <label htmlFor="rsvpName">Full Name</label>
-                  <input
-                    type="text"
-                    id="rsvpName"
-                    required
-                    placeholder="e.g. Vikram Sharma"
-                    value={rsvpState.name}
-                    onChange={(e) => setRsvpState({ ...rsvpState, name: e.target.value })}
-                  />
-                </div>
-
-                <div className="rsvp__field">
-                  <label htmlFor="rsvpContact">Phone Number</label>
-                  <input
-                    type="tel"
-                    id="rsvpContact"
-                    placeholder="+91 98765 43210"
-                    value={rsvpState.contact}
-                    onChange={(e) => setRsvpState({ ...rsvpState, contact: e.target.value })}
-                  />
-                </div>
-
-                <div className="rsvp__field">
-                  <label htmlFor="rsvpGuests">Number of Guests</label>
-                  <select
-                    id="rsvpGuests"
-                    value={rsvpState.guests}
-                    onChange={(e) => setRsvpState({ ...rsvpState, guests: e.target.value })}
-                  >
-                    <option value="1">1 Guest</option>
-                    <option value="2">2 Guests</option>
-                    <option value="3">3 Guests</option>
-                    <option value="4">4+ Guests</option>
-                  </select>
-                </div>
-
-                <div className="rsvp__field">
-                  <label>Will you be joining?</label>
-                  <div className="rsvp__attending-row">
-                    <button
-                      type="button"
-                      className={`rsvp__attending-btn ${rsvpState.attending === "yes" ? "is-active" : ""}`}
-                      onClick={() => setRsvpState({ ...rsvpState, attending: "yes" })}
-                    >
-                      Joyfully Accept
-                    </button>
-                    <button
-                      type="button"
-                      className={`rsvp__attending-btn ${rsvpState.attending === "no" ? "is-active" : ""}`}
-                      onClick={() => setRsvpState({ ...rsvpState, attending: "no" })}
-                    >
-                      Regretfully Decline
-                    </button>
-                  </div>
-                </div>
-
-                <div className="rsvp__field">
-                  <label htmlFor="rsvpMessage">Warm Wishes / Message for Couple</label>
-                  <textarea
-                    id="rsvpMessage"
-                    rows={3}
-                    placeholder="Share your blessings..."
-                    value={rsvpState.message}
-                    onChange={(e) => setRsvpState({ ...rsvpState, message: e.target.value })}
-                  />
-                </div>
-
-                <button className="rsvp__btn" type="submit" disabled={isRsvpSubmitting}>
-                  <span>{isRsvpSubmitting ? "Sending..." : "Send RSVP"}</span>
-                </button>
-              </>
-            )}
-          </form>
+          <div className="rl-rsvp-banner-card">
+            <div className="rl-rsvp-banner-icon">
+              <Heart size={36} weight="fill" className="text-[#D4AF37] animate-pulse" />
+            </div>
+            <p className="eyebrow" style={{ color: "var(--color-primary-light)" }}>Join The Celebration</p>
+            <h2 className="rsvp__title script">Your Gracious Presence is Awaited</h2>
+            <div className="essentials__rule" style={{ margin: "0.8rem auto" }} aria-hidden="true" />
+            <p className="rsvp__body">
+              {data?.rsvpDeadline || "Kindly confirm your presence by 15th November 2026. We've saved you a seat — just let us know you're coming."}
+            </p>
+            <motion.button
+              type="button"
+              className="rl-rsvp-open-btn"
+              onClick={() => setIsRsvpOpen(true)}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <span>Confirm Your RSVP</span>
+              <Sparkle size={18} weight="fill" />
+            </motion.button>
+          </div>
         </motion.div>
       </section>
 
@@ -1054,6 +1005,137 @@ export default function RoyalLotus({ data }: RoyalLotusProps) {
           />
         </div>
       )}
+
+      {/* ── Interactive RSVP Modal Dialog ── */}
+      <AnimatePresence>
+        {isRsvpOpen && (
+          <div className="rl-modal-overlay">
+            <motion.div
+              className="rl-modal-container"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", stiffness: 320, damping: 28 }}
+            >
+              <button
+                type="button"
+                className="rl-modal-close"
+                onClick={() => setIsRsvpOpen(false)}
+                aria-label="Close RSVP modal"
+              >
+                <X size={18} weight="bold" />
+              </button>
+
+              <div className="rl-modal-header">
+                <div className="rl-modal-tag">✦ SHUBH VIVAH RSVP ✦</div>
+                <h3 className="rl-modal-title">Confirm Attendance</h3>
+                <p className="rl-modal-sub">For {brideName} & {groomName}&apos;s Royal Celebration</p>
+              </div>
+
+              {isRsvpSubmitted ? (
+                <div className="rl-success-msg">
+                  <CheckCircle size={48} className="text-[#D4AF37] mb-3 mx-auto" weight="fill" />
+                  <h4 className="text-xl font-serif text-[#D4AF37]">Graciously Received!</h4>
+                  <p className="text-xs text-[#F5E5A3] mt-1.5 leading-relaxed">
+                    Thank you, <strong>{rsvpName || "Dear Guest"}</strong>! Your RSVP and blessings have been saved. We look forward to celebrating with you!
+                  </p>
+
+                  <div className="mt-4 pt-3 border-t border-[rgba(212,175,55,0.2)]">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsRsvpOpen(false);
+                        setIsRsvpSubmitted(false);
+                      }}
+                      className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#c49f2e] text-[#1c1508] font-bold text-xs rounded-xl uppercase tracking-wider transition-all"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleRsvpSubmit} className="rl-rsvp-form">
+                  <div className="rl-form-group">
+                    <label className="rl-label">Your Full Name *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Vikramaditya & Family"
+                      value={rsvpName}
+                      onChange={(e) => setRsvpName(e.target.value)}
+                      className="rl-input"
+                    />
+                  </div>
+
+                  <div className="rl-form-group">
+                    <label className="rl-label">Phone / WhatsApp Number</label>
+                    <input
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      value={rsvpPhone}
+                      onChange={(e) => setRsvpPhone(e.target.value)}
+                      className="rl-input"
+                    />
+                  </div>
+
+                  <div className="rl-form-group">
+                    <label className="rl-label">Will you be attending?</label>
+                    <div className="rl-radio-group">
+                      <button
+                        type="button"
+                        className={`rl-radio-btn ${rsvpAttending === "yes" ? "active" : ""}`}
+                        onClick={() => setRsvpAttending("yes")}
+                      >
+                        Joyfully Accept
+                      </button>
+                      <button
+                        type="button"
+                        className={`rl-radio-btn ${rsvpAttending === "no" ? "active" : ""}`}
+                        onClick={() => setRsvpAttending("no")}
+                      >
+                        Regretfully Decline
+                      </button>
+                    </div>
+                  </div>
+
+                  {rsvpAttending === "yes" && (
+                    <div className="rl-form-group">
+                      <label className="rl-label">Number of Guests Attending</label>
+                      <select
+                        value={rsvpGuests}
+                        onChange={(e) => setRsvpGuests(e.target.value)}
+                        className="rl-select"
+                      >
+                        <option value="1">1 Person</option>
+                        <option value="2">2 Persons</option>
+                        <option value="3">3 Persons</option>
+                        <option value="4">4 Persons</option>
+                        <option value="5+">5+ Persons (Family)</option>
+                      </select>
+                    </div>
+                  )}
+
+                  <div className="rl-form-group">
+                    <label className="rl-label">Warm Wishes & Blessings for the Couple</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Leave your heartfelt blessings for the bride & groom..."
+                      value={rsvpWishes}
+                      onChange={(e) => setRsvpWishes(e.target.value)}
+                      className="rl-textarea"
+                    />
+                  </div>
+
+                  <button type="submit" className="rl-submit-btn">
+                    <span>Send Royal RSVP</span>
+                    <Sparkle size={16} weight="fill" />
+                  </button>
+                </form>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

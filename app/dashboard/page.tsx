@@ -16,11 +16,50 @@ import {
   DownloadSimple, 
   Clock, 
   CheckCircle,
+  XCircle,
   Plus,
   SignOut,
   User as UserIcon,
+  Phone,
+  MagnifyingGlass,
+  Heart,
+  ChatCircleDots,
 } from "@phosphor-icons/react";
 import { formatDate } from "@/lib/utils";
+
+// Helper to robustly extract RSVP attendance & guest count from flat or multi-event json
+function parseRsvpData(rsvpJson: any) {
+  const rsvp = rsvpJson || {};
+  let isAttending = false;
+  let guestCount = 1;
+  let phone = rsvp.phone || "";
+  let eventsList: { name: string; attending: boolean; guests: number }[] = [];
+
+  if (rsvp.attending === true || rsvp.attending === "yes") {
+    isAttending = true;
+    guestCount = parseInt(rsvp.guests, 10) || 1;
+  } else if (rsvp.attending === false || rsvp.attending === "no") {
+    isAttending = false;
+    guestCount = 0;
+  } else if (typeof rsvp === "object") {
+    const eventEntries = Object.entries(rsvp).filter(
+      ([k, v]: any) => typeof v === "object" && v !== null && ("attending" in v || "guests" in v)
+    );
+    if (eventEntries.length > 0) {
+      eventEntries.forEach(([name, ev]: any) => {
+        const evAttending = ev.attending === true || ev.attending === "yes";
+        const evGuests = parseInt(ev.guests, 10) || 1;
+        eventsList.push({ name, attending: evAttending, guests: evGuests });
+        if (evAttending) {
+          isAttending = true;
+          guestCount = Math.max(guestCount, evGuests);
+        }
+      });
+    }
+  }
+
+  return { isAttending, guestCount, phone, eventsList };
+}
 
 export default function DashboardPage() {
   const { data: session, status: sessionStatus } = useSession();
@@ -30,6 +69,11 @@ export default function DashboardPage() {
   const [isDemoMode, setIsDemoMode] = useState(false);
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
   const [connectedEmail, setConnectedEmail] = useState<string | null>(null);
+
+  // Filter & Search states
+  const [rsvpSearch, setRsvpSearch] = useState("");
+  const [attendanceFilter, setAttendanceFilter] = useState<"all" | "attending" | "declined">("all");
+  const [selectedInviteFilter, setSelectedInviteFilter] = useState<string>("all");
 
   useEffect(() => {
     async function loadDashboardData() {
@@ -131,11 +175,27 @@ export default function DashboardPage() {
           guestName: "Vikram & Neha Sharma",
           message: "Congratulations Siya & Kabir! Wishing you a lifetime of love and royal happiness together.",
           rsvpJson: {
-            "Wedding Ceremony": { attending: true, guests: 2 },
-            "Sangeet Night": { attending: true, guests: 2 }
+            phone: "+91 98765 43210",
+            attending: true,
+            guests: 2,
+            submittedAt: new Date().toISOString(),
           },
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
+          invitationSlug: "siya-kabir",
         },
+        {
+          id: "m2",
+          guestName: "Aarav Patel",
+          message: "Heartiest congratulations on your auspicious wedding celebration!",
+          rsvpJson: {
+            phone: "+91 91234 56789",
+            attending: true,
+            guests: 1,
+            submittedAt: new Date().toISOString(),
+          },
+          createdAt: new Date(Date.now() - 3600000).toISOString(),
+          invitationSlug: "siya-kabir",
+        }
       ];
       setMessages(mockMessages);
     }
@@ -143,27 +203,64 @@ export default function DashboardPage() {
     loadDashboardData();
   }, [session]);
 
-  const totalGuests = messages.reduce((acc, msg) => {
-    let count = 0;
-    Object.values(msg.rsvpJson || {}).forEach((val: any) => {
-      if (val.attending) count = Math.max(count, val.guests || 1);
-    });
-    return acc + (count || 1);
-  }, 0);
+  // Overall calculations
+  let totalAttendingHeadcount = 0;
+  let totalAttendingResponses = 0;
+  let totalDeclinedResponses = 0;
+
+  messages.forEach((msg) => {
+    const { isAttending, guestCount } = parseRsvpData(msg.rsvpJson);
+    if (isAttending) {
+      totalAttendingResponses += 1;
+      totalAttendingHeadcount += guestCount;
+    } else {
+      totalDeclinedResponses += 1;
+    }
+  });
 
   const totalRSVPs = messages.length;
 
+  // Filtered guest messages list
+  const filteredMessages = messages.filter((msg) => {
+    const { isAttending, phone } = parseRsvpData(msg.rsvpJson);
+
+    if (attendanceFilter === "attending" && !isAttending) return false;
+    if (attendanceFilter === "declined" && isAttending) return false;
+
+    if (selectedInviteFilter !== "all" && msg.invitationSlug && msg.invitationSlug !== selectedInviteFilter) {
+      return false;
+    }
+
+    if (rsvpSearch.trim()) {
+      const q = rsvpSearch.toLowerCase();
+      const matchName = msg.guestName?.toLowerCase().includes(q);
+      const matchMsg = msg.message?.toLowerCase().includes(q);
+      const matchPhone = String(phone).includes(q);
+      if (!matchName && !matchMsg && !matchPhone) return false;
+    }
+
+    return true;
+  });
+
   const downloadCSV = () => {
-    const headers = ["Guest Name", "RSVPs Status", "Wishes/Message", "Submitted At"];
-    const rows = messages.map(msg => {
-      const rsvpSummary = Object.entries(msg.rsvpJson || {})
-        .map(([name, val]: any) => `${name}: ${val.attending ? `Yes (${val.guests} guest)` : "No"}`)
-        .join(" | ");
+    const headers = ["Guest Name", "Phone", "Status", "Attending Headcount", "Wishes / Note", "Invitation", "Date Received"];
+    const rows = filteredMessages.map((msg) => {
+      const { isAttending, guestCount, phone, eventsList } = parseRsvpData(msg.rsvpJson);
+      const statusText = isAttending
+        ? `Attending (${guestCount} ${guestCount === 1 ? "Guest" : "Guests"})`
+        : "Declined";
+      const eventsSummary = eventsList.length > 0
+        ? eventsList.map((e) => `${e.name}: ${e.attending ? `Yes (${e.guests})` : "No"}`).join(" | ")
+        : "";
+
       return [
-        `"${msg.guestName.replace(/"/g, '""')}"`,
-        `"${rsvpSummary.replace(/"/g, '""')}"`,
-        `"${(msg.message || "").replace(/"/g, '""')}"`,
-        msg.createdAt
+        `"${(msg.guestName || "").replace(/"/g, '""')}"`,
+        `"${(phone || "").replace(/"/g, '""')}"`,
+        `"${statusText}"`,
+        isAttending ? guestCount : 0,
+        `"${(msg.message || eventsSummary || "").replace(/"/g, '""')}"`,
+        `"${msg.invitationSlug || msg.invitationCouple || "Wedding"}"`,
+        `"${new Date(msg.createdAt).toLocaleString("en-IN")}"`
       ];
     });
 
@@ -173,7 +270,7 @@ export default function DashboardPage() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "wedding_guest_rsvp_list.csv");
+    link.setAttribute("download", "wedding_guest_rsvps_manifest.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -183,7 +280,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen bg-[#FCFBF7] flex items-center justify-center text-[#1A1A1A]">
         <Sparkle className="h-10 w-10 text-amber-500 animate-spin-slow mb-2" />
-        <span className="text-xs uppercase tracking-widest text-stone-400">Loading Dashboard...</span>
+        <span className="text-xs uppercase tracking-widest text-stone-400 font-bold">Loading Dashboard...</span>
       </div>
     );
   }
@@ -192,17 +289,17 @@ export default function DashboardPage() {
     <div className="flex flex-col min-h-screen bg-[#FCFBF7] text-[#1A1A1A]">
       <GlassNav />
 
-      <main className="flex-grow pt-32 px-6 pb-24 max-w-6xl mx-auto w-full">
+      <main className="flex-grow pt-32 px-4 sm:px-6 pb-24 max-w-6xl mx-auto w-full">
         {/* Header Block */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
           <div>
             <div className="inline-flex items-center gap-1.5 text-amber-600 mb-2">
               <Sparkle className="h-4 w-4" weight="fill" />
-              <span className="text-[10px] uppercase font-bold tracking-[0.2em]">Management Board</span>
+              <span className="text-[10px] uppercase font-bold tracking-[0.2em]">Wedding Host Hub</span>
             </div>
             
             <h1 className="text-3xl md:text-5xl font-serif tracking-tight text-stone-900 leading-tight">
-              Your Wedding Invitations
+              Invitations &amp; Guest RSVPs
             </h1>
             
             <div className="flex flex-wrap items-center gap-2 mt-2">
@@ -229,7 +326,7 @@ export default function DashboardPage() {
                   }
                   signOut({ callbackUrl: "/login" });
                 }}
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-stone-250 bg-white hover:bg-stone-50 text-stone-700 text-xs font-semibold transition-all shadow-sm"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-stone-250 bg-white hover:bg-stone-50 text-stone-700 text-xs font-semibold transition-all shadow-xs cursor-pointer"
               >
                 <SignOut className="h-4 w-4" />
                 <span>Log Out</span>
@@ -247,97 +344,153 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Stats Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-          {/* Card 1 */}
-          <DoubleBezelCard className="bg-white border-stone-200/50">
+        {/* 4 Key Metric Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+          {/* Metric 1: Total Confirmed Guests */}
+          <DoubleBezelCard className="bg-white border-stone-200/60 p-5">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] uppercase tracking-wider font-bold text-stone-400">Total RSVPs</span>
-                <h3 className="text-3xl font-bold text-stone-950 mt-1">{totalRSVPs}</h3>
-              </div>
-              <div className="h-10 w-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
-                <EnvelopeSimple className="h-5 w-5" weight="light" />
-              </div>
-            </div>
-          </DoubleBezelCard>
-
-          {/* Card 2 */}
-          <DoubleBezelCard className="bg-white border-stone-200/50">
-            <div className="flex justify-between items-start">
-              <div>
-                <span className="text-[10px] uppercase tracking-wider font-bold text-stone-400">Attending Guests</span>
-                <h3 className="text-3xl font-bold text-stone-950 mt-1">{totalGuests}</h3>
-              </div>
-              <div className="h-10 w-10 rounded-full bg-amber-50 flex items-center justify-center text-[#b89730]">
-                <Users className="h-5 w-5" weight="light" />
-              </div>
-            </div>
-          </DoubleBezelCard>
-
-          {/* Card 3 */}
-          <DoubleBezelCard className="bg-white border-stone-200/50">
-            <div className="flex justify-between items-start">
-              <div>
-                <span className="text-[10px] uppercase tracking-wider font-bold text-stone-400">Status</span>
-                <h3 className="text-xl font-bold text-emerald-600 mt-2 flex items-center gap-1.5 uppercase tracking-wide text-xs">
-                  <CheckCircle className="h-4.5 w-4.5" weight="fill" />
-                  <span>Platform Active</span>
+                <span className="text-[10px] uppercase tracking-wider font-bold text-stone-400">
+                  Attending Guests
+                </span>
+                <h3 className="text-3xl font-bold text-stone-950 mt-1 font-mono">
+                  {totalAttendingHeadcount}
                 </h3>
+                <span className="text-[10px] text-emerald-700 font-semibold mt-1 inline-block">
+                  {totalAttendingResponses} Confirmed RSVPs
+                </span>
               </div>
-              <div className="h-10 w-10 rounded-full bg-stone-50 flex items-center justify-center text-stone-400">
-                <Clock className="h-5 w-5" weight="light" />
+              <div className="h-10 w-10 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-700">
+                <Users className="h-5 w-5" weight="bold" />
+              </div>
+            </div>
+          </DoubleBezelCard>
+
+          {/* Metric 2: Total Responses */}
+          <DoubleBezelCard className="bg-white border-stone-200/60 p-5">
+            <div className="flex justify-between items-start">
+              <div>
+                <span className="text-[10px] uppercase tracking-wider font-bold text-stone-400">
+                  Total RSVPs Received
+                </span>
+                <h3 className="text-3xl font-bold text-stone-950 mt-1 font-mono">
+                  {totalRSVPs}
+                </h3>
+                <span className="text-[10px] text-stone-500 font-semibold mt-1 inline-block">
+                  {totalDeclinedResponses} Declined
+                </span>
+              </div>
+              <div className="h-10 w-10 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-700">
+                <EnvelopeSimple className="h-5 w-5" weight="bold" />
+              </div>
+            </div>
+          </DoubleBezelCard>
+
+          {/* Metric 3: Active Invitations */}
+          <DoubleBezelCard className="bg-white border-stone-200/60 p-5">
+            <div className="flex justify-between items-start">
+              <div>
+                <span className="text-[10px] uppercase tracking-wider font-bold text-stone-400">
+                  Active Invitations
+                </span>
+                <h3 className="text-3xl font-bold text-stone-950 mt-1 font-mono">
+                  {invitations.length}
+                </h3>
+                <span className="text-[10px] text-indigo-700 font-semibold mt-1 inline-block">
+                  Live &amp; Accessible
+                </span>
+              </div>
+              <div className="h-10 w-10 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-700">
+                <Heart className="h-5 w-5" weight="fill" />
+              </div>
+            </div>
+          </DoubleBezelCard>
+
+          {/* Metric 4: Platform Status */}
+          <DoubleBezelCard className="bg-white border-stone-200/60 p-5">
+            <div className="flex justify-between items-start">
+              <div>
+                <span className="text-[10px] uppercase tracking-wider font-bold text-stone-400">
+                  RSVP Collection
+                </span>
+                <h3 className="text-base font-bold text-emerald-600 mt-2 flex items-center gap-1.5 uppercase tracking-wide">
+                  <CheckCircle className="h-4.5 w-4.5" weight="fill" />
+                  <span>Real-time Active</span>
+                </h3>
+                <span className="text-[10px] text-stone-400 font-semibold mt-1 inline-block">
+                  Syncing with Cloud
+                </span>
+              </div>
+              <div className="h-10 w-10 rounded-2xl bg-stone-50 flex items-center justify-center text-stone-400">
+                <Clock className="h-5 w-5" weight="bold" />
               </div>
             </div>
           </DoubleBezelCard>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
-          {/* Left panel - Active Invitations List */}
-          <div className="lg:col-span-7 space-y-6">
-            <h2 className="text-xl font-serif text-stone-900 mb-4 lowercase">
-              active digital templates
-            </h2>
+        {/* ── Section 1: Active Invitations ── */}
+        <div className="space-y-4 mb-14">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-serif font-bold text-stone-900">
+                Your Digital Wedding Invitations
+              </h2>
+              <p className="text-xs text-stone-500">
+                Manage details, customize your story, and copy your personalized link to share with guests.
+              </p>
+            </div>
+          </div>
 
-            {invitations.length === 0 ? (
-              <DoubleBezelCard className="text-center py-12 bg-white border-stone-200/50">
-                <p className="text-sm text-stone-400 font-mono mb-4">NO ACTIVE INVITATIONS YET</p>
-                <Link href="/dashboard/invitation/new">
-                  <PremiumButton>Create Your First Invite</PremiumButton>
-                </Link>
-              </DoubleBezelCard>
-            ) : (
-              invitations.map((invite) => (
-                <DoubleBezelCard key={invite.id} className="bg-white border-stone-200/50 flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                    <div>
-                      <span className="text-[9px] font-bold text-stone-400 uppercase tracking-widest block mb-1">
-                        Theme: {invite.templateId.replace("-", " ")}
+          {invitations.length === 0 ? (
+            <DoubleBezelCard className="text-center py-12 bg-white border-stone-200">
+              <EnvelopeSimple size={40} className="text-stone-300 mx-auto mb-3" />
+              <p className="text-sm font-serif font-bold text-stone-700 mb-1">No Active Invitations Yet</p>
+              <p className="text-xs text-stone-400 mb-4">Create your first bespoke digital invitation in minutes.</p>
+              <Link href="/dashboard/invitation/new">
+                <PremiumButton>Create Your First Invite</PremiumButton>
+              </Link>
+            </DoubleBezelCard>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {invitations.map((invite) => (
+                <DoubleBezelCard key={invite.id} className="bg-white border-stone-200 p-6 flex flex-col justify-between gap-5 shadow-xs">
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <span className="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200/60 rounded-full px-2.5 py-0.5 uppercase tracking-wider">
+                        {invite.templateId?.replace(/-/g, " ") || "Royal Lotus"}
                       </span>
-                      <h3 className="text-xl font-bold text-stone-950 lowercase">
-                        {invite.brideName} & {invite.groomName}
-                      </h3>
-                      <p className="text-xs text-stone-500 mt-1 font-mono">
-                        Date: {formatDate(invite.weddingDate)}
-                      </p>
+                      <span className="text-[11px] text-stone-400 font-mono">
+                        {formatDate(invite.weddingDate)}
+                      </span>
                     </div>
 
-                    <a
-                      href={`/${invite.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600 hover:underline"
-                    >
-                      <LinkIcon className="h-4 w-4" />
-                      <span>/{invite.slug}</span>
-                    </a>
+                    <h3 className="text-2xl font-serif font-bold text-stone-950">
+                      {invite.brideName} &amp; {invite.groomName}
+                    </h3>
+                    
+                    {invite.venueName && (
+                      <p className="text-xs text-stone-500 mt-1 line-clamp-1">
+                        📍 {invite.venueName}
+                      </p>
+                    )}
+
+                    <div className="mt-3 pt-3 border-t border-stone-100 flex items-center justify-between">
+                      <a
+                        href={`/${invite.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 hover:text-amber-700 transition"
+                      >
+                        <LinkIcon size={14} weight="bold" />
+                        <span>unfold.wed/{invite.slug}</span>
+                      </a>
+                    </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2 pt-2 border-t border-stone-100">
+                  <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-stone-100">
                     <Link href={`/dashboard/invitation/${invite.id}/edit`} className="flex-1 min-w-[120px]">
-                      <button className="w-full text-center border border-stone-250 hover:bg-stone-50 text-stone-700 font-semibold py-2.5 rounded-full text-xs flex items-center justify-center gap-1.5 transition-colors">
-                        <Pencil className="h-4 w-4" />
+                      <button className="w-full text-center border border-stone-250 bg-stone-50 hover:bg-stone-100 text-stone-800 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition cursor-pointer">
+                        <Pencil size={14} weight="bold" />
                         <span>Edit Details</span>
                       </button>
                     </Link>
@@ -349,90 +502,224 @@ export default function DashboardPage() {
                         setCopiedSlug(invite.slug);
                         setTimeout(() => setCopiedSlug(null), 2500);
                       }}
-                      className={`flex-1 min-w-[120px] text-center border font-semibold py-2.5 rounded-full text-xs flex items-center justify-center gap-1.5 transition-all ${
+                      className={`flex-1 min-w-[120px] text-center border font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                         copiedSlug === invite.slug
-                          ? "bg-emerald-600 text-white border-emerald-600 shadow-sm"
-                          : "border-stone-250 hover:bg-stone-50 text-stone-700"
+                          ? "bg-emerald-600 text-white border-emerald-600 shadow-xs"
+                          : "border-stone-250 bg-white hover:bg-stone-50 text-stone-800"
                       }`}
                     >
                       {copiedSlug === invite.slug ? (
                         <>
-                          <CheckCircle className="h-4 w-4" weight="fill" />
+                          <CheckCircle size={15} weight="fill" />
                           <span>Link Copied!</span>
                         </>
                       ) : (
                         <>
-                          <ShareNetwork className="h-4 w-4" />
-                          <span>Copy Share Link</span>
+                          <ShareNetwork size={15} weight="bold" />
+                          <span>Share Link</span>
                         </>
                       )}
                     </button>
                   </div>
                 </DoubleBezelCard>
-              ))
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* ── Section 2: Complete Guest RSVPs Manifest & Wishes ── */}
+        <div className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-1 text-amber-600 mb-1">
+                <Heart size={14} weight="fill" />
+                <span className="text-[10px] uppercase font-bold tracking-wider">Live Guest Manifest</span>
+              </div>
+              <h2 className="text-2xl font-serif font-bold text-stone-900">
+                Guest RSVPs &amp; Wishes ({messages.length})
+              </h2>
+              <p className="text-xs text-stone-500">
+                Detailed headcount confirmations, contact numbers, and heartfelt notes submitted by your guests.
+              </p>
+            </div>
+
+            {messages.length > 0 && (
+              <button
+                onClick={downloadCSV}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-stone-900 hover:bg-stone-800 text-amber-400 rounded-xl text-xs font-bold transition shadow-xs cursor-pointer self-start sm:self-auto"
+              >
+                <DownloadSimple size={16} weight="bold" />
+                <span>Export Guest List (CSV)</span>
+              </button>
             )}
           </div>
 
-          {/* Right panel - RSVPs / Messages list */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-serif text-stone-900 lowercase">
-                guest book wishes
-              </h2>
-              {messages.length > 0 && (
-                <button
-                  onClick={downloadCSV}
-                  className="flex items-center gap-1 text-[10px] uppercase font-bold text-amber-600 hover:underline"
-                >
-                  <DownloadSimple className="h-4.5 w-4.5" />
-                  <span>Download CSV</span>
-                </button>
-              )}
+          {/* Search & Filter Controls */}
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            <div className="relative w-full md:w-80">
+              <MagnifyingGlass
+                size={16}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
+              />
+              <input
+                type="text"
+                placeholder="Search by guest name, phone, or message..."
+                value={rsvpSearch}
+                onChange={(e) => setRsvpSearch(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 bg-white border border-stone-200 rounded-xl text-xs text-stone-900 focus:outline-none focus:border-amber-500 shadow-xs"
+              />
             </div>
 
-            <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
-              {messages.length === 0 ? (
-                <DoubleBezelCard className="text-center py-10 bg-white border-stone-200/50">
-                  <p className="text-xs text-stone-400 font-mono">NO RSVPS RECEIVED YET</p>
-                </DoubleBezelCard>
-              ) : (
-                messages.map((msg) => (
-                  <DoubleBezelCard key={msg.id} className="bg-white border-stone-200/40 p-4">
-                    <div className="flex justify-between items-start gap-2 mb-2">
-                      <h4 className="text-xs font-bold text-stone-900 uppercase tracking-wider">
-                        {msg.guestName}
-                      </h4>
-                      <span className="text-[9px] text-stone-400 font-mono">
-                        {new Date(msg.createdAt).toLocaleDateString("en-IN", { hour: "numeric", minute: "numeric" })}
-                      </span>
-                    </div>
-
-                    {msg.message && (
-                      <p className="text-xs text-stone-500 italic mb-3 leading-relaxed">
-                        "{msg.message}"
-                      </p>
-                    )}
-
-                    {/* RSVP summary pills */}
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {Object.entries(msg.rsvpJson || {}).map(([eventName, val]: any) => (
-                        <span
-                          key={eventName}
-                          className={`text-[9px] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider ${
-                            val.attending
-                              ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                              : "bg-red-50 text-red-700 border-red-100"
-                          }`}
-                        >
-                          {eventName}: {val.attending ? `Yes (${val.guests || 1})` : "No"}
-                        </span>
-                      ))}
-                    </div>
-                  </DoubleBezelCard>
-                ))
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Filter by Invitation (if multiple) */}
+              {invitations.length > 1 && (
+                <select
+                  value={selectedInviteFilter}
+                  onChange={(e) => setSelectedInviteFilter(e.target.value)}
+                  className="px-3 py-1.5 bg-white border border-stone-200 rounded-lg text-xs font-semibold text-stone-800 focus:outline-none focus:border-amber-500"
+                >
+                  <option value="all">All Invitations</option>
+                  {invitations.map((inv) => (
+                    <option key={inv.slug} value={inv.slug}>
+                      /{inv.slug} ({inv.brideName} &amp; {inv.groomName})
+                    </option>
+                  ))}
+                </select>
               )}
+
+              {/* Status Filter Buttons */}
+              <button
+                onClick={() => setAttendanceFilter("all")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  attendanceFilter === "all"
+                    ? "bg-stone-900 text-amber-400"
+                    : "bg-white border border-stone-200 text-stone-600 hover:text-stone-900"
+                }`}
+              >
+                All ({messages.length})
+              </button>
+              <button
+                onClick={() => setAttendanceFilter("attending")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  attendanceFilter === "attending"
+                    ? "bg-emerald-700 text-white"
+                    : "bg-white border border-stone-200 text-stone-600 hover:text-stone-900"
+                }`}
+              >
+                Attending ({totalAttendingResponses})
+              </button>
+              <button
+                onClick={() => setAttendanceFilter("declined")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  attendanceFilter === "declined"
+                    ? "bg-rose-700 text-white"
+                    : "bg-white border border-stone-200 text-stone-600 hover:text-stone-900"
+                }`}
+              >
+                Declined ({totalDeclinedResponses})
+              </button>
             </div>
           </div>
+
+          {/* Detailed RSVPs Manifest List */}
+          {filteredMessages.length === 0 ? (
+            <DoubleBezelCard className="text-center py-12 bg-white border-stone-200">
+              <EnvelopeSimple size={44} className="text-stone-300 mx-auto mb-2" />
+              <p className="text-sm font-serif font-bold text-stone-700 mb-1">No RSVPs Found</p>
+              <p className="text-xs text-stone-400 max-w-sm mx-auto">
+                {messages.length === 0
+                  ? "When your guests confirm attendance and write wedding blessings on your invitation link, they will instantly appear here."
+                  : "No guest responses matched your search or filter criteria."}
+              </p>
+            </DoubleBezelCard>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filteredMessages.map((msg) => {
+                const { isAttending, guestCount, phone, eventsList } = parseRsvpData(msg.rsvpJson);
+
+                return (
+                  <DoubleBezelCard
+                    key={msg.id}
+                    className="bg-white border-stone-200/80 p-5 flex flex-col justify-between gap-4 shadow-xs"
+                  >
+                    <div>
+                      {/* Top row: Guest Name, Attendance Badge, Timestamp */}
+                      <div className="flex items-start justify-between gap-3 mb-2.5">
+                        <div>
+                          <h4 className="text-base font-serif font-bold text-stone-950">
+                            {msg.guestName}
+                          </h4>
+                          {phone && (
+                            <div className="flex items-center gap-1.5 text-xs text-stone-500 font-mono mt-0.5">
+                              <Phone size={12} className="text-stone-400" />
+                              <span>{phone}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {isAttending ? (
+                          <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-bold shrink-0">
+                            <CheckCircle size={13} weight="fill" className="text-emerald-600" />
+                            <span>Attending ({guestCount} {guestCount === 1 ? "Guest" : "Guests"})</span>
+                          </div>
+                        ) : (
+                          <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-50 text-rose-800 border border-rose-200 text-[11px] font-bold shrink-0">
+                            <XCircle size={13} weight="fill" className="text-rose-600" />
+                            <span>Declined</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Message / Blessings Note */}
+                      {msg.message ? (
+                        <div className="p-3 bg-stone-50 rounded-xl border border-stone-100 text-xs text-stone-700 italic leading-relaxed mb-2">
+                          &ldquo;{msg.message}&rdquo;
+                        </div>
+                      ) : (
+                        <p className="text-[11px] text-stone-400 italic mb-2">
+                          No note attached.
+                        </p>
+                      )}
+
+                      {/* Multi-event sub-badges if applicable */}
+                      {eventsList.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {eventsList.map((ev) => (
+                            <span
+                              key={ev.name}
+                              className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${
+                                ev.attending
+                                  ? "bg-emerald-50/70 text-emerald-800 border-emerald-200/60"
+                                  : "bg-stone-100 text-stone-500 border-stone-200"
+                              }`}
+                            >
+                              {ev.name}: {ev.attending ? `Yes (${ev.guests})` : "No"}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Bottom row: Invitation Link & Timestamp */}
+                    <div className="pt-2.5 border-t border-stone-100 flex items-center justify-between text-[10px] text-stone-400 font-mono">
+                      <span>
+                        {msg.invitationSlug ? `/${msg.invitationSlug}` : "Wedding RSVP"}
+                      </span>
+                      <span>
+                        {new Date(msg.createdAt).toLocaleDateString("en-IN", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "numeric",
+                        })}
+                      </span>
+                    </div>
+                  </DoubleBezelCard>
+                );
+              })}
+            </div>
+          )}
         </div>
       </main>
     </div>

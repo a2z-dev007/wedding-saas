@@ -24,6 +24,7 @@ import {
   MagnifyingGlassPlus,
   Compass,
   Star,
+  WhatsappLogo,
 } from "@phosphor-icons/react";
 import defaultData from "./data.json";
 import "./style.css";
@@ -287,7 +288,7 @@ export default function KitabENikah({ data }: KitabENikahProps) {
     }
   };
 
-  const handleRsvpSubmit = (e: React.FormEvent) => {
+  const handleRsvpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
     try {
@@ -298,10 +299,28 @@ export default function KitabENikah({ data }: KitabENikahProps) {
         colors: ["#E5B869", "#782233", "#FBF5E6", "#FFFFFF"],
       });
     } catch (_) {}
-    setTimeout(() => {
-      setIsRsvpOpen(false);
-      setIsSubmitted(false);
-    }, 2800);
+
+
+
+    try {
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          invitationId: data?.id,
+          slug: (data as any)?.slug,
+          guestName: rsvpName,
+          message: rsvpDua,
+          rsvpJson: {
+            attending: rsvpAttending === "yes",
+            guests: rsvpAttending === "yes" ? (parseInt(rsvpGuests, 10) || 1) : 0,
+            submittedAt: new Date().toISOString(),
+          },
+        }),
+      });
+    } catch (err) {
+      console.warn("Could not save RSVP to server:", err);
+    }
   };
 
   const scrollToSection = (id: string) => {
@@ -1227,12 +1246,25 @@ export default function KitabENikah({ data }: KitabENikahProps) {
               </div>
 
               {isSubmitted ? (
-                <div className="kn-success-msg">
-                  <CheckCircle size={48} className="text-[#E5B869] mb-3" weight="fill" />
+                <div className="kn-success-msg text-center">
+                  <CheckCircle size={48} className="text-[#E5B869] mb-3 mx-auto" weight="fill" />
                   <h4 className="text-lg font-serif text-[#E5B869]">JazakAllah Khair!</h4>
-                  <p className="text-xs text-[#F5E6CC] mt-1">
-                    Your attendance confirmation has been received with warm gratitude.
+                  <p className="text-xs text-[#F5E6CC] mt-1 leading-relaxed">
+                    Thank you, <strong>{rsvpName || "Dear Guest"}</strong>! Your RSVP and heartfelt duas have been saved.
                   </p>
+
+                  <div className="mt-4 pt-3 border-t border-[rgba(229,184,105,0.2)]">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsRsvpOpen(false);
+                        setIsSubmitted(false);
+                      }}
+                      className="w-full py-2.5 bg-[#E5B869] hover:bg-[#d4a34e] text-[#2D1619] font-bold text-xs rounded-xl uppercase tracking-wider transition-all"
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleRsvpSubmit} className="kn-rsvp-form">

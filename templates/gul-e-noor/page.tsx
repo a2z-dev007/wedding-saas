@@ -24,6 +24,7 @@ import {
   MagnifyingGlassPlus,
   Compass,
   Star,
+  WhatsappLogo,
 } from "@phosphor-icons/react";
 import defaultData from "./data.json";
 import "./style.css";
@@ -278,7 +279,7 @@ export default function GulENoor({ data }: GulENoorProps) {
     }
   };
 
-  const handleRsvpSubmit = (e: React.FormEvent) => {
+  const handleRsvpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
     try {
@@ -289,10 +290,28 @@ export default function GulENoor({ data }: GulENoorProps) {
         colors: ["#D4849A", "#FADEB8", "#E5A9B8", "#FFFDF8"],
       });
     } catch (_) {}
-    setTimeout(() => {
-      setIsRsvpOpen(false);
-      setIsSubmitted(false);
-    }, 2800);
+
+
+
+    try {
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          invitationId: data?.id,
+          slug: (data as any)?.slug,
+          guestName: rsvpName,
+          message: rsvpDua,
+          rsvpJson: {
+            attending: rsvpAttending === "yes",
+            guests: rsvpAttending === "yes" ? (parseInt(rsvpGuests, 10) || 1) : 0,
+            submittedAt: new Date().toISOString(),
+          },
+        }),
+      });
+    } catch (err) {
+      console.warn("Could not save RSVP to server:", err);
+    }
   };
 
   const scrollToSection = (id: string) => {
@@ -1257,12 +1276,25 @@ export default function GulENoor({ data }: GulENoorProps) {
               </div>
 
               {isSubmitted ? (
-                <div className="gn-success-msg">
-                  <CheckCircle size={48} className="text-[#D4849A] mb-3" weight="fill" />
+                <div className="gn-success-msg text-center">
+                  <CheckCircle size={48} className="text-[#D4849A] mb-3 mx-auto" weight="fill" />
                   <h4 className="text-lg font-serif text-[#D4849A]">JazakAllah Khair!</h4>
-                  <p className="text-xs text-[#FCE7F3] mt-1">
-                    Your attendance confirmation has been received with warm gratitude.
+                  <p className="text-xs text-[#FCE7F3] mt-1 leading-relaxed">
+                    Thank you, <strong>{rsvpName || "Dear Guest"}</strong>! Your RSVP and heartfelt wishes have been saved.
                   </p>
+
+                  <div className="mt-4 pt-3 border-t border-[rgba(212,132,154,0.2)]">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsRsvpOpen(false);
+                        setIsSubmitted(false);
+                      }}
+                      className="w-full py-2.5 bg-[#D4849A] hover:bg-[#c37389] text-white font-bold text-xs rounded-xl uppercase tracking-wider transition-all"
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleRsvpSubmit} className="gn-rsvp-form">

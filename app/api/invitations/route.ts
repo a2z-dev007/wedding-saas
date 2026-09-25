@@ -29,7 +29,13 @@ export async function GET(req: NextRequest) {
         },
       });
 
-      const allMessages = invitations.flatMap((inv) => inv.guestMessages);
+      const allMessages = invitations.flatMap((inv) =>
+        inv.guestMessages.map((msg) => ({
+          ...msg,
+          invitationSlug: inv.slug,
+          invitationCouple: `${inv.brideName} & ${inv.groomName}`,
+        }))
+      );
 
       return NextResponse.json({
         invitations,

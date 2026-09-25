@@ -716,64 +716,219 @@
   margin-bottom: 0.3rem;
 }
 
-.tmpl-crimson-royale .contact__form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  width: 100%;
-  text-align: left;
-  margin-top: 1rem;
+/* ── Royal RSVP Banner & Modal Dialog ── */
+.tmpl-crimson-royale .cr-rsvp-banner-card {
+  text-align: center;
+  padding: 3.5rem 2rem;
+  background: linear-gradient(145deg, #fffdfb 0%, #fbf5eb 100%);
+  border: 1.5px solid rgba(201, 161, 90, 0.45);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 30px rgba(212, 175, 55, 0.15);
+  border-radius: 24px;
 }
 
-.tmpl-crimson-royale .contact__label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--maroon-deep);
-  letter-spacing: 0.05em;
+.tmpl-crimson-royale .cr-rsvp-open-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 1rem 2.5rem;
+  background: radial-gradient(circle at center, #931e31 0%, #700f20 100%);
+  color: #fffdfb;
+  border: 1.5px solid var(--gold);
+  border-radius: 9999px;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(112, 15, 32, 0.45), 0 0 15px rgba(212, 175, 55, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tmpl-crimson-royale .contact__input {
+.tmpl-crimson-royale .cr-rsvp-open-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 16px 36px rgba(112, 15, 32, 0.6), 0 0 25px rgba(212, 175, 55, 0.5);
+}
+
+/* ── Interactive Modal Dialog Overlay ── */
+.cr-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  background: rgba(12, 2, 5, 0.82);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.cr-modal-container {
   width: 100%;
-  padding: 0.85rem 1rem;
-  border-radius: var(--radius-xs);
-  border: 1px solid rgba(201, 161, 90, 0.5);
-  background: #fffdfb;
-  color: var(--ink);
+  max-width: 440px;
+  background: radial-gradient(circle at 50% 20%, #2f0710 0%, #1a0307 70%, #0d0103 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 22px;
+  padding: 28px 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(212, 175, 55, 0.3);
+  position: relative;
+  box-sizing: border-box;
+  color: #fff9f5;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.cr-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 50%;
+  color: var(--gold-soft);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.cr-modal-close:hover {
+  background: rgba(212, 175, 55, 0.25);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.cr-modal-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cr-modal-tag {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.cr-modal-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #fff9f5;
+  margin: 2px 0 4px 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.cr-modal-sub {
+  font-size: 11px;
+  color: var(--gold-soft);
   font-family: var(--font-body);
-  font-size: 0.95rem;
-  outline: none;
+  letter-spacing: 0.06em;
+}
+
+.cr-form-group {
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.cr-label {
+  display: block;
+  font-size: 10.5px;
+  font-family: var(--font-display);
+  letter-spacing: 0.12em;
+  color: var(--gold-soft);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.cr-input,
+.cr-select,
+.cr-textarea {
+  width: 100%;
+  background: rgba(14, 2, 4, 0.85);
+  border: 1px solid rgba(201, 161, 90, 0.4);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #fff9f5;
+  font-size: 13px;
+  box-sizing: border-box;
+  font-family: var(--font-body);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.tmpl-crimson-royale .contact__input:focus {
-  border-color: var(--maroon);
-  box-shadow: 0 0 0 3px rgba(124, 44, 59, 0.15);
+.cr-input:focus,
+.cr-select:focus,
+.cr-textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
 }
 
-.tmpl-crimson-royale .contact__submit {
+.cr-radio-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.cr-radio-btn {
+  background: rgba(14, 2, 4, 0.8);
+  border: 1px solid rgba(201, 161, 90, 0.35);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 11px;
+  color: var(--ink-soft);
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+.cr-radio-btn.active {
+  background: radial-gradient(circle, rgba(147, 30, 49, 0.5) 0%, rgba(112, 15, 32, 0.8) 100%);
+  border-color: var(--gold);
+  color: #fff9f5;
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+}
+
+.cr-submit-btn {
   width: 100%;
-  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background: radial-gradient(circle at center, #931e31 0%, #700f20 100%);
   color: #fffdfb;
-  border: 1px solid var(--gold);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-body);
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  border: 1.5px solid var(--gold);
+  border-radius: 12px;
+  padding: 12px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(112, 15, 32, 0.35);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-top: 0.6rem;
+  margin-top: 18px;
+  box-shadow: 0 8px 24px rgba(112, 15, 32, 0.45);
+  transition: all 0.3s ease;
 }
 
-.tmpl-crimson-royale .contact__submit:hover {
+.cr-submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(112, 15, 32, 0.5), 0 0 20px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 12px 30px rgba(112, 15, 32, 0.6), 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.cr-success-msg {
+  text-align: center;
+  padding: 24px 12px;
 }
 
 /* ========================================================================= */

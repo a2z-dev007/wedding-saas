@@ -23,7 +23,8 @@ import {
   CheckCircle,
   ArrowUp,
   MoonStars,
-  Compass
+  Compass,
+  WhatsappLogo,
 } from "@phosphor-icons/react";
 import noorEnvelopeSeal from "@/public/lottie-icons/noor-envelope-seal.json";
 import noorCrescentLantern from "@/public/lottie-icons/noor-crescent-lantern.json";
@@ -267,7 +268,7 @@ export default function NoorNikah({ data }: NoorNikahProps) {
     }
   };
 
-  const handleRsvpSubmit = (e: React.FormEvent) => {
+  const handleRsvpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
 
@@ -281,6 +282,28 @@ export default function NoorNikah({ data }: NoorNikahProps) {
       });
     } catch {
       // safe fallback
+    }
+
+
+
+    try {
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          invitationId: data?.id,
+          slug: (data as any)?.slug,
+          guestName: rsvpName,
+          message: rsvpDua,
+          rsvpJson: {
+            attending: rsvpAttending === "yes",
+            guests: rsvpAttending === "yes" ? (parseInt(rsvpGuests, 10) || 1) : 0,
+            submittedAt: new Date().toISOString(),
+          },
+        }),
+      });
+    } catch (err) {
+      console.warn("Could not save RSVP to server:", err);
     }
   };
 
@@ -1224,9 +1247,24 @@ export default function NoorNikah({ data }: NoorNikahProps) {
                 </div>
                 <h3 className="noor-success-title">JazakAllah Khair!</h3>
                 <p className="noor-success-sub">
-                  Your response and beautiful duas have been received with immense gratitude. We look forward to celebrating this sacred milestone together.
+                  Thank you, <strong>{rsvpName || "Dear Guest"}</strong>! Your response and beautiful duas have been saved with immense gratitude.
                 </p>
-                <div className="noor-success-monogram">
+
+                <div className="mt-5 pt-4 border-t border-[rgba(212,175,55,0.2)] flex flex-col gap-2.5 max-w-xs mx-auto">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsSubmitted(false);
+                      setRsvpName("");
+                      setRsvpDua("");
+                    }}
+                    className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#c49f2e] text-[#122A1E] font-bold text-xs rounded-xl uppercase tracking-wider transition-all"
+                  >
+                    Done
+                  </button>
+                </div>
+
+                <div className="noor-success-monogram mt-4">
                   {brideName} & {groomName}
                 </div>
               </motion.div>

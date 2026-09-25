@@ -17,7 +17,8 @@ import {
   Compass, 
   Palette,
   Images,
-  Eye
+  Eye,
+  WhatsappLogo
 } from "@phosphor-icons/react";
 import defaultData from "./data.json";
 import "./style.css";
@@ -199,6 +200,51 @@ export default function CrimsonRoyale({
         day: "numeric",
       })
     : "Tuesday, December 22, 2026";
+
+  // RSVP Form State & Handlers
+  const [isRsvpOpen, setIsRsvpOpen] = useState(false);
+  const [rsvpAttending, setRsvpAttending] = useState("yes");
+  const [rsvpGuests, setRsvpGuests] = useState("2");
+  const [rsvpName, setRsvpName] = useState("");
+  const [rsvpPhone, setRsvpPhone] = useState("");
+  const [rsvpWishes, setRsvpWishes] = useState("");
+  const [isRsvpSubmitted, setIsRsvpSubmitted] = useState(false);
+
+  const handleRsvpSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsRsvpSubmitted(true);
+    try {
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ["#D4AF37", "#9E2A2B", "#F5E5A3", "#FFFFFF"],
+      });
+    } catch (_) {}
+
+
+
+    try {
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          invitationId: data?.id,
+          slug: (data as any)?.slug,
+          guestName: rsvpName,
+          message: rsvpWishes,
+          rsvpJson: {
+            phone: rsvpPhone,
+            attending: rsvpAttending === "yes",
+            guests: rsvpAttending === "yes" ? (parseInt(rsvpGuests, 10) || 1) : 0,
+            submittedAt: new Date().toISOString(),
+          },
+        }),
+      });
+    } catch (err) {
+      console.warn("Could not save RSVP to server:", err);
+    }
+  };
 
   const venueName = data?.venueName || data?.venue?.name || "The Ridgewood Estate";
   const venueAddress = data?.venueAddress || data?.venue?.address || "Fatehsagar Lake Road, Udaipur, Rajasthan 313001";
@@ -831,7 +877,7 @@ export default function CrimsonRoyale({
         </section>
 
         {/* SECTION 8 (EVEN): RSVP Form (Velvet Wine & Gold Seal Color Gradient) */}
-        <section className="section section--contact">
+        <section className="section section--contact" id="rsvp">
           <motion.div 
             className="section-inner"
             initial={{ opacity: 0, y: 35 }}
@@ -839,14 +885,28 @@ export default function CrimsonRoyale({
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
-            <div className="royal-card" style={{ maxWidth: 640 }}>
+            <div className="royal-card cr-rsvp-banner-card" style={{ maxWidth: 680 }}>
               <div style={{ width: 80, height: 80, margin: "0 auto -2px auto" }}>
                 <Lottie src={paperPlaneHeart} loop autoplay />
               </div>
-              <h2 className="script contact__title">Join Our Celebration</h2>
-              <p className="eyebrow" style={{ color: "var(--maroon)" }}>Please Respond by Dec 10, 2026</p>
+              <h2 className="script contact__title">Your Gracious Presence is Awaited</h2>
+              <p className="eyebrow" style={{ color: "var(--maroon)" }}>
+                {data?.rsvpDeadline || "Kindly confirm your presence by Dec 10, 2026"}
+              </p>
               <div className="divider">✦</div>
-              <RSVPForm />
+              <p style={{ color: "var(--ink-soft)", fontSize: "0.95rem", lineHeight: 1.6, maxWidth: 520, margin: "0 auto 1.5rem auto" }}>
+                We eagerly await your blessings and look forward to celebrating this royal union together. Please let us know if you will be joining us.
+              </p>
+              <motion.button
+                type="button"
+                className="cr-rsvp-open-btn"
+                onClick={() => setIsRsvpOpen(true)}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <span>Confirm Your RSVP</span>
+                <Sparkle size={18} weight="fill" />
+              </motion.button>
             </div>
           </motion.div>
         </section>
@@ -973,6 +1033,137 @@ export default function CrimsonRoyale({
               <CaretRight size={28} />
             </button>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Interactive RSVP Modal Dialog ── */}
+      <AnimatePresence>
+        {isRsvpOpen && (
+          <div className="cr-modal-overlay">
+            <motion.div
+              className="cr-modal-container"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", stiffness: 320, damping: 28 }}
+            >
+              <button
+                type="button"
+                className="cr-modal-close"
+                onClick={() => setIsRsvpOpen(false)}
+                aria-label="Close RSVP modal"
+              >
+                <X size={18} weight="bold" />
+              </button>
+
+              <div className="cr-modal-header">
+                <div className="cr-modal-tag">✦ SHUBH VIVAH RSVP ✦</div>
+                <h3 className="cr-modal-title">Confirm Attendance</h3>
+                <p className="cr-modal-sub">For {brideName} & {groomName}&apos;s Royal Celebration</p>
+              </div>
+
+              {isRsvpSubmitted ? (
+                <div className="cr-success-msg">
+                  <CheckCircle size={48} className="text-[#D4AF37] mb-3 mx-auto" weight="fill" />
+                  <h4 className="text-xl font-serif text-[#D4AF37]">Graciously Received!</h4>
+                  <p className="text-xs text-[#F5E5A3] mt-1.5 leading-relaxed">
+                    Thank you, <strong>{rsvpName || "Dear Guest"}</strong>! Your RSVP and blessings have been saved. We look forward to celebrating together!
+                  </p>
+
+                  <div className="mt-4 pt-3 border-t border-[rgba(212,175,55,0.2)]">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsRsvpOpen(false);
+                        setIsRsvpSubmitted(false);
+                      }}
+                      className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#c49f2e] text-[#4A0E17] font-bold text-xs rounded-xl uppercase tracking-wider transition-all"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleRsvpSubmit} className="cr-rsvp-form">
+                  <div className="cr-form-group">
+                    <label className="cr-label">Your Full Name *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Vikramaditya & Family"
+                      value={rsvpName}
+                      onChange={(e) => setRsvpName(e.target.value)}
+                      className="cr-input"
+                    />
+                  </div>
+
+                  <div className="cr-form-group">
+                    <label className="cr-label">Phone / WhatsApp Number</label>
+                    <input
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      value={rsvpPhone}
+                      onChange={(e) => setRsvpPhone(e.target.value)}
+                      className="cr-input"
+                    />
+                  </div>
+
+                  <div className="cr-form-group">
+                    <label className="cr-label">Will you be attending?</label>
+                    <div className="cr-radio-group">
+                      <button
+                        type="button"
+                        className={`cr-radio-btn ${rsvpAttending === "yes" ? "active" : ""}`}
+                        onClick={() => setRsvpAttending("yes")}
+                      >
+                        Joyfully Accept
+                      </button>
+                      <button
+                        type="button"
+                        className={`cr-radio-btn ${rsvpAttending === "no" ? "active" : ""}`}
+                        onClick={() => setRsvpAttending("no")}
+                      >
+                        Regretfully Decline
+                      </button>
+                    </div>
+                  </div>
+
+                  {rsvpAttending === "yes" && (
+                    <div className="cr-form-group">
+                      <label className="cr-label">Number of Guests Attending</label>
+                      <select
+                        value={rsvpGuests}
+                        onChange={(e) => setRsvpGuests(e.target.value)}
+                        className="cr-select"
+                      >
+                        <option value="1">1 Person</option>
+                        <option value="2">2 Persons</option>
+                        <option value="3">3 Persons</option>
+                        <option value="4">4 Persons</option>
+                        <option value="5+">5+ Persons (Family)</option>
+                      </select>
+                    </div>
+                  )}
+
+                  <div className="cr-form-group">
+                    <label className="cr-label">Warm Wishes & Blessings for the Couple</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Leave your heartfelt blessings for the bride & groom..."
+                      value={rsvpWishes}
+                      onChange={(e) => setRsvpWishes(e.target.value)}
+                      className="cr-textarea"
+                    />
+                  </div>
+
+                  <button type="submit" className="cr-submit-btn">
+                    <span>Send Royal RSVP</span>
+                    <Sparkle size={16} weight="fill" />
+                  </button>
+                </form>
+              )}
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>
@@ -1176,109 +1367,5 @@ function ScratchCard({
         />
       )}
     </div>
-  );
-}
-
-// ----------------------------------------------------
-// Subcomponent: RSVP Form
-// ----------------------------------------------------
-function RSVPForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    mobile: "",
-    email: "",
-    attending: "yes",
-    message: ""
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
-  if (submitted) {
-    return (
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        style={{ padding: "2rem 1rem", textAlign: "center" }}
-      >
-        <CheckCircle size={48} color="var(--gold)" weight="fill" style={{ margin: "0 auto 1rem auto" }} />
-        <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.8rem", color: "var(--maroon)", marginBottom: "0.5rem" }}>
-          Thank You, {formData.name || "Dear Guest"}!
-        </h3>
-        <p style={{ color: "var(--ink-soft)", fontSize: "1.05rem" }}>
-          Your RSVP has been graciously received. We look forward to celebrating with you!
-        </p>
-      </motion.div>
-    );
-  }
-
-  return (
-    <form className="contact__form" onSubmit={handleSubmit}>
-      <label className="contact__label">
-        <span>Your Full Name *</span>
-        <input 
-          type="text" 
-          required 
-          className="contact__input" 
-          placeholder="e.g. Vikramaditya Rathore"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        />
-      </label>
-
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-        <label className="contact__label">
-          <span>Mobile Number</span>
-          <input 
-            type="tel" 
-            className="contact__input" 
-            placeholder="+91 98765 43210"
-            value={formData.mobile}
-            onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-          />
-        </label>
-
-        <label className="contact__label">
-          <span>Email Address</span>
-          <input 
-            type="email" 
-            className="contact__input" 
-            placeholder="guest@example.com"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          />
-        </label>
-      </div>
-
-      <label className="contact__label">
-        <span>Will You Attend?</span>
-        <select 
-          className="contact__input"
-          value={formData.attending}
-          onChange={(e) => setFormData({ ...formData, attending: e.target.value })}
-        >
-          <option value="yes">Accepts With Pleasure</option>
-          <option value="no">Regretfully Declines</option>
-        </select>
-      </label>
-
-      <label className="contact__label">
-        <span>Warm Wishes for the Couple</span>
-        <textarea 
-          rows={3}
-          className="contact__input" 
-          placeholder="Leave a heartfelt note for the bride & groom..."
-          value={formData.message}
-          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-        />
-      </label>
-
-      <button type="submit" className="contact__submit">
-        Send RSVP
-      </button>
-    </form>
   );
 }

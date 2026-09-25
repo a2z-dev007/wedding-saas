@@ -55,13 +55,17 @@ export async function GET(req: NextRequest) {
       let totalAttendingGuests = 0;
       guestMessages.forEach((msg) => {
         const rsvp = (msg.rsvpJson as any) || {};
-        let count = 0;
-        Object.values(rsvp).forEach((val: any) => {
-          if (val && val.attending) {
-            count = Math.max(count, val.guests || 1);
-          }
-        });
-        totalAttendingGuests += count || 1;
+        if (rsvp.attending === true || rsvp.attending === "yes") {
+          totalAttendingGuests += Number(rsvp.guests) || 1;
+        } else if (typeof rsvp === "object" && rsvp !== null) {
+          let eventMax = 0;
+          Object.values(rsvp).forEach((val: any) => {
+            if (val && typeof val === "object" && (val.attending === true || val.attending === "yes")) {
+              eventMax = Math.max(eventMax, Number(val.guests) || 1);
+            }
+          });
+          totalAttendingGuests += eventMax;
+        }
       });
 
       // Template Popularity Breakdown
